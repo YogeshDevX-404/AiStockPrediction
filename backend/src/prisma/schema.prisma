@@ -1,0 +1,734 @@
+// TradeGenius AI Prisma Schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  MODERATOR
+  SUPPORT
+  VIEWER
+  USER
+  PREMIUM
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  UNVERIFIED
+}
+
+enum SignalType {
+  STRONG_BUY
+  BUY
+  NEUTRAL
+  SELL
+  STRONG_SELL
+}
+
+enum SentimentType {
+  BULLISH
+  BEARISH
+  NEUTRAL
+}
+
+enum TransactionType {
+  BUY
+  SELL
+  DIVIDEND
+  SPLIT
+  BONUS
+}
+
+model User {
+  id                      String                  @id @default(uuid())
+  fullName                String
+  username                String                  @unique
+  email                   String                  @unique
+  password                String?
+  profileImage            String?
+  phone                   String?
+  country                 String?                 @default("United States")
+  role                    Role                    @default(USER)
+  status                  UserStatus              @default(ACTIVE)
+  subscriptionPlan        String                  @default("FREE")
+  isVerified              Boolean                 @default(true)
+  googleId                String?                 @unique
+  provider                String                  @default("EMAIL")
+  verificationToken       String?
+  resetPasswordToken      String?
+  resetPasswordExpires    DateTime?
+  lastLogin               DateTime?               @default(now())
+  createdAt               DateTime                @default(now())
+  updatedAt               DateTime                @updatedAt
+  portfolios              Portfolio[]
+  watchlists              Watchlist[]
+  alerts                  Alert[]
+  chats                   Chat[]
+  settings                Settings?
+  screenshotAnalyses      ScreenshotAnalysis[]
+  conversations           Conversation[]
+  newsBookmarks           NewsBookmark[]
+  savedScreeners          SavedScreener[]
+  notifications           Notification[]
+  notificationPreferences NotificationPreference?
+  paperAccount            PaperAccount?
+  subscription            Subscription?
+  organizationId          String?
+  organization            Organization?           @relation(fields: [organizationId], references: [id])
+}
+
+model AgentTask {
+  id         String        @id @default(uuid())
+  prompt     String
+  status     String        @default("COMPLETED")
+  agentsUsed String[]
+  durationMs Int           @default(320)
+  createdAt  DateTime      @default(now())
+  results    AgentResult[]
+}
+
+model AgentResult {
+  id         String    @id @default(uuid())
+  taskId     String
+  agentName  String
+  confidence Float     @default(90.0)
+  outputJson String
+  agentTask  AgentTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+}
+
+model Workspace {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  pinnedNotesJson String
+  activeTab       String   @default("CHAT")
+  updatedAt       DateTime @updatedAt
+}
+
+model GeneratedReport {
+  id          String   @id @default(uuid())
+  title       String
+  reportType  String
+  contentJson String
+  createdAt   DateTime @default(now())
+}
+
+model MemoryEntry {
+  id        String   @id @default(uuid())
+  userId    String
+  key       String
+  value     String
+  timestamp DateTime @default(now())
+}
+
+model UserPreference {
+  id                 String   @id @default(uuid())
+  userId             String   @unique
+  preferredTimeframe String   @default("1D")
+  preferredMarket    String   @default("US_EQUITIES")
+  learningMode       Boolean  @default(true)
+}
+
+model Subscription {
+  id                 String   @id @default(uuid())
+  userId             String   @unique
+  planTier           String   @default("FREE")
+  status             String   @default("ACTIVE")
+  currentPeriodStart DateTime @default(now())
+  currentPeriodEnd   DateTime
+  cancelAtPeriodEnd  Boolean  @default(false)
+  providerName       String   @default("MOCK")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Plan {
+  id           String @id @default(uuid())
+  name         String
+  priceMonthly Float
+  priceYearly  Float
+  featuresJson String
+}
+
+model Invoice {
+  id            String   @id @default(uuid())
+  userId        String
+  invoiceNumber String   @unique
+  amount        Float
+  tax           Float    @default(0.0)
+  status        String   @default("PAID")
+  pdfUrl        String?
+  createdAt     DateTime @default(now())
+}
+
+model Payment {
+  id            String   @id @default(uuid())
+  userId        String
+  amount        Float
+  currency      String   @default("USD")
+  provider      String   @default("MOCK")
+  transactionId String
+  status        String   @default("SUCCESS")
+  createdAt     DateTime @default(now())
+}
+
+model Coupon {
+  id              String    @id @default(uuid())
+  code            String    @unique
+  discountPercent Float?
+  discountFlat    Float?
+  maxRedemptions  Int       @default(100)
+  timesRedeemed   Int       @default(0)
+  expiresAt       DateTime?
+}
+
+model UsageRecord {
+  id        String   @id @default(uuid())
+  userId    String
+  metricKey String
+  quantity  Int      @default(1)
+  timestamp DateTime @default(now())
+}
+
+model Organization {
+  id        String       @id @default(uuid())
+  name      String
+  seats     Int          @default(5)
+  createdAt DateTime     @default(now())
+  members   User[]
+  teams     TeamMember[]
+}
+
+model TeamMember {
+  id             String       @id @default(uuid())
+  organizationId String
+  email          String
+  role           String       @default("MEMBER")
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+}
+
+model Portfolio {
+  id                 String               @id @default(uuid())
+  userId             String
+  name               String               @default("Primary Portfolio")
+  description        String?
+  isDefault          Boolean              @default(true)
+  cashBalance        Float                @default(10000.0)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  user               User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  holdings           Holding[]
+  transactions       Transaction[]
+  dividends          Dividend[]
+  portfolioAnalytics PortfolioAnalytics[]
+}
+
+model Holding {
+  id           String    @id @default(uuid())
+  portfolioId  String
+  symbol       String
+  name         String
+  exchange     String    @default("NASDAQ")
+  quantity     Int
+  avgBuyPrice  Float
+  currentPrice Float
+  purchaseDate DateTime  @default(now())
+  broker       String?   @default("Manual")
+  notes        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  portfolio    Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+}
+
+model Transaction {
+  id          String          @id @default(uuid())
+  portfolioId String
+  symbol      String
+  type        TransactionType
+  quantity    Int
+  price       Float
+  totalAmount Float
+  broker      String?         @default("Manual")
+  timestamp   DateTime        @default(now())
+  portfolio   Portfolio       @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+}
+
+model Dividend {
+  id          String    @id @default(uuid())
+  portfolioId String
+  symbol      String
+  amount      Float
+  exDate      DateTime
+  payDate     DateTime
+  status      String    @default("PAID")
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+}
+
+model PortfolioAnalytics {
+  id             String    @id @default(uuid())
+  portfolioId    String
+  healthScore    Float     @default(88.0)
+  sharpeRatio    Float     @default(1.85)
+  beta           Float     @default(1.12)
+  maxDrawdown    Float     @default(-12.4)
+  volatility     Float     @default(16.2)
+  valueAtRisk95  Float     @default(-3.2)
+  sectorDataJson String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  portfolio      Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+}
+
+model RiskSnapshot {
+  id             String   @id @default(uuid())
+  portfolioId    String
+  riskScore      Float    @default(88.0)
+  recommendation String
+  timestamp      DateTime @default(now())
+}
+
+model BrokerAccount {
+  id            String        @id @default(uuid())
+  userId        String
+  brokerName    String
+  accountName   String
+  accountNumber String
+  cashBalance   Float         @default(15000.0)
+  buyingPower   Float         @default(15000.0)
+  status        String        @default("CONNECTED")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  brokerOrders  BrokerOrder[]
+}
+
+model BrokerOrder {
+  id              String        @id @default(uuid())
+  brokerAccountId String
+  symbol          String
+  side            String
+  orderType       String
+  quantity        Int
+  price           Float
+  status          String        @default("SUBMITTED")
+  timestamp       DateTime      @default(now())
+  brokerAccount   BrokerAccount @relation(fields: [brokerAccountId], references: [id], onDelete: Cascade)
+}
+
+model Strategy {
+  id               String        @id @default(uuid())
+  name             String
+  description      String?
+  symbol           String        @default("NVDA")
+  timeframe        String        @default("1D")
+  winRate          Float         @default(74.2)
+  netProfitPercent Float         @default(38.5)
+  sharpeRatio      Float         @default(1.85)
+  rulesJson        String
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  backtestRuns     BacktestRun[]
+}
+
+model BacktestRun {
+  id               String          @id @default(uuid())
+  strategyId       String
+  initialCapital   Float           @default(10000.0)
+  finalEquity      Float           @default(13850.0)
+  netProfit        Float           @default(3850.0)
+  netProfitPercent Float           @default(38.5)
+  winRate          Float           @default(74.2)
+  profitFactor     Float           @default(2.45)
+  maxDrawdown      Float           @default(-12.4)
+  sharpeRatio      Float           @default(1.85)
+  totalTrades      Int             @default(24)
+  winningTrades    Int             @default(18)
+  timestamp        DateTime        @default(now())
+  strategy         Strategy        @relation(fields: [strategyId], references: [id], onDelete: Cascade)
+  trades           BacktestTrade[]
+}
+
+model BacktestTrade {
+  id            String      @id @default(uuid())
+  backtestRunId String
+  symbol        String
+  side          String
+  entryDate     DateTime
+  exitDate      DateTime
+  entryPrice    Float
+  exitPrice     Float
+  pnl           Float
+  pnlPercent    Float
+  reason        String
+  backtestRun   BacktestRun @relation(fields: [backtestRunId], references: [id], onDelete: Cascade)
+}
+
+model BacktestReport {
+  id               String   @id @default(uuid())
+  backtestRunId    String
+  executiveSummary String
+  overfittingRisk  String   @default("LOW")
+  createdAt        DateTime @default(now())
+}
+
+model PaperAccount {
+  id            String          @id @default(uuid())
+  userId        String          @unique
+  virtualCash   Float           @default(10000.0)
+  buyingPower   Float           @default(10000.0)
+  currency      String          @default("USD")
+  totalTrades   Int             @default(0)
+  winningTrades Int             @default(0)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders        PaperOrder[]
+  trades        PaperTrade[]
+  positions     PaperPosition[]
+}
+
+model PaperOrder {
+  id        String       @id @default(uuid())
+  accountId String
+  symbol    String
+  side      String
+  orderType String
+  quantity  Int
+  price     Float
+  status    String       @default("PENDING")
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  account   PaperAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+}
+
+model PaperTrade {
+  id          String       @id @default(uuid())
+  accountId   String
+  symbol      String
+  side        String
+  quantity    Int
+  entryPrice  Float
+  exitPrice   Float
+  realizedPnl Float
+  pnlPercent  Float
+  timestamp   DateTime     @default(now())
+  account     PaperAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+}
+
+model PaperPosition {
+  id           String       @id @default(uuid())
+  accountId    String
+  symbol       String
+  quantity     Int
+  avgBuyPrice  Float
+  currentPrice Float
+  updatedAt    DateTime     @updatedAt
+  account      PaperAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+}
+
+model PaperLeaderboard {
+  id            String   @id @default(uuid())
+  username      String
+  returnPercent Float
+  winRate       Float
+  totalTrades   Int
+  rank          Int
+}
+
+model Achievement {
+  id          String  @id @default(uuid())
+  key         String  @unique
+  title       String
+  description String
+  isUnlocked  Boolean @default(false)
+}
+
+model MLModel {
+  id             String          @id @default(uuid())
+  name           String
+  modelType      String
+  version        String          @default("1.0.0")
+  status         String          @default("CHAMPION")
+  accuracy       Float           @default(89.5)
+  rmse           Float           @default(1.24)
+  mae            Float           @default(0.85)
+  f1Score        Float           @default(0.88)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  trainingRuns   TrainingRun[]
+  predictionRuns PredictionRun[]
+}
+
+model TrainingRun {
+  id              String   @id @default(uuid())
+  modelId         String
+  datasetVersion  String   @default("v2.4")
+  epochs          Int      @default(50)
+  loss            Float    @default(0.012)
+  durationSeconds Int      @default(180)
+  status          String   @default("COMPLETED")
+  timestamp       DateTime @default(now())
+  model           MLModel  @relation(fields: [modelId], references: [id], onDelete: Cascade)
+}
+
+model PredictionRun {
+  id                 String   @id @default(uuid())
+  modelId            String
+  symbol             String
+  timeframe          String   @default("1D")
+  predictedDirection String   @default("BULLISH")
+  expectedReturn     Float    @default(4.25)
+  lowerBound95       Float    @default(1.50)
+  upperBound95       Float    @default(7.00)
+  confidenceScore    Float    @default(88.5)
+  timestamp          DateTime @default(now())
+  model              MLModel  @relation(fields: [modelId], references: [id], onDelete: Cascade)
+}
+
+model ModelMetrics {
+  id         String   @id @default(uuid())
+  modelId    String
+  driftScore Float    @default(0.02)
+  latencyMs  Float    @default(14.5)
+  timestamp  DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String
+  userEmail String
+  action    String
+  resource  String
+  ipAddress String?  @default("127.0.0.1")
+  status    String   @default("SUCCESS")
+  timestamp DateTime @default(now())
+}
+
+model Announcement {
+  id          String   @id @default(uuid())
+  title       String
+  content     String
+  type        String   @default("INFO")
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model FeatureFlag {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  name        String
+  description String
+  isEnabled   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model ProviderConfiguration {
+  id           String   @id @default(uuid())
+  providerType String
+  name         String
+  isEnabled    Boolean  @default(true)
+  priority     Int      @default(1)
+  status       String   @default("HEALTHY")
+  updatedAt    DateTime @updatedAt
+}
+
+model Watchlist {
+  id          String          @id @default(uuid())
+  userId      String
+  name        String          @default("My Watchlist")
+  isPinned    Boolean         @default(false)
+  isFavorite  Boolean         @default(false)
+  isArchived  Boolean         @default(false)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items       WatchlistItem[]
+}
+
+model WatchlistItem {
+  id          String    @id @default(uuid())
+  watchlistId String
+  symbol      String
+  name        String
+  addedAt     DateTime  @default(now())
+  watchlist   Watchlist @relation(fields: [watchlistId], references: [id], onDelete: Cascade)
+}
+
+model Alert {
+  id          String         @id @default(uuid())
+  userId      String
+  symbol      String
+  condition   String
+  targetValue Float
+  triggered   Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  history     AlertHistory[]
+}
+
+model AlertHistory {
+  id             String   @id @default(uuid())
+  alertId        String
+  symbol         String
+  triggerMessage String
+  timestamp      DateTime @default(now())
+  alert          Alert    @relation(fields: [alertId], references: [id], onDelete: Cascade)
+}
+
+model Prediction {
+  id              String     @id @default(uuid())
+  symbol          String     @unique
+  name            String
+  targetPrice     Float
+  stopLoss        Float
+  entryPrice      Float
+  confidenceScore Float
+  signal          SignalType
+  timeframe       String     @default("1D")
+  riskLevel       String     @default("LOW")
+  riskRewardRatio Float      @default(2.5)
+  rationale       String[]
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+}
+
+model ScreenshotAnalysis {
+  id                 String     @id @default(uuid())
+  userId             String
+  imageName          String
+  imageUrl           String?
+  ticker             String     @default("NVDA")
+  timeframe          String     @default("1D")
+  chartType          String     @default("CANDLESTICK")
+  signal             SignalType @default(BUY)
+  confidenceScore    Float      @default(92.5)
+  riskLevel          String     @default("LOW")
+  targetPrice        Float?
+  stopLoss           Float?
+  entryZone          String?
+  detectedPatterns   String[]
+  detectedIndicators String[]
+  rationale          String[]
+  createdAt          DateTime   @default(now())
+  user               User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Conversation {
+  id        String                @id @default(uuid())
+  userId    String
+  title     String                @default("New Financial Analysis")
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+  user      User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  ConversationMessage[]
+}
+
+model ConversationMessage {
+  id                String       @id @default(uuid())
+  conversationId    String
+  role              String
+  content           String
+  referencedSymbols String[]
+  confidenceScore   Float?
+  timestamp         DateTime     @default(now())
+  conversation      Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+}
+
+model NewsArticle {
+  id             String         @id @default(uuid())
+  title          String
+  summary        String
+  detailedBody   String?
+  source         String
+  url            String
+  publishedAt    DateTime
+  sentiment      SentimentType  @default(BULLISH)
+  sentimentScore Float          @default(88.5)
+  marketImpact   String         @default("HIGH")
+  relatedSymbols String[]
+  relatedSectors String[]
+  category       String         @default("Markets")
+  bookmarks      NewsBookmark[]
+}
+
+model NewsBookmark {
+  id        String      @id @default(uuid())
+  userId    String
+  articleId String
+  createdAt DateTime    @default(now())
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article   NewsArticle @relation(fields: [articleId], references: [id], onDelete: Cascade)
+}
+
+model SavedScreener {
+  id          String   @id @default(uuid())
+  userId      String
+  name        String
+  description String?
+  filtersJson String
+  isPinned    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ScannerHistory {
+  id           String   @id @default(uuid())
+  userId       String
+  scanType     String   @default("TECHNICAL_BREAKOUT")
+  matchedCount Int      @default(12)
+  timestamp    DateTime @default(now())
+}
+
+model Notification {
+  id         String   @id @default(uuid())
+  userId     String
+  title      String
+  message    String
+  type       String   @default("PRICE_ALERT")
+  priority   String   @default("HIGH")
+  isRead     Boolean  @default(false)
+  isArchived Boolean  @default(false)
+  symbol     String?
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model NotificationPreference {
+  id             String   @id @default(uuid())
+  userId         String   @unique
+  inAppEnabled   Boolean  @default(true)
+  emailEnabled   Boolean  @default(true)
+  pushEnabled    Boolean  @default(true)
+  webhookEnabled Boolean  @default(false)
+  webhookUrl     String?
+  updatedAt      DateTime @updatedAt
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Chat {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  prompt    String
+  response  String
+  createdAt DateTime @default(now())
+}
+
+model Settings {
+  id                  String   @id @default(uuid())
+  userId              String   @unique
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  currency            String   @default("USD")
+  autoRefreshInterval Int      @default(5)
+  soundEnabled        Boolean  @default(true)
+  emailAlerts         Boolean  @default(true)
+  pushNotifications   Boolean  @default(true)
+}
