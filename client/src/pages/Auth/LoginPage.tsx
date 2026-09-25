@@ -8,7 +8,7 @@ import { Checkbox } from '@/components/inputs/Checkbox';
 import { TrendingUp, Mail, Lock, ArrowRight, Sparkles } from 'lucide-react';
 import { ROUTES } from '@/constants';
 import { useAuthStore } from '@/store/useAuthStore';
-import { apiClient } from '@/api';
+import { AuthService } from '@/services/api';
 import { toast } from 'react-hot-toast';
 
 export const LoginPage: React.FC = () => {
@@ -28,7 +28,7 @@ export const LoginPage: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response: any = await apiClient.post('/auth/login', { email, password });
+      const response: any = await AuthService.login({ email, password });
       if (response && response.success && response.data) {
         const { user, accessToken } = response.data;
         login(user, accessToken);
@@ -48,7 +48,7 @@ export const LoginPage: React.FC = () => {
   const handleGoogleLogin = async () => {
     try {
       setIsLoading(true);
-      const res: any = await apiClient.get('/auth/google');
+      const res: any = await AuthService.getGoogleAuthUrl();
       if (res && res.success && res.data?.url) {
         window.location.href = res.data.url;
       } else {

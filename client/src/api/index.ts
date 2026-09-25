@@ -1,7 +1,11 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { toast } from 'react-hot-toast';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
+let rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
+if (import.meta.env.VITE_API_URL && !rawApiUrl.endsWith('/api/v1')) {
+  rawApiUrl = rawApiUrl.replace(/\/$/, '') + '/api/v1';
+}
+const API_BASE_URL = rawApiUrl;
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
