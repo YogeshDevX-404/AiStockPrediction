@@ -22,7 +22,7 @@ export const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 5 }}
-            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1 text-[11px] font-semibold text-white bg-slate-900 border border-slate-700 rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none"
+            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1 text-[11px] font-semibold text-foreground bg-slate-900 border border-slate-700 rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none"
           >
             {content}
           </motion.div>

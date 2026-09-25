@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useStockDetailsStore } from '@/store/useStockDetailsStore';
 import { useFinancialsStore } from '@/store/useFinancialsStore';
+import { useTechnicalStore } from '@/store/useTechnicalStore';
 import { StockHeader } from './components/StockHeader';
 import { StockLivePriceCard } from './components/StockLivePriceCard';
 import { StockTradingChart } from './components/StockTradingChart';
@@ -20,81 +21,19 @@ export const StockDetailsPage: React.FC = () => {
   const { symbol = 'NVDA' } = useParams();
   const { fetchStockAll, quote, statistics, profile, analystRatings, news, isLoading } = useStockDetailsStore();
   const { fetchFinancials } = useFinancialsStore();
+  const { fetchTechnicals } = useTechnicalStore();
 
   const [tradeModalOpen, setTradeModalOpen] = useState(false);
 
   useEffect(() => {
     fetchStockAll(symbol);
     fetchFinancials(symbol);
-  }, [fetchStockAll, fetchFinancials, symbol]);
+    fetchTechnicals(symbol);
+  }, [fetchStockAll, fetchFinancials, fetchTechnicals, symbol]);
 
   const upperSymbol = symbol.toUpperCase();
 
-  const currentQuote = quote || {
-    symbol: upperSymbol,
-    name: `${upperSymbol} Corporation`,
-    exchange: 'NASDAQ',
-    currency: 'USD',
-    price: 132.40,
-    change: 4.42,
-    changePercent: 3.45,
-    open: 128.50,
-    high: 133.10,
-    low: 127.80,
-    previousClose: 127.98,
-    volume: 48200000,
-    avgVolume: 52000000,
-    marketCap: '$3.25 Trillion',
-    peRatio: 72.4,
-    fiftyTwoWeekHigh: 140.76,
-    fiftyTwoWeekLow: 39.23,
-    sector: 'Technology',
-    industry: 'Semiconductors',
-    lastUpdated: new Date().toISOString(),
-  };
-
-  const currentStats = statistics || {
-    marketCap: '$3.25 Trillion',
-    peRatio: 72.4,
-    eps: 4.85,
-    dividendYield: 0.12,
-    beta: 1.68,
-    roe: 48.5,
-    roce: 42.1,
-    fiftyTwoWeekHigh: 140.76,
-    fiftyTwoWeekLow: 39.23,
-    bookValue: 18.50,
-    faceValue: 1.00,
-    enterpriseValue: '$3.21 Trillion',
-  };
-
-  const currentProfile = profile || {
-    about:
-      'NVIDIA Corporation designs graphics processing units (GPUs) for the gaming, professional visualization, data center, and automotive markets.',
-    ceo: 'Jensen Huang',
-    founded: '1993',
-    employees: '29,600',
-    website: 'https://www.nvidia.com',
-    headquarters: 'Santa Clara, California, USA',
-    sector: 'Technology',
-    industry: 'Semiconductors',
-    shareholding: { promoters: 48.5, fii: 24.2, dii: 14.8, retail: 8.5, others: 4.0 },
-    dividendHistory: [
-      { exDate: '2026-06-10', recordDate: '2026-06-11', dividend: 0.01, yield: 0.03 },
-    ],
-  };
-
-  const currentRatings = analystRatings || {
-    strongBuy: 32,
-    buy: 12,
-    hold: 4,
-    sell: 1,
-    strongSell: 0,
-    consensusRating: 'STRONG BUY',
-    targetPrice: 155.00,
-  };
-
-  if (isLoading && !quote) {
+  if (isLoading) {
     return (
       <div className="space-y-6">
         <Skeleton className="h-24 w-full rounded-2xl" />
@@ -104,13 +43,65 @@ export const StockDetailsPage: React.FC = () => {
     );
   }
 
+  if (!quote) {
+    return (
+      <div className="p-8 rounded-3xl bg-[#0b1226]/80 border border-border/50 text-center space-y-4">
+        <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 dark:text-amber-400 mx-auto flex items-center justify-center font-bold text-xl">
+          !
+        </div>
+        <h2 className="text-xl font-bold text-foreground">Stock Data Unavailable</h2>
+        <p className="text-sm text-muted-foreground max-w-md mx-auto">
+          Could not fetch real-time market data for <span className="font-mono font-bold text-foreground">{upperSymbol}</span>. Ensure your market data provider API key (e.g. FINNHUB_API_KEY) is configured in your backend <code className="bg-foreground/10 px-1.5 py-0.5 rounded text-amber-300">.env</code> file.
+        </p>
+      </div>
+    );
+  }
+
+  const currentStats = statistics || {
+    marketCap: quote.marketCap || 'N/A',
+    peRatio: 0,
+    eps: 0,
+    dividendYield: 0,
+    beta: 0,
+    roe: 0,
+    roce: 0,
+    fiftyTwoWeekHigh: quote.high || 0,
+    fiftyTwoWeekLow: quote.low || 0,
+    bookValue: 0,
+    faceValue: 0,
+    enterpriseValue: 'N/A',
+  };
+
+  const currentProfile = profile || {
+    about: 'Company profile information unavailable from provider.',
+    ceo: 'N/A',
+    founded: 'N/A',
+    employees: 'N/A',
+    website: '',
+    headquarters: 'N/A',
+    sector: quote.sector || 'N/A',
+    industry: 'N/A',
+    shareholding: { promoters: 0, fii: 0, dii: 0, retail: 0, others: 0 },
+    dividendHistory: [],
+  };
+
+  const currentRatings = analystRatings || {
+    strongBuy: 0,
+    buy: 0,
+    hold: 0,
+    sell: 0,
+    strongSell: 0,
+    consensusRating: 'N/A',
+    targetPrice: quote.price || 0,
+  };
+
   return (
     <div className="space-y-6">
       {/* 1. Header with Actions */}
-      <StockHeader quote={currentQuote} onOpenTrade={() => setTradeModalOpen(true)} />
+      <StockHeader quote={quote} onOpenTrade={() => setTradeModalOpen(true)} />
 
       {/* 2. Live Price Card */}
-      <StockLivePriceCard quote={currentQuote} />
+      <StockLivePriceCard quote={quote} />
 
       {/* 3. Interactive Trading Chart */}
       <StockTradingChart symbol={upperSymbol} />

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { GlassCard } from '@/components/cards/GlassCard';
 import { Button } from '@/components/buttons/Button';
+import { FormattedMarkdown } from '@/components/ui/FormattedMarkdown';
 import { useCopilotProStore } from '@/store/useCopilotProStore';
 import { Send, Sparkles } from 'lucide-react';
 
@@ -18,16 +19,16 @@ export const MultiAgentChatBox: React.FC = () => {
     <GlassCard className="p-6 space-y-6">
       {/* Response Box */}
       <div className="space-y-4">
-        <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3 text-xs">
-          <div className="flex items-center space-x-2 text-purple-400 font-bold font-display">
+        <div className="p-4 rounded-2xl bg-foreground/5 border border-border/50 space-y-3 text-xs">
+          <div className="flex items-center space-x-2 text-purple-600 dark:text-purple-400 font-bold font-display">
             <Sparkles className="w-4 h-4" />
             <span>AI Copilot Pro Executive Synthesis</span>
           </div>
-          <p className="text-white text-sm leading-relaxed">{currentResponse.executiveSummary}</p>
+          <FormattedMarkdown content={currentResponse.executiveSummary} />
 
-          <div className="pt-2 border-t border-white/10 space-y-1">
-            <span className="text-slate-400 font-bold text-[10px] uppercase">Empirical Evidence Sources:</span>
-            <ul className="list-disc list-inside text-slate-300 space-y-0.5 font-mono">
+          <div className="pt-2 border-t border-border/50 space-y-1">
+            <span className="text-muted-foreground font-bold text-[10px] uppercase">Empirical Evidence Sources:</span>
+            <ul className="list-disc list-inside text-muted-foreground space-y-0.5 font-mono">
               {currentResponse.evidenceSources.map((src, idx) => (
                 <li key={idx}>{src}</li>
               ))}
@@ -43,7 +44,7 @@ export const MultiAgentChatBox: React.FC = () => {
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Ask Copilot Pro (e.g. Analyze NVDA breakout, Evaluate TSLA risk...)"
-          className="w-full glass-panel border border-white/10 rounded-xl px-4 py-3 text-white font-mono placeholder:text-slate-500 focus:outline-none"
+          className="w-full glass-panel border border-border/50 rounded-xl px-4 py-3 text-foreground font-mono placeholder:text-muted-foreground focus:outline-none"
         />
         <Button type="submit" variant="primary" size="md" isLoading={isLoading} leftIcon={<Send className="w-4 h-4" />}>
           Dispatch Query

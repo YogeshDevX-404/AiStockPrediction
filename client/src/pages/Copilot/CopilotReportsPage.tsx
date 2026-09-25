@@ -15,13 +15,13 @@ export const CopilotReportsPage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <FileText className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">AI Executive Report Generator & Catalog</h1>
+            <FileText className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">AI Executive Report Generator & Catalog</h1>
           </div>
-          <p className="text-xs text-slate-400">Automated multi-agent financial briefings, portfolio health snapshots, and stock deep-dives.</p>
+          <p className="text-xs text-muted-foreground">Automated multi-agent financial briefings, portfolio health snapshots, and stock deep-dives.</p>
         </div>
 
         <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="w-4 h-4" />} onClick={() => navigate('/copilot')}>
@@ -33,13 +33,13 @@ export const CopilotReportsPage: React.FC = () => {
         {reports.map((r) => (
           <GlassCard key={r.id} className="p-5 space-y-3">
             <div className="flex items-center justify-between">
-              <h2 className="text-base font-bold text-white font-display">{r.title}</h2>
+              <h2 className="text-base font-bold text-foreground font-display">{r.title}</h2>
               <Badge variant="purple">{r.reportType}</Badge>
             </div>
-            <p className="text-xs text-slate-300">{r.summary}</p>
-            <div className="flex items-center justify-between pt-2 border-t border-white/10 text-xs">
-              <span className="text-slate-400 font-mono">{r.date}</span>
-              <button className="flex items-center space-x-1 text-purple-400 hover:text-purple-300 font-bold cursor-pointer">
+            <p className="text-xs text-muted-foreground">{r.summary}</p>
+            <div className="flex items-center justify-between pt-2 border-t border-border/50 text-xs">
+              <span className="text-muted-foreground font-mono">{r.date}</span>
+              <button className="flex items-center space-x-1 text-purple-600 dark:text-purple-400 hover:text-purple-300 font-bold cursor-pointer">
                 <Download className="w-3.5 h-3.5" />
                 <span>Export Report</span>
               </button>

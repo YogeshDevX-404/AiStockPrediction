@@ -25,19 +25,19 @@ export const NewsPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 glass-panel p-6 border-purple-500/20 bg-gradient-to-r from-purple-950/30 via-card to-emerald-950/20">
         <div>
           <div className="flex items-center space-x-2">
-            <Newspaper className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">AI Financial News Intelligence</h1>
-            <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+            <Newspaper className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">AI Financial News Intelligence</h1>
+            <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
               NLP SENTIMENT ENGINE
             </span>
           </div>
-          <p className="text-xs text-slate-400">Aggregated macro market news with FinBERT sentiment scoring & market impact evaluations.</p>
+          <p className="text-xs text-muted-foreground">Aggregated macro market news with FinBERT sentiment scoring & market impact evaluations.</p>
         </div>
 
         <Button
           variant="glass"
           size="md"
-          leftIcon={<Bookmark className="w-4 h-4 text-amber-400" />}
+          leftIcon={<Bookmark className="w-4 h-4 text-amber-500 dark:text-amber-400" />}
           onClick={() => navigate('/news/bookmarks')}
         >
           Saved Bookmarks
@@ -47,14 +47,14 @@ export const NewsPage: React.FC = () => {
       {/* Search & Category Filter Pills */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         {/* Search Input */}
-        <div className="relative flex-1 max-w-md glass-panel border border-white/10 rounded-xl px-3 py-2 flex items-center">
-          <Search className="w-4 h-4 text-slate-400 mr-2" />
+        <div className="relative flex-1 max-w-md glass-panel border border-border/50 rounded-xl px-3 py-2 flex items-center">
+          <Search className="w-4 h-4 text-muted-foreground mr-2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search news by ticker, headline, topic..."
-            className="w-full bg-transparent text-xs text-white placeholder:text-slate-500 focus:outline-none"
+            className="w-full bg-transparent text-xs text-foreground placeholder:text-muted-foreground focus:outline-none"
           />
         </div>
 
@@ -68,8 +68,8 @@ export const NewsPage: React.FC = () => {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   isActive
-                    ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/20'
-                    : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10'
+                    ? 'bg-purple-600 text-foreground shadow-lg shadow-purple-500/20'
+                    : 'bg-foreground/5 text-muted-foreground hover:text-foreground hover:bg-foreground/10'
                 }`}
               >
                 {cat}

@@ -27,9 +27,9 @@ export const BrokerOrderTerminal: React.FC = () => {
 
   return (
     <GlassCard className="p-6 space-y-4">
-      <div className="flex items-center space-x-2 border-b border-white/10 pb-3">
-        <Building2 className="w-5 h-5 text-purple-400" />
-        <h2 className="text-base font-bold text-white font-display">Smart Order Router Gateway Terminal</h2>
+      <div className="flex items-center space-x-2 border-b border-border/50 pb-3">
+        <Building2 className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+        <h2 className="text-base font-bold text-foreground font-display">Smart Order Router Gateway Terminal</h2>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4 text-xs">
@@ -48,7 +48,7 @@ export const BrokerOrderTerminal: React.FC = () => {
             type="button"
             onClick={() => setSide('BUY')}
             className={`py-2 rounded-xl font-bold font-display cursor-pointer transition-all ${
-              side === 'BUY' ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'bg-white/5 text-slate-400 hover:text-white'
+              side === 'BUY' ? 'bg-emerald-500 text-foreground shadow-lg shadow-emerald-500/20' : 'bg-foreground/5 text-muted-foreground hover:text-foreground'
             }`}
           >
             BUY
@@ -57,7 +57,7 @@ export const BrokerOrderTerminal: React.FC = () => {
             type="button"
             onClick={() => setSide('SELL')}
             className={`py-2 rounded-xl font-bold font-display cursor-pointer transition-all ${
-              side === 'SELL' ? 'bg-red-500 text-white shadow-lg shadow-red-500/20' : 'bg-white/5 text-slate-400 hover:text-white'
+              side === 'SELL' ? 'bg-red-500 text-foreground shadow-lg shadow-red-500/20' : 'bg-foreground/5 text-muted-foreground hover:text-foreground'
             }`}
           >
             SELL
@@ -66,12 +66,12 @@ export const BrokerOrderTerminal: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="space-y-1">
-            <label className="text-slate-400 font-bold">Symbol Ticker</label>
+            <label className="text-muted-foreground font-bold">Symbol Ticker</label>
             <input
               type="text"
               value={symbol}
               onChange={(e) => setSymbol(e.target.value.toUpperCase())}
-              className="w-full glass-panel border border-white/10 rounded-xl px-3 py-2 text-white font-mono focus:outline-none"
+              className="w-full glass-panel border border-border/50 rounded-xl px-3 py-2 text-foreground font-mono focus:outline-none"
             />
           </div>
 
@@ -86,12 +86,12 @@ export const BrokerOrderTerminal: React.FC = () => {
           />
 
           <div className="space-y-1">
-            <label className="text-slate-400 font-bold">Quantity</label>
+            <label className="text-muted-foreground font-bold">Quantity</label>
             <input
               type="number"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
-              className="w-full glass-panel border border-white/10 rounded-xl px-3 py-2 text-white font-mono focus:outline-none"
+              className="w-full glass-panel border border-border/50 rounded-xl px-3 py-2 text-foreground font-mono focus:outline-none"
             />
           </div>
         </div>

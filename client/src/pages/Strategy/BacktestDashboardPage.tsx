@@ -18,13 +18,13 @@ export const BacktestDashboardPage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <Play className="w-6 h-6 text-emerald-400" />
-            <h1 className="text-2xl font-black font-display text-white">Historical Backtest Simulation Dashboard</h1>
+            <Play className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">Historical Backtest Simulation Dashboard</h1>
           </div>
-          <p className="text-xs text-slate-400">Bar-by-bar price replay simulation with slippage, transaction costs, and drawdown metrics.</p>
+          <p className="text-xs text-muted-foreground">Bar-by-bar price replay simulation with slippage, transaction costs, and drawdown metrics.</p>
         </div>
 
         <div className="flex items-center space-x-2">
@@ -42,10 +42,10 @@ export const BacktestDashboardPage: React.FC = () => {
 
       {/* Trade List Table */}
       <GlassCard className="p-5 space-y-4">
-        <h2 className="text-base font-bold text-white font-display border-b border-white/10 pb-3">Simulated Backtest Executed Trade List</h2>
+        <h2 className="text-base font-bold text-foreground font-display border-b border-border/50 pb-3">Simulated Backtest Executed Trade List</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-mono">
-            <thead className="border-b border-white/10 text-slate-400 uppercase font-sans">
+            <thead className="border-b border-border/50 text-muted-foreground uppercase font-sans">
               <tr>
                 <th className="pb-3 font-semibold">Symbol</th>
                 <th className="pb-3 font-semibold">Side</th>
@@ -57,13 +57,13 @@ export const BacktestDashboardPage: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-white/5">
               {currentRun.trades.map((t) => (
-                <tr key={t.id} className="hover:bg-white/5">
-                  <td className="py-3 font-bold text-white">${t.symbol}</td>
+                <tr key={t.id} className="hover:bg-foreground/5">
+                  <td className="py-3 font-bold text-foreground">${t.symbol}</td>
                   <td className="py-3 font-sans">
                     <Badge variant={t.side === 'BUY' ? 'emerald' : 'red'}>{t.side}</Badge>
                   </td>
-                  <td className="py-3 text-slate-300">{t.entryDate} @ ${t.entryPrice}</td>
-                  <td className="py-3 text-slate-300">{t.exitDate} @ ${t.exitPrice}</td>
+                  <td className="py-3 text-muted-foreground">{t.entryDate} @ ${t.entryPrice}</td>
+                  <td className="py-3 text-muted-foreground">{t.exitDate} @ ${t.exitPrice}</td>
                   <td className="py-3 text-purple-300 font-sans font-bold">{t.reason}</td>
                   <td className="py-3 text-right font-sans font-bold">
                     <Badge variant="emerald">+${t.pnl} (+{t.pnlPercent}%)</Badge>

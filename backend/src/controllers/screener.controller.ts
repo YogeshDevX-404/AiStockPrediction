@@ -49,7 +49,7 @@ export const saveScreenerPresetController = async (req: Request, res: Response<A
 
 export const deleteSavedScreenerController = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     await deleteSavedScreenerService(id);
     return res.status(200).json({ success: true, data: { deleted: true } });
   } catch (error) {

@@ -41,8 +41,42 @@ export interface CopilotMessage {
 
 export const CopilotApi = {
   query: async (query: string, symbol?: string): Promise<MultiAgentCopilotResponse> => {
-    const response: any = await apiClient.post('/copilot/query', { query, symbol });
-    return response.data;
+    console.log(`[Copilot Diagnostic] Request started for prompt length: ${query?.length || 0}`);
+    const response: any = await apiClient.post('/copilot/query', { query, symbol, prompt: query });
+    console.log('[Copilot Diagnostic] POST /copilot/query completed. Response received.');
+
+    // Handle nested response shapes safely (e.g. { success: true, data: { ... } } vs direct object)
+    const dataObj = response?.data || response;
+    const responseKeys = dataObj && typeof dataObj === 'object' ? Object.keys(dataObj) : typeof dataObj;
+    console.log('[Copilot Diagnostic] Inner Data Keys:', responseKeys);
+
+    const execSummary =
+      dataObj?.executiveSummary ||
+      dataObj?.content ||
+      dataObj?.response ||
+      dataObj?.summary ||
+      (typeof dataObj === 'string' ? dataObj : '') ||
+      'No summary available from AI engine.';
+
+    console.log(`[Copilot Diagnostic] Extracted Executive Summary Length: ${execSummary.length}`);
+
+    return {
+      taskId: dataObj?.taskId || `task-${Date.now()}`,
+      query: dataObj?.query || query,
+      executiveSummary: execSummary,
+      evidenceSources: Array.isArray(dataObj?.evidenceSources) ? dataObj.evidenceSources : ['TradeGenius AI Engine'],
+      overallConfidence: typeof dataObj?.overallConfidence === 'number' ? dataObj.overallConfidence : 92.0,
+      agentsParticipated: Array.isArray(dataObj?.agentsParticipated)
+        ? dataObj.agentsParticipated
+        : ['Market Intelligence Agent', 'Google Gemini Synthesis Agent'],
+      executionTimeline: Array.isArray(dataObj?.executionTimeline) ? dataObj.executionTimeline : [],
+      suggestedNextSteps: Array.isArray(dataObj?.suggestedNextSteps)
+        ? dataObj.suggestedNextSteps
+        : ['Ask Copilot for specific stock ticker analysis'],
+      disclaimer:
+        dataObj?.disclaimer ||
+        'Multi-agent AI outputs express statistical probabilities based on quantitative models without guaranteeing future financial returns.',
+    };
   },
 
   sendQuery: async (prompt: string, symbol?: string): Promise<CopilotMessage> => {

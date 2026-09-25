@@ -6,26 +6,32 @@
     --font-display: 'Space Grotesk', sans-serif;
 
     /* Theme colors - Light */
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    --background: 215 30% 97%; /* #F5F7FB */
+    --foreground: 222 47% 11%; /* #0F172A */
     --card: 0 0% 100%;
     --card-foreground: 222 47% 11%;
-    --card-glass: rgba(255, 255, 255, 0.7);
+    --card-glass: rgba(255, 255, 255, 0.95);
     --border: 214 32% 91%;
-    --border-glass: rgba(226, 232, 240, 0.6);
+    --border-glass: rgba(226, 232, 240, 0.8);
+    --glass-card-bg-start: rgba(255, 255, 255, 1);
+    --glass-card-bg-end: rgba(255, 255, 255, 0.9);
+    --glass-card-border: rgba(226, 232, 240, 0.8);
+    --glass-card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+    --glass-pill-bg: rgba(255, 255, 255, 0.9);
+    --glass-pill-border: rgba(226, 232, 240, 0.8);
 
-    --primary: 160 84% 39%; /* Emerald #10b981 */
+    --primary: 221 83% 53%; /* Blue #2563EB */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 91% 60%; /* Blue #3b82f6 */
+    --secondary: 262 83% 58%; /* Purple #7C3AED */
     --secondary-foreground: 0 0% 100%;
 
-    --accent: 262 83% 58%; /* Purple #8b5cf6 */
+    --accent: 160 84% 39%; /* Emerald #059669 */
     --accent-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --danger: 0 84.2% 60.2%;
+    --muted: 214 32% 91%;
+    --muted-foreground: 215 16% 47%; /* #64748B */
+    --danger: 0 84.2% 60.2%; /* #DC2626 */
 
     --radius: 20px;
   }
@@ -39,6 +45,12 @@
     --card-glass: rgba(15, 23, 42, 0.65);
     --border: 217 33% 17%;
     --border-glass: rgba(255, 255, 255, 0.08);
+    --glass-card-bg-start: rgba(255, 255, 255, 0.05);
+    --glass-card-bg-end: rgba(255, 255, 255, 0.01);
+    --glass-card-border: rgba(255, 255, 255, 0.08);
+    --glass-card-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+    --glass-pill-bg: rgba(255, 255, 255, 0.06);
+    --glass-pill-border: rgba(255, 255, 255, 0.1);
 
     --primary: 160 84% 39%; /* Emerald #10b981 */
     --primary-foreground: 0 0% 100%;
@@ -72,19 +84,19 @@ body {
 }
 
 .glass-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  background: linear-gradient(135deg, var(--glass-card-bg-start) 0%, var(--glass-card-bg-end) 100%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-card-border);
   border-radius: var(--radius);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--glass-card-shadow);
 }
 
 .glass-pill {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--glass-pill-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-pill-border);
   border-radius: 9999px;
 }
 

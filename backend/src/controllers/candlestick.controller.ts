@@ -9,7 +9,7 @@ import {
 
 export const getCandlesticksForSymbolController = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   try {
-    const { symbol } = req.params;
+    const symbol = req.params.symbol as string;
     const candlesticks = await getCandlesticksForSymbolService(symbol);
     return res.status(200).json({ success: true, data: candlesticks });
   } catch (error) {

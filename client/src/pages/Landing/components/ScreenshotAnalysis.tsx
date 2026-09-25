@@ -11,11 +11,11 @@ export const ScreenshotAnalysis: React.FC = () => {
         <Badge variant="emerald" className="px-4 py-1 text-xs">
           COMPUTER VISION AI
         </Badge>
-        <h2 className="text-3xl sm:text-5xl font-black font-display text-white tracking-tight">
+        <h2 className="text-3xl sm:text-5xl font-black font-display text-foreground tracking-tight">
           Instant Chart <br />
           <span className="emerald-gradient-text">Screenshot Analysis</span>
         </h2>
-        <p className="text-slate-400 text-base leading-relaxed">
+        <p className="text-muted-foreground text-base leading-relaxed">
           Drop any TradingView chart screenshot or technical pattern image. Our multi-modal vision model detects support, resistance, and breakouts in seconds.
         </p>
       </div>
@@ -30,19 +30,19 @@ export const ScreenshotAnalysis: React.FC = () => {
           className="lg:col-span-7"
         >
           <div className="relative glass-card p-4 border border-white/15 rounded-[28px] bg-[#080d1f] shadow-2xl space-y-3 overflow-hidden">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div className="flex items-center justify-between border-b border-border/50 pb-3">
               <div className="flex items-center space-x-2">
-                <Camera className="w-4 h-4 text-emerald-400" />
-                <span className="text-xs font-bold text-white font-mono">TradingView_AAPL_1D_Chart.png</span>
+                <Camera className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <span className="text-xs font-bold text-foreground font-mono">TradingView_AAPL_1D_Chart.png</span>
               </div>
               <Badge variant="emerald">VISION ANALYZED</Badge>
             </div>
 
             {/* Simulated Chart Image View */}
-            <div className="h-64 w-full bg-[#0d1428] rounded-2xl relative flex flex-col justify-between p-4 border border-white/5 overflow-hidden">
-              <div className="flex justify-between items-center text-[11px] font-mono text-slate-400">
+            <div className="h-64 w-full bg-[#0d1428] rounded-2xl relative flex flex-col justify-between p-4 border border-border/40 overflow-hidden">
+              <div className="flex justify-between items-center text-[11px] font-mono text-muted-foreground">
                 <span>AAPL • 1D • NASDAQ</span>
-                <span className="text-emerald-400 font-bold">Pattern Identified: Ascending Triangle Breakout</span>
+                <span className="text-emerald-600 dark:text-emerald-400 font-bold">Pattern Identified: Ascending Triangle Breakout</span>
               </div>
 
               {/* Chart lines */}
@@ -60,11 +60,11 @@ export const ScreenshotAnalysis: React.FC = () => {
                 />
               </svg>
 
-              <div className="relative z-10 flex items-center justify-between text-[10px] text-slate-400 pt-32">
-                <span className="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">
+              <div className="relative z-10 flex items-center justify-between text-[10px] text-muted-foreground pt-32">
+                <span className="bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">
                   Key Support: $215.00
                 </span>
-                <span className="bg-red-500/20 text-red-400 px-2 py-0.5 rounded border border-red-500/30">
+                <span className="bg-red-500/20 text-red-600 dark:text-red-400 px-2 py-0.5 rounded border border-red-500/30">
                   Key Resistance: $225.00
                 </span>
               </div>
@@ -81,42 +81,42 @@ export const ScreenshotAnalysis: React.FC = () => {
           className="lg:col-span-5"
         >
           <GlassCard glow className="p-6 border border-emerald-500/30 rounded-[28px] bg-gradient-to-br from-emerald-950/30 to-[#070b1a] space-y-6">
-            <div className="flex items-center space-x-2 text-emerald-400">
+            <div className="flex items-center space-x-2 text-emerald-600 dark:text-emerald-400">
               <Sparkles className="w-5 h-5" />
-              <h3 className="text-xl font-bold font-display text-white">AI Vision Analysis Output</h3>
+              <h3 className="text-xl font-bold font-display text-foreground">AI Vision Analysis Output</h3>
             </div>
 
             <div className="space-y-3 text-xs">
-              <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex justify-between items-center">
-                <span className="text-slate-400 font-semibold">Identified Trend</span>
-                <span className="text-emerald-400 font-bold flex items-center">
+              <div className="p-3 rounded-xl bg-foreground/5 border border-border/50 flex justify-between items-center">
+                <span className="text-muted-foreground font-semibold">Identified Trend</span>
+                <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center">
                   <TrendingUp className="w-3.5 h-3.5 mr-1" /> Bullish Ascending Triangle
                 </span>
               </div>
 
-              <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex justify-between items-center">
-                <span className="text-slate-400 font-semibold">Primary Support</span>
-                <span className="text-white font-mono font-bold">$215.00</span>
+              <div className="p-3 rounded-xl bg-foreground/5 border border-border/50 flex justify-between items-center">
+                <span className="text-muted-foreground font-semibold">Primary Support</span>
+                <span className="text-foreground font-mono font-bold">$215.00</span>
               </div>
 
-              <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex justify-between items-center">
-                <span className="text-slate-400 font-semibold">Primary Resistance</span>
-                <span className="text-white font-mono font-bold">$225.00</span>
+              <div className="p-3 rounded-xl bg-foreground/5 border border-border/50 flex justify-between items-center">
+                <span className="text-muted-foreground font-semibold">Primary Resistance</span>
+                <span className="text-foreground font-mono font-bold">$225.00</span>
               </div>
 
-              <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex justify-between items-center">
-                <span className="text-slate-400 font-semibold">Signal Recommendation</span>
+              <div className="p-3 rounded-xl bg-foreground/5 border border-border/50 flex justify-between items-center">
+                <span className="text-muted-foreground font-semibold">Signal Recommendation</span>
                 <Badge variant="emerald">BUY BREAKOUT</Badge>
               </div>
 
-              <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex justify-between items-center">
-                <span className="text-slate-400 font-semibold">Confidence Score</span>
-                <span className="text-purple-400 font-bold">92.4% High Conviction</span>
+              <div className="p-3 rounded-xl bg-foreground/5 border border-border/50 flex justify-between items-center">
+                <span className="text-muted-foreground font-semibold">Confidence Score</span>
+                <span className="text-purple-600 dark:text-purple-400 font-bold">92.4% High Conviction</span>
               </div>
 
-              <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex justify-between items-center">
-                <span className="text-slate-400 font-semibold">Breakout Probability</span>
-                <span className="text-emerald-400 font-bold">88% Chance within 48H</span>
+              <div className="p-3 rounded-xl bg-foreground/5 border border-border/50 flex justify-between items-center">
+                <span className="text-muted-foreground font-semibold">Breakout Probability</span>
+                <span className="text-emerald-600 dark:text-emerald-400 font-bold">88% Chance within 48H</span>
               </div>
             </div>
           </GlassCard>

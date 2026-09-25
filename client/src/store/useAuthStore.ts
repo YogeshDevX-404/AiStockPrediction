@@ -16,23 +16,9 @@ interface AuthState {
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      user: {
-        id: 'usr_demo_123',
-        fullName: 'Alex Mercer',
-        username: 'alexmercer',
-        email: 'alex.investor@tradegenius.ai',
-        phone: '+1 555 019 2834',
-        country: 'United States',
-        profileImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-        role: 'PREMIUM',
-        status: 'ACTIVE',
-        isVerified: true,
-        googleId: null,
-        provider: 'EMAIL',
-        createdAt: new Date().toISOString(),
-      },
-      token: 'mock_jwt_access_token_tradegenius_ai',
-      isAuthenticated: true,
+      user: null,
+      token: null,
+      isAuthenticated: false,
       isLoading: false,
 
       login: (user, token) => {

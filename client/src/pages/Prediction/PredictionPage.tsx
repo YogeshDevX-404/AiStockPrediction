@@ -24,13 +24,13 @@ export const PredictionPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 glass-panel p-6 border-purple-500/20 bg-gradient-to-r from-purple-950/30 via-card to-emerald-950/20">
         <div>
           <div className="flex items-center space-x-2">
-            <Cpu className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">AI Prediction & Neural Insights</h1>
-            <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+            <Cpu className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">AI Prediction & Neural Insights</h1>
+            <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
               PROBABILITY ENGINE v4.8
             </span>
           </div>
-          <p className="text-xs text-slate-400">Explainable probability-based trading insights driven by multi-indicator neural conviction models.</p>
+          <p className="text-xs text-muted-foreground">Explainable probability-based trading insights driven by multi-indicator neural conviction models.</p>
         </div>
 
         <Button

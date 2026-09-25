@@ -21,13 +21,13 @@ export const TrainingPipelinePage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <Play className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">Model Training Execution Console</h1>
+            <Play className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">Model Training Execution Console</h1>
           </div>
-          <p className="text-xs text-slate-400">Trigger dataset windowing, feature normalization, sequence building, and loss minimization.</p>
+          <p className="text-xs text-muted-foreground">Trigger dataset windowing, feature normalization, sequence building, and loss minimization.</p>
         </div>
 
         <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="w-4 h-4" />} onClick={() => navigate('/ml')}>
@@ -66,10 +66,10 @@ export const TrainingPipelinePage: React.FC = () => {
 
       {/* Recent Training Runs Table */}
       <GlassCard className="p-5 space-y-4">
-        <h2 className="text-sm font-bold text-white font-display border-b border-white/10 pb-3">Training Pipeline Execution Log</h2>
+        <h2 className="text-sm font-bold text-foreground font-display border-b border-border/50 pb-3">Training Pipeline Execution Log</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-mono">
-            <thead className="border-b border-white/10 text-slate-400 uppercase font-sans">
+            <thead className="border-b border-border/50 text-muted-foreground uppercase font-sans">
               <tr>
                 <th className="pb-3 font-semibold">Run ID</th>
                 <th className="pb-3 font-semibold">Model ID</th>
@@ -80,11 +80,11 @@ export const TrainingPipelinePage: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-white/5">
               {runs.map((r) => (
-                <tr key={r.runId} className="hover:bg-white/5">
-                  <td className="py-3 font-bold text-white font-sans">{r.runId}</td>
+                <tr key={r.runId} className="hover:bg-foreground/5">
+                  <td className="py-3 font-bold text-foreground font-sans">{r.runId}</td>
                   <td className="py-3 text-purple-300 font-bold">{r.modelId}</td>
-                  <td className="py-3 text-slate-300">{r.datasetVersion}</td>
-                  <td className="py-3 text-emerald-400 font-bold">{r.loss}</td>
+                  <td className="py-3 text-muted-foreground">{r.datasetVersion}</td>
+                  <td className="py-3 text-emerald-600 dark:text-emerald-400 font-bold">{r.loss}</td>
                   <td className="py-3 text-right font-sans">
                     <Badge variant="emerald">{r.status}</Badge>
                   </td>

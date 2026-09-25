@@ -57,4 +57,8 @@ export interface IMarketDataProvider {
   searchSymbols(query: string): Promise<SearchResultItem[]>;
   getMarketOverview(): Promise<MarketOverviewData>;
   getMarketStatus(): Promise<MarketStatusData>;
+  getStatistics?(symbol: string): Promise<any>;
+  getProfile?(symbol: string): Promise<any>;
+  getAnalystRatings?(symbol: string): Promise<any>;
+  getNews?(symbol: string, from: string, to: string): Promise<any>;
 }

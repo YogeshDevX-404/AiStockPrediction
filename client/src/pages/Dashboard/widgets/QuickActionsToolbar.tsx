@@ -12,10 +12,10 @@ export const QuickActionsToolbar: React.FC = () => {
   const [alertModalOpen, setAlertModalOpen] = useState(false);
 
   return (
-    <div className="glass-panel p-4 rounded-2xl border border-white/10 flex flex-wrap items-center justify-between gap-3">
+    <div className="glass-panel p-4 rounded-2xl border border-border/50 flex flex-wrap items-center justify-between gap-3 bg-card dark:bg-transparent shadow-sm">
       <div className="space-y-0.5">
-        <h3 className="text-sm font-bold text-white font-display">Trader Quick Actions</h3>
-        <p className="text-[11px] text-slate-400">Launch orders, alerts, vision AI, or ask co-pilot</p>
+        <h3 className="text-sm font-bold text-foreground font-display">Trader Quick Actions</h3>
+        <p className="text-[11px] text-muted-foreground">Launch orders, alerts, vision AI, or ask co-pilot</p>
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
@@ -30,7 +30,7 @@ export const QuickActionsToolbar: React.FC = () => {
         <Button
           variant="glass"
           size="sm"
-          leftIcon={<Star className="w-4 h-4 text-amber-400" />}
+          leftIcon={<Star className="w-4 h-4 text-amber-500 dark:text-amber-500 dark:text-amber-500 dark:text-amber-400" />}
           onClick={() => navigate(ROUTES.WATCHLIST)}
         >
           Create Watchlist
@@ -38,7 +38,7 @@ export const QuickActionsToolbar: React.FC = () => {
         <Button
           variant="glass"
           size="sm"
-          leftIcon={<Bell className="w-4 h-4 text-purple-400" />}
+          leftIcon={<Bell className="w-4 h-4 text-purple-500 dark:text-purple-600 dark:text-purple-600 dark:text-purple-400" />}
           onClick={() => setAlertModalOpen(true)}
         >
           New Alert
@@ -46,7 +46,7 @@ export const QuickActionsToolbar: React.FC = () => {
         <Button
           variant="glass"
           size="sm"
-          leftIcon={<Camera className="w-4 h-4 text-emerald-400" />}
+          leftIcon={<Camera className="w-4 h-4 text-emerald-600 dark:text-emerald-600 dark:text-emerald-600 dark:text-emerald-400" />}
           onClick={() => navigate(ROUTES.STOCK_DETAILS)}
         >
           Analyze Screenshot
@@ -54,7 +54,7 @@ export const QuickActionsToolbar: React.FC = () => {
         <Button
           variant="accent"
           size="sm"
-          leftIcon={<Bot className="w-4 h-4 text-white" />}
+          leftIcon={<Bot className="w-4 h-4 text-foreground" />}
           onClick={() => navigate(ROUTES.CHAT)}
         >
           Ask AI

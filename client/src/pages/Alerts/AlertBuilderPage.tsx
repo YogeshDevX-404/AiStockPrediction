@@ -30,13 +30,13 @@ export const AlertBuilderPage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <Bell className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">Visual Alert Builder Workspace</h1>
+            <Bell className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">Visual Alert Builder Workspace</h1>
           </div>
-          <p className="text-xs text-slate-400">Configure trigger parameters for Price Thresholds, RSI technicals, AI Predictions, and Breaking News.</p>
+          <p className="text-xs text-muted-foreground">Configure trigger parameters for Price Thresholds, RSI technicals, AI Predictions, and Breaking News.</p>
         </div>
 
         <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="w-4 h-4" />} onClick={() => navigate('/alerts')}>
@@ -47,13 +47,13 @@ export const AlertBuilderPage: React.FC = () => {
       <GlassCard className="p-6">
         <form onSubmit={handleCreate} className="space-y-4 text-xs">
           <div className="space-y-1">
-            <label className="text-slate-400 font-bold">Target Stock Symbol</label>
+            <label className="text-muted-foreground font-bold">Target Stock Symbol</label>
             <input
               type="text"
               value={symbol}
               onChange={(e) => setSymbol(e.target.value.toUpperCase())}
               placeholder="Symbol (e.g. NVDA)"
-              className="w-full glass-panel border border-white/10 rounded-xl px-3 py-2 text-white font-mono placeholder:text-slate-500 focus:outline-none"
+              className="w-full glass-panel border border-border/50 rounded-xl px-3 py-2 text-foreground font-mono placeholder:text-muted-foreground focus:outline-none"
             />
           </div>
 
@@ -72,13 +72,13 @@ export const AlertBuilderPage: React.FC = () => {
           />
 
           <div className="space-y-1">
-            <label className="text-slate-400 font-bold">Target Threshold Value</label>
+            <label className="text-muted-foreground font-bold">Target Threshold Value</label>
             <input
               type="text"
               value={targetValue}
               onChange={(e) => setTargetValue(e.target.value)}
               placeholder="Target Value (e.g. 145.00)"
-              className="w-full glass-panel border border-white/10 rounded-xl px-3 py-2 text-white font-mono focus:outline-none"
+              className="w-full glass-panel border border-border/50 rounded-xl px-3 py-2 text-foreground font-mono focus:outline-none"
             />
           </div>
 

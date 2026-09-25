@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal } from './Modal';
 import { Button } from '../buttons/Button';
 import { Input } from '../inputs/Input';
 import { Badge } from '../ui/Badge';
 import { formatCurrency } from '@/utils/cn';
+import { apiClient } from '@/api';
 import { toast } from 'react-hot-toast';
 
 export interface QuickTradeModalProps {
@@ -22,25 +23,60 @@ export const QuickTradeModal: React.FC<QuickTradeModalProps> = ({
   const [tradeType, setTradeType] = useState<'BUY' | 'SELL'>(defaultType);
   const [shares, setShares] = useState(10);
   const [orderType, setOrderType] = useState<'MARKET' | 'LIMIT'>('MARKET');
-  const [limitPrice, setLimitPrice] = useState(132.40);
+  const [limitPrice, setLimitPrice] = useState(0);
+  const [currentPrice, setCurrentPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  const price = 132.40;
+  useEffect(() => {
+    if (isOpen && symbol) {
+      apiClient
+        .get(`/market/quote/${symbol}`)
+        .then((res: any) => {
+          if (res?.data?.price) {
+            setCurrentPrice(res.data.price);
+            setLimitPrice(res.data.price);
+          }
+        })
+        .catch(() => {
+          setCurrentPrice(0);
+        });
+    }
+  }, [isOpen, symbol]);
+
+  const price = currentPrice || limitPrice;
   const totalValue = shares * (orderType === 'LIMIT' ? limitPrice : price);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (shares <= 0) {
+      toast.error('Quantity must be greater than 0');
+      return;
+    }
     setIsLoading(true);
 
-    setTimeout(() => {
+    try {
+      const res: any = await apiClient.post('/paper/execute', {
+        symbol,
+        type: tradeType,
+        quantity: shares,
+        price: orderType === 'LIMIT' ? limitPrice : price,
+      });
+
+      if (res && res.success) {
+        toast.success(
+          `Simulated Trade Executed: ${tradeType} ${shares} shares of ${symbol} at ${formatCurrency(
+            orderType === 'LIMIT' ? limitPrice : price
+          )}`
+        );
+        onClose();
+      } else {
+        toast.error(res?.message || 'Trade execution failed.');
+      }
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || err?.message || 'Failed to execute order.');
+    } finally {
       setIsLoading(false);
-      onClose();
-      toast.success(
-        `Order Executed: ${tradeType} ${shares} shares of ${symbol} at ${formatCurrency(
-          orderType === 'LIMIT' ? limitPrice : price
-        )}`
-      );
-    }, 800);
+    }
   };
 
   return (
@@ -52,7 +88,7 @@ export const QuickTradeModal: React.FC<QuickTradeModalProps> = ({
             type="button"
             onClick={() => setTradeType('BUY')}
             className={`py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-              tradeType === 'BUY' ? 'bg-emerald-500 text-white shadow-lg' : 'text-slate-400 hover:text-white'
+              tradeType === 'BUY' ? 'bg-emerald-500 text-foreground shadow-lg' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             BUY {symbol}
@@ -61,7 +97,7 @@ export const QuickTradeModal: React.FC<QuickTradeModalProps> = ({
             type="button"
             onClick={() => setTradeType('SELL')}
             className={`py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-              tradeType === 'SELL' ? 'bg-red-500 text-white shadow-lg' : 'text-slate-400 hover:text-white'
+              tradeType === 'SELL' ? 'bg-red-500 text-foreground shadow-lg' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             SELL {symbol}
@@ -84,9 +120,9 @@ export const QuickTradeModal: React.FC<QuickTradeModalProps> = ({
           />
         </div>
 
-        <div className="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between text-xs">
-          <span className="text-slate-400 font-medium">Estimated Order Total</span>
-          <span className="text-base font-extrabold text-white font-mono">{formatCurrency(totalValue)}</span>
+        <div className="p-3 rounded-2xl bg-foreground/5 border border-border/50 flex items-center justify-between text-xs">
+          <span className="text-muted-foreground font-medium">Estimated Order Total</span>
+          <span className="text-base font-extrabold text-foreground font-mono">{formatCurrency(totalValue)}</span>
         </div>
 
         <div className="flex items-center justify-end space-x-3 pt-2">

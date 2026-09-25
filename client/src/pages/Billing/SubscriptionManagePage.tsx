@@ -34,13 +34,13 @@ export const SubscriptionManagePage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <ShieldCheck className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">Subscription Management & Promo Codes</h1>
+            <ShieldCheck className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">Subscription Management & Promo Codes</h1>
           </div>
-          <p className="text-xs text-slate-400">Upgrade or downgrade plan tier, apply promotional discount coupons, or manage renewal status.</p>
+          <p className="text-xs text-muted-foreground">Upgrade or downgrade plan tier, apply promotional discount coupons, or manage renewal status.</p>
         </div>
 
         <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="w-4 h-4" />} onClick={() => navigate('/billing')}>
@@ -49,7 +49,7 @@ export const SubscriptionManagePage: React.FC = () => {
       </div>
 
       <GlassCard className="p-6 space-y-6">
-        <h2 className="text-base font-bold text-white font-display border-b border-white/10 pb-3">Redeem Promotional Coupon Code</h2>
+        <h2 className="text-base font-bold text-foreground font-display border-b border-border/50 pb-3">Redeem Promotional Coupon Code</h2>
         <form onSubmit={handleApplyCoupon} className="flex gap-3 text-xs">
           <div className="relative flex-1">
             <input
@@ -57,7 +57,7 @@ export const SubscriptionManagePage: React.FC = () => {
               value={coupon}
               onChange={(e) => setCoupon(e.target.value)}
               placeholder="Enter code (e.g. GENIUS20, ALPHA50)"
-              className="w-full glass-panel border border-white/10 rounded-xl px-3 py-2 text-white font-mono placeholder:text-slate-500 focus:outline-none"
+              className="w-full glass-panel border border-border/50 rounded-xl px-3 py-2 text-foreground font-mono placeholder:text-muted-foreground focus:outline-none"
             />
           </div>
           <Button type="submit" variant="accent" size="sm" isLoading={isValidating} leftIcon={<Tag className="w-4 h-4" />}>

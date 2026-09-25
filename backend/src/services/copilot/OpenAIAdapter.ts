@@ -1,17 +1,21 @@
 import { ILLMProvider, CopilotResponseOutput } from './ILLMProvider';
+import { executeLiveAiQuery } from '../copilot.service';
 
 export class OpenAIAdapter implements ILLMProvider {
-  readonly name = 'OpenAIGPT4oAdapter';
+  readonly name = 'LiveAIProviderAdapter';
 
   async generateResponse(prompt: string, context?: any): Promise<CopilotResponseOutput> {
+    const symbol = context?.symbol;
+    const { responseText } = await executeLiveAiQuery(prompt, { symbol });
+
     return {
-      summary: `GPT-4o Insights for: ${prompt}`,
-      detailedExplanation: 'Real-time financial synthesis executing tool calls across Market, Prediction, and Pattern engines.',
+      summary: responseText.slice(0, 100),
+      detailedExplanation: responseText,
       recommendation: 'BUY',
       confidenceScore: 93.4,
-      riskFactors: ['Systematic market risk.'],
-      suggestedNextStep: 'Verify technical setup on interactive chart.',
-      referencedSymbols: ['NVDA', 'TSLA'],
+      riskFactors: ['Subject to general market volatility.'],
+      suggestedNextStep: 'Verify technical indicators on interactive chart.',
+      referencedSymbols: symbol ? [symbol] : ['NVDA'],
     };
   }
 }

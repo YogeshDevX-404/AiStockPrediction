@@ -54,22 +54,22 @@ export const MarketTicker: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full bg-[#050816]/90 border-y border-white/10 py-3 overflow-hidden select-none backdrop-blur-md z-20">
+    <div className="w-full bg-[#050816]/90 border-y border-border/50 py-3 overflow-hidden select-none backdrop-blur-md z-20">
       <div className="flex w-max animate-marquee space-x-8 hover:[animation-play-state:paused]">
         {[...tickers, ...tickers].map((ticker, idx) => (
           <div
             key={`${ticker.symbol}-${idx}`}
             className="flex items-center space-x-2.5 px-4 py-1.5 rounded-xl bg-white/[0.03] border border-white/[0.06] backdrop-blur-sm shadow-sm transition-transform duration-300 hover:scale-105 hover:bg-white/[0.08]"
           >
-            <span className="font-mono font-extrabold text-xs text-white tracking-wider">
+            <span className="font-mono font-extrabold text-xs text-foreground tracking-wider">
               {ticker.symbol}
             </span>
-            <span className="font-mono text-xs text-slate-300">{ticker.price}</span>
+            <span className="font-mono text-xs text-muted-foreground">{ticker.price}</span>
             <span
               className={`flex items-center text-[11px] font-bold px-1.5 py-0.5 rounded-md ${
                 ticker.isPositive
-                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                  : 'bg-red-500/10 text-red-400 border border-red-500/20'
+                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
+                  : 'bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20'
               }`}
             >
               {ticker.isPositive ? (

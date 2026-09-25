@@ -10,6 +10,7 @@ import { LoginPage } from '@/pages/Auth/LoginPage';
 import { RegisterPage } from '@/pages/Auth/RegisterPage';
 import { ForgotPasswordPage } from '@/pages/Auth/ForgotPasswordPage';
 import { ResetPasswordPage } from '@/pages/Auth/ResetPasswordPage';
+import { OAuthCallbackPage } from '@/pages/Auth/OAuthCallbackPage';
 import { ProfilePage } from '@/pages/Profile/ProfilePage';
 import { DashboardPage } from '@/pages/Dashboard/DashboardPage';
 import { PortfolioPage } from '@/pages/Portfolio/PortfolioPage';
@@ -92,6 +93,7 @@ export const AppRouter: React.FC = () => {
           <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
           <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/auth/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/auth/callback" element={<OAuthCallbackPage />} />
         </Route>
 
         {/* Protected Dashboard & App Layout Routes */}

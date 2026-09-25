@@ -28,7 +28,7 @@ export const markNotificationsReadController = async (_req: Request, res: Respon
 
 export const deleteNotificationController = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     await deleteNotificationService(id);
     return res.status(200).json({ success: true, data: { deleted: true } });
   } catch (error) {

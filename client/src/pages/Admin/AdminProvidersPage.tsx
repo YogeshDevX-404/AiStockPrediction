@@ -15,13 +15,13 @@ export const AdminProvidersPage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <Server className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">API Provider Adapter Management</h1>
+            <Server className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">API Provider Adapter Management</h1>
           </div>
-          <p className="text-xs text-slate-400">Configure Market Data, News, AI LLM, and Vision OCR provider failovers and priority order.</p>
+          <p className="text-xs text-muted-foreground">Configure Market Data, News, AI LLM, and Vision OCR provider failovers and priority order.</p>
         </div>
 
         <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="w-4 h-4" />} onClick={() => navigate('/admin')}>

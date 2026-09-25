@@ -39,8 +39,8 @@ export const AlertManagerDrawer: React.FC<AlertManagerDrawerProps> = ({
     <Modal isOpen={isOpen} onClose={onClose} title="Smart Price & Technical Alert Manager">
       <div className="space-y-6">
         {/* Create Alert Form */}
-        <form onSubmit={handleSubmit} className="space-y-3 p-4 rounded-2xl glass-panel border border-white/10">
-          <h3 className="text-xs font-bold text-white uppercase tracking-wider">Set New Alert Trigger</h3>
+        <form onSubmit={handleSubmit} className="space-y-3 p-4 rounded-2xl glass-panel border border-border/50">
+          <h3 className="text-xs font-bold text-foreground uppercase tracking-wider">Set New Alert Trigger</h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
             <Input
@@ -81,15 +81,15 @@ export const AlertManagerDrawer: React.FC<AlertManagerDrawerProps> = ({
 
         {/* Active Alerts List */}
         <div className="space-y-2 text-xs">
-          <h3 className="font-bold text-white uppercase tracking-wider text-[11px]">Active Monitored Triggers ({alerts.length})</h3>
+          <h3 className="font-bold text-foreground uppercase tracking-wider text-[11px]">Active Monitored Triggers ({alerts.length})</h3>
           <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
             {alerts.map((al) => (
-              <div key={al.id} className="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between">
+              <div key={al.id} className="p-2.5 rounded-xl bg-foreground/5 border border-border/40 flex items-center justify-between">
                 <div>
-                  <span className="font-bold text-white font-mono">{al.symbol}</span>
-                  <span className="text-[10px] text-slate-400 ml-2">{al.condition.replace('_', ' ')}: {al.targetValue}</span>
+                  <span className="font-bold text-foreground font-mono">{al.symbol}</span>
+                  <span className="text-[10px] text-muted-foreground ml-2">{al.condition.replace('_', ' ')}: {al.targetValue}</span>
                 </div>
-                <button onClick={() => deleteAlert(al.id)} className="p-1 text-slate-500 hover:text-red-400 cursor-pointer">
+                <button onClick={() => deleteAlert(al.id)} className="p-1 text-muted-foreground hover:text-red-600 dark:text-red-400 cursor-pointer">
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -99,15 +99,15 @@ export const AlertManagerDrawer: React.FC<AlertManagerDrawerProps> = ({
 
         {/* Alert Trigger Log */}
         <div className="space-y-2 text-xs">
-          <h3 className="font-bold text-white uppercase tracking-wider text-[11px]">Recent Trigger Log</h3>
+          <h3 className="font-bold text-foreground uppercase tracking-wider text-[11px]">Recent Trigger Log</h3>
           <div className="space-y-2 max-h-36 overflow-y-auto pr-1">
             {alertHistory.map((ah) => (
               <div key={ah.id} className="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-between">
                 <div>
                   <span className="font-bold text-purple-300 font-mono mr-2">{ah.symbol}</span>
-                  <span className="text-slate-300 text-[11px]">{ah.message}</span>
+                  <span className="text-muted-foreground text-[11px]">{ah.message}</span>
                 </div>
-                <span className="text-[10px] text-slate-500">{ah.timestamp}</span>
+                <span className="text-[10px] text-muted-foreground">{ah.timestamp}</span>
               </div>
             ))}
           </div>

@@ -1,19 +1,20 @@
-import { Request, Response, NextFunction } from 'express';
-import { ApiResponse } from '../types';
+import { Response, NextFunction } from 'express';
+import { ApiResponse, AuthRequest } from '../types';
 import { PaperAccountEngine } from '../services/paper/PaperAccountEngine';
 import { OrderExecutionEngine } from '../services/paper/OrderExecutionEngine';
 import { TradePnlAuditor } from '../services/paper/TradePnlAuditor';
 
-export const getAccountController = async (_req: Request, res: Response<ApiResponse>, next: NextFunction) => {
+export const getAccountController = async (req: AuthRequest, res: Response<ApiResponse>, next: NextFunction) => {
   try {
-    const summary = await PaperAccountEngine.getAccountSummary();
+    const userId = req.user?.userId || (req.user as any)?.id || 'guest';
+    const summary = await PaperAccountEngine.getAccountSummary(userId);
     return res.status(200).json({ success: true, data: summary });
   } catch (error) {
     next(error);
   }
 };
 
-export const getOrdersController = async (_req: Request, res: Response<ApiResponse>, next: NextFunction) => {
+export const getOrdersController = async (_req: AuthRequest, res: Response<ApiResponse>, next: NextFunction) => {
   try {
     const orders = OrderExecutionEngine.getOrders();
     return res.status(200).json({ success: true, data: orders });
@@ -22,7 +23,7 @@ export const getOrdersController = async (_req: Request, res: Response<ApiRespon
   }
 };
 
-export const createOrderController = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
+export const createOrderController = async (req: AuthRequest, res: Response<ApiResponse>, next: NextFunction) => {
   try {
     const newOrder = await OrderExecutionEngine.submitOrder(req.body);
     return res.status(201).json({ success: true, data: newOrder });
@@ -31,9 +32,9 @@ export const createOrderController = async (req: Request, res: Response<ApiRespo
   }
 };
 
-export const cancelOrderController = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
+export const cancelOrderController = async (req: AuthRequest, res: Response<ApiResponse>, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     await OrderExecutionEngine.cancelOrder(id);
     return res.status(200).json({ success: true, data: { cancelled: true } });
   } catch (error) {
@@ -41,7 +42,7 @@ export const cancelOrderController = async (req: Request, res: Response<ApiRespo
   }
 };
 
-export const getTradesController = async (_req: Request, res: Response<ApiResponse>, next: NextFunction) => {
+export const getTradesController = async (_req: AuthRequest, res: Response<ApiResponse>, next: NextFunction) => {
   try {
     const trades = TradePnlAuditor.getTradeHistory();
     return res.status(200).json({ success: true, data: trades });
@@ -50,7 +51,7 @@ export const getTradesController = async (_req: Request, res: Response<ApiRespon
   }
 };
 
-export const getLeaderboardController = async (_req: Request, res: Response<ApiResponse>, next: NextFunction) => {
+export const getLeaderboardController = async (_req: AuthRequest, res: Response<ApiResponse>, next: NextFunction) => {
   try {
     const leaderboard = TradePnlAuditor.getLeaderboard();
     const achievements = TradePnlAuditor.getAchievements();

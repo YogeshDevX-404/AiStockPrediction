@@ -8,39 +8,22 @@ export interface StockFinancialsTabbedProps {
   symbol: string;
 }
 
-export const StockFinancialsTabbed: React.FC<StockFinancialsTabbedProps> = () => {
+export const StockFinancialsTabbed: React.FC<StockFinancialsTabbedProps> = ({ symbol }) => {
   const { activeTab, setActiveTab, financials } = useFinancialsStore();
 
   const data = financials || {
-    incomeStatement: [
-      { period: '2023', revenue: 60922, netIncome: 29760, ebitda: 34200, margin: 48.8 },
-      { period: '2024', revenue: 96310, netIncome: 53040, ebitda: 58900, margin: 55.0 },
-      { period: '2025 (TTM)', revenue: 124500, netIncome: 68900, ebitda: 74200, margin: 55.3 },
-    ],
-    balanceSheet: [
-      { period: '2023', assets: 65728, liabilities: 22745, equity: 42983 },
-      { period: '2024', assets: 85200, liabilities: 26100, equity: 59100 },
-      { period: '2025', assets: 112400, liabilities: 31200, equity: 81200 },
-    ],
-    cashFlow: [
-      { period: '2023', operatingCashFlow: 28090, freeCashFlow: 26800 },
-      { period: '2024', operatingCashFlow: 45200, freeCashFlow: 42100 },
-      { period: '2025', operatingCashFlow: 58400, freeCashFlow: 54900 },
-    ],
-    quarterlyResults: [
-      { quarter: 'Q1 2025', revenue: 26044, profit: 14881, eps: 0.60, margin: 57.1, growth: 262 },
-      { quarter: 'Q2 2025', revenue: 30040, profit: 16599, eps: 0.68, margin: 55.2, growth: 122 },
-      { quarter: 'Q3 2025', revenue: 35080, profit: 19300, eps: 0.78, margin: 55.0, growth: 94 },
-      { quarter: 'Q4 2025', revenue: 39200, profit: 21400, eps: 0.86, margin: 54.5, growth: 78 },
-    ],
+    incomeStatement: [],
+    balanceSheet: [],
+    cashFlow: [],
+    quarterlyResults: [],
   };
 
   return (
     <GlassCard className="space-y-4">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-3">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-border/50 pb-3">
         <div className="flex items-center space-x-2">
-          <FileText className="w-5 h-5 text-emerald-400" />
-          <h2 className="text-base font-bold font-display text-white">Financial Statements & Quarterly Performance</h2>
+          <FileText className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+          <h2 className="text-base font-bold font-display text-foreground">Financial Statements & Quarterly Performance</h2>
         </div>
 
         {/* Tab Buttons */}
@@ -55,7 +38,7 @@ export const StockFinancialsTabbed: React.FC<StockFinancialsTabbedProps> = () =>
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
               className={`px-3 py-1 font-bold rounded-lg transition-all cursor-pointer ${
-                activeTab === tab.id ? 'bg-emerald-500 text-white shadow' : 'text-slate-400 hover:text-white'
+                activeTab === tab.id ? 'bg-emerald-500 text-foreground shadow' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {tab.label}
@@ -68,7 +51,7 @@ export const StockFinancialsTabbed: React.FC<StockFinancialsTabbedProps> = () =>
       <div className="overflow-x-auto">
         {activeTab === 'income' && (
           <table className="w-full text-left text-xs">
-            <thead className="border-b border-white/10 text-slate-400 uppercase">
+            <thead className="border-b border-border/50 text-muted-foreground uppercase">
               <tr>
                 <th className="pb-3 font-semibold">Fiscal Period</th>
                 <th className="pb-3 font-semibold">Revenue ($M)</th>
@@ -78,22 +61,28 @@ export const StockFinancialsTabbed: React.FC<StockFinancialsTabbedProps> = () =>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
-              {data.incomeStatement.map((row) => (
-                <tr key={row.period} className="hover:bg-white/5 font-mono">
-                  <td className="py-3 font-bold text-white">{row.period}</td>
-                  <td className="py-3 text-slate-200">${row.revenue.toLocaleString()}</td>
-                  <td className="py-3 text-purple-400">${row.ebitda.toLocaleString()}</td>
-                  <td className="py-3 text-emerald-400 font-bold">${row.netIncome.toLocaleString()}</td>
-                  <td className="py-3 text-right text-emerald-400 font-bold">{row.margin}%</td>
+              {data.incomeStatement.length > 0 ? (
+                data.incomeStatement.map((row) => (
+                  <tr key={row.period} className="hover:bg-foreground/5 font-mono">
+                    <td className="py-3 font-bold text-foreground">{row.period}</td>
+                    <td className="py-3 text-slate-200">${row.revenue.toLocaleString()}</td>
+                    <td className="py-3 text-purple-600 dark:text-purple-400">${row.ebitda.toLocaleString()}</td>
+                    <td className="py-3 text-emerald-600 dark:text-emerald-400 font-bold">${row.netIncome.toLocaleString()}</td>
+                    <td className="py-3 text-right text-emerald-600 dark:text-emerald-400 font-bold">{row.margin}%</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5} className="py-4 text-center text-muted-foreground">Financial data currently unavailable for {symbol}.</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         )}
 
         {activeTab === 'balance' && (
           <table className="w-full text-left text-xs">
-            <thead className="border-b border-white/10 text-slate-400 uppercase">
+            <thead className="border-b border-border/50 text-muted-foreground uppercase">
               <tr>
                 <th className="pb-3 font-semibold">Fiscal Period</th>
                 <th className="pb-3 font-semibold">Total Assets ($M)</th>
@@ -102,21 +91,27 @@ export const StockFinancialsTabbed: React.FC<StockFinancialsTabbedProps> = () =>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
-              {data.balanceSheet.map((row) => (
-                <tr key={row.period} className="hover:bg-white/5 font-mono">
-                  <td className="py-3 font-bold text-white">{row.period}</td>
-                  <td className="py-3 text-emerald-400 font-bold">${row.assets.toLocaleString()}</td>
-                  <td className="py-3 text-red-400">${row.liabilities.toLocaleString()}</td>
-                  <td className="py-3 text-right text-purple-400 font-bold">${row.equity.toLocaleString()}</td>
+              {data.balanceSheet.length > 0 ? (
+                data.balanceSheet.map((row) => (
+                  <tr key={row.period} className="hover:bg-foreground/5 font-mono">
+                    <td className="py-3 font-bold text-foreground">{row.period}</td>
+                    <td className="py-3 text-emerald-600 dark:text-emerald-400 font-bold">${row.assets.toLocaleString()}</td>
+                    <td className="py-3 text-red-600 dark:text-red-400">${row.liabilities.toLocaleString()}</td>
+                    <td className="py-3 text-right text-purple-600 dark:text-purple-400 font-bold">${row.equity.toLocaleString()}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} className="py-4 text-center text-muted-foreground">Balance sheet data unavailable for {symbol}.</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         )}
 
         {activeTab === 'cashflow' && (
           <table className="w-full text-left text-xs">
-            <thead className="border-b border-white/10 text-slate-400 uppercase">
+            <thead className="border-b border-border/50 text-muted-foreground uppercase">
               <tr>
                 <th className="pb-3 font-semibold">Fiscal Period</th>
                 <th className="pb-3 font-semibold">Operating Cash Flow ($M)</th>
@@ -124,20 +119,26 @@ export const StockFinancialsTabbed: React.FC<StockFinancialsTabbedProps> = () =>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
-              {data.cashFlow.map((row) => (
-                <tr key={row.period} className="hover:bg-white/5 font-mono">
-                  <td className="py-3 font-bold text-white">{row.period}</td>
-                  <td className="py-3 text-emerald-400 font-bold">${row.operatingCashFlow.toLocaleString()}</td>
-                  <td className="py-3 text-right text-purple-400 font-bold">${row.freeCashFlow.toLocaleString()}</td>
+              {data.cashFlow.length > 0 ? (
+                data.cashFlow.map((row) => (
+                  <tr key={row.period} className="hover:bg-foreground/5 font-mono">
+                    <td className="py-3 font-bold text-foreground">{row.period}</td>
+                    <td className="py-3 text-emerald-600 dark:text-emerald-400 font-bold">${row.operatingCashFlow.toLocaleString()}</td>
+                    <td className="py-3 text-right text-purple-600 dark:text-purple-400 font-bold">${row.freeCashFlow.toLocaleString()}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={3} className="py-4 text-center text-muted-foreground">Cash flow data unavailable for {symbol}.</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         )}
 
         {activeTab === 'quarterly' && (
           <table className="w-full text-left text-xs">
-            <thead className="border-b border-white/10 text-slate-400 uppercase">
+            <thead className="border-b border-border/50 text-muted-foreground uppercase">
               <tr>
                 <th className="pb-3 font-semibold">Quarter</th>
                 <th className="pb-3 font-semibold">Revenue ($M)</th>
@@ -147,15 +148,21 @@ export const StockFinancialsTabbed: React.FC<StockFinancialsTabbedProps> = () =>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
-              {data.quarterlyResults.map((row) => (
-                <tr key={row.quarter} className="hover:bg-white/5 font-mono">
-                  <td className="py-3 font-bold text-white">{row.quarter}</td>
-                  <td className="py-3 text-slate-200">${row.revenue.toLocaleString()}</td>
-                  <td className="py-3 text-emerald-400 font-bold">${row.profit.toLocaleString()}</td>
-                  <td className="py-3 text-purple-400">${row.eps}</td>
-                  <td className="py-3 text-right text-emerald-400 font-bold">+{row.growth}%</td>
+              {data.quarterlyResults.length > 0 ? (
+                data.quarterlyResults.map((row) => (
+                  <tr key={row.quarter} className="hover:bg-foreground/5 font-mono">
+                    <td className="py-3 font-bold text-foreground">{row.quarter}</td>
+                    <td className="py-3 text-slate-200">${row.revenue.toLocaleString()}</td>
+                    <td className="py-3 text-emerald-600 dark:text-emerald-400 font-bold">${row.profit.toLocaleString()}</td>
+                    <td className="py-3 text-purple-600 dark:text-purple-400">${row.eps}</td>
+                    <td className="py-3 text-right text-emerald-600 dark:text-emerald-400 font-bold">+{row.growth}%</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5} className="py-4 text-center text-muted-foreground">Quarterly results unavailable for {symbol}.</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         )}

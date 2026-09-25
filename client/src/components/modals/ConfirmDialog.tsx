@@ -27,7 +27,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title}>
       <div className="space-y-4">
-        <div className="flex items-start space-x-3 text-amber-400 bg-amber-500/10 p-3 rounded-xl border border-amber-500/20">
+        <div className="flex items-start space-x-3 text-amber-500 dark:text-amber-400 bg-amber-500/10 p-3 rounded-xl border border-amber-500/20">
           <AlertTriangle className="w-6 h-6 shrink-0 mt-0.5" />
           <p className="text-sm text-foreground/90">{message}</p>
         </div>

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   registerController,
   loginController,
+  googleAuthController,
   logoutController,
   refreshTokenController,
   forgotPasswordController,
@@ -10,6 +11,7 @@ import {
   resendVerificationController,
   googleAuthUrlController,
   googleCallbackController,
+  exchangeCodeController,
   getProfileController,
   updateProfileController,
   changePasswordController,
@@ -20,6 +22,7 @@ import { authenticateJWT } from '../middlewares/auth.middleware';
 import {
   registerSchema,
   loginSchema,
+  googleLoginSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
   updateProfileSchema,
@@ -31,6 +34,7 @@ const router = Router();
 // Public Authentication Endpoints
 router.post('/register', validateRequest(registerSchema), registerController);
 router.post('/login', validateRequest(loginSchema), loginController);
+router.post('/google', validateRequest(googleLoginSchema), googleAuthController);
 router.post('/logout', logoutController);
 router.post('/refresh-token', refreshTokenController);
 router.post('/forgot-password', validateRequest(forgotPasswordSchema), forgotPasswordController);
@@ -41,6 +45,7 @@ router.post('/resend-verification', resendVerificationController);
 // Google OAuth Endpoints
 router.get('/google', googleAuthUrlController);
 router.get('/google/callback', googleCallbackController);
+router.post('/google/exchange', exchangeCodeController);
 
 // Authenticated User Endpoints
 router.get('/profile', authenticateJWT, getProfileController);

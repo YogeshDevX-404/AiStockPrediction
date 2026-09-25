@@ -7,9 +7,9 @@ export const prisma = new PrismaClient({
 
 export const connectDatabase = async () => {
   try {
-    // In actual database connection phase: await prisma.$connect();
-    logger.info('Database ORM client initialized (Prisma schema ready)');
+    await prisma.$connect();
+    logger.info('✅ PostgreSQL database connected successfully via Prisma ORM');
   } catch (error) {
-    logger.error('Failed to connect to database', error);
+    logger.warn('⚠️ Could not connect to PostgreSQL server. Ensure PostgreSQL is running. Fallback error handlers active.', error);
   }
 };

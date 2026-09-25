@@ -22,7 +22,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           <div
             className={cn(
               'w-5 h-5 rounded-md border border-border bg-card/60 transition-all flex items-center justify-center',
-              checked && 'bg-primary border-primary text-white',
+              checked && 'bg-primary border-primary text-foreground',
               className
             )}
           >

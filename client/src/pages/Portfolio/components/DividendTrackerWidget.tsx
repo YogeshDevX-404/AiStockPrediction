@@ -13,28 +13,28 @@ export const DividendTrackerWidget: React.FC = () => {
 
   return (
     <GlassCard className="space-y-4">
-      <div className="flex items-center justify-between border-b border-white/10 pb-3">
+      <div className="flex items-center justify-between border-b border-border/50 pb-3">
         <div className="flex items-center space-x-2">
-          <DollarSign className="w-5 h-5 text-emerald-400" />
-          <h2 className="text-base font-bold font-display text-white">Dividend Tracker & Passive Income</h2>
+          <DollarSign className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+          <h2 className="text-base font-bold font-display text-foreground">Dividend Tracker & Passive Income</h2>
         </div>
         <Badge variant="emerald">EST YIELD 1.2%</Badge>
       </div>
 
       <div className="space-y-2.5 text-xs">
         {dividends.map((div, idx) => (
-          <div key={idx} className="p-3 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-between">
+          <div key={idx} className="p-3 rounded-2xl bg-foreground/5 border border-border/40 flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 font-mono font-bold flex items-center justify-center text-xs">
+              <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold flex items-center justify-center text-xs">
                 {div.symbol.slice(0, 2)}
               </div>
               <div>
-                <div className="font-bold text-white font-mono">{div.symbol}</div>
-                <div className="text-[10px] text-slate-400">Pay Date: {div.payDate}</div>
+                <div className="font-bold text-foreground font-mono">{div.symbol}</div>
+                <div className="text-[10px] text-muted-foreground">Pay Date: {div.payDate}</div>
               </div>
             </div>
             <div className="text-right">
-              <div className="font-bold text-emerald-400 font-mono">+{formatCurrency(div.amount)}</div>
+              <div className="font-bold text-emerald-600 dark:text-emerald-400 font-mono">+{formatCurrency(div.amount)}</div>
               <Badge variant={div.status === 'PAID' ? 'emerald' : 'amber'} className="text-[9px]">
                 {div.status}
               </Badge>

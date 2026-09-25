@@ -22,13 +22,13 @@ export const InferencePage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <Play className="w-6 h-6 text-emerald-400" />
-            <h1 className="text-2xl font-black font-display text-white">Probabilistic Inference & Prediction Workspace</h1>
+            <Play className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">Probabilistic Inference & Prediction Workspace</h1>
           </div>
-          <p className="text-xs text-slate-400">Generate multi-horizon statistical probability forecasts with 95% confidence intervals.</p>
+          <p className="text-xs text-muted-foreground">Generate multi-horizon statistical probability forecasts with 95% confidence intervals.</p>
         </div>
 
         <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="w-4 h-4" />} onClick={() => navigate('/ml')}>
@@ -39,12 +39,12 @@ export const InferencePage: React.FC = () => {
       <GlassCard className="p-6">
         <form onSubmit={handlePredict} className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
           <div className="space-y-1">
-            <label className="text-slate-400 font-bold">Stock Symbol Ticker</label>
+            <label className="text-muted-foreground font-bold">Stock Symbol Ticker</label>
             <input
               type="text"
               value={symbol}
               onChange={(e) => setSymbol(e.target.value.toUpperCase())}
-              className="w-full glass-panel border border-white/10 rounded-xl px-3 py-2 text-white font-mono placeholder:text-slate-500 focus:outline-none"
+              className="w-full glass-panel border border-border/50 rounded-xl px-3 py-2 text-foreground font-mono placeholder:text-muted-foreground focus:outline-none"
             />
           </div>
 

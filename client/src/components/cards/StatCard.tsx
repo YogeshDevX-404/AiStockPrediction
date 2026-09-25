@@ -25,7 +25,7 @@ export const StatCard: React.FC<StatCardProps> = ({
   const isPositive = change !== undefined && change >= 0;
 
   return (
-    <GlassCard glow className={cn('flex flex-col justify-between space-y-4', className)}>
+    <GlassCard glow className={cn('flex flex-col justify-between space-y-4 bg-card dark:bg-transparent shadow-sm', className)}>
       <div className="flex items-center justify-between">
         <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
           {title}
@@ -48,8 +48,8 @@ export const StatCard: React.FC<StatCardProps> = ({
               className={cn(
                 'inline-flex items-center font-bold px-2 py-0.5 rounded-full',
                 isPositive
-                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                  : 'bg-red-500/10 text-red-400 border border-red-500/20'
+                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
+                  : 'bg-red-500/10 text-red-600 dark:text-red-600 dark:text-red-400 border border-red-500/20'
               )}
             >
               {isPositive ? (

@@ -21,7 +21,7 @@ export const getPortfoliosController = async (req: Request, res: Response<ApiRes
 
 export const getPortfolioByIdController = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const portfolio = await getPortfolioByIdService(id);
     return res.status(200).json({ success: true, data: portfolio });
   } catch (error) {

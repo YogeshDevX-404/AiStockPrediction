@@ -19,16 +19,16 @@ export const CTASection: React.FC = () => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gradient-to-tr from-emerald-500/20 via-blue-500/20 to-purple-500/20 blur-[140px] pointer-events-none rounded-full" />
 
         <div className="relative z-10 space-y-4 max-w-3xl mx-auto">
-          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full glass-pill border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full glass-pill border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider">
             <Sparkles className="w-4 h-4" />
             <span>JOIN THE FUTURE OF QUANTITATIVE TRADING</span>
           </div>
 
-          <h2 className="text-4xl sm:text-6xl font-black font-display tracking-tight text-white leading-tight">
+          <h2 className="text-4xl sm:text-6xl font-black font-display tracking-tight text-foreground leading-tight">
             Ready to <span className="emerald-gradient-text">Trade Smarter?</span>
           </h2>
 
-          <p className="text-slate-300 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+          <p className="text-muted-foreground text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
             Start using autonomous AI market signals today. Create your free account in under 60 seconds.
           </p>
         </div>
@@ -46,8 +46,8 @@ export const CTASection: React.FC = () => {
           </Link>
         </div>
 
-        <div className="relative z-10 flex items-center justify-center space-x-6 text-xs text-slate-400 pt-4">
-          <span className="flex items-center"><ShieldCheck className="w-4 h-4 text-emerald-400 mr-1.5" /> No Credit Card Required</span>
+        <div className="relative z-10 flex items-center justify-center space-x-6 text-xs text-muted-foreground pt-4">
+          <span className="flex items-center"><ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400 mr-1.5" /> No Credit Card Required</span>
           <span>•</span>
           <span>Instant Setup</span>
           <span>•</span>

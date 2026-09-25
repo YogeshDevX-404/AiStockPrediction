@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { authenticateJWT } from '../middlewares/auth.middleware';
 import {
   getPortfoliosController,
   getPortfolioByIdController,
@@ -9,6 +10,8 @@ import {
 } from '../controllers/portfolio.controller';
 
 const router = Router();
+
+router.use(authenticateJWT);
 
 router.get('/', getPortfoliosController);
 router.get('/risk', getPortfolioRiskController);

@@ -12,10 +12,12 @@ export const validateRequest = (schema: ZodSchema) => {
       next();
     } catch (error) {
       if (error instanceof ZodError) {
+        const firstIssue = error.errors[0];
+        const customMessage = firstIssue?.message || 'Validation failed';
         return res.status(400).json({
           success: false,
-          message: 'Validation failed',
-          error: error.errors,
+          message: customMessage,
+          errors: error.errors,
         });
       }
       next(error);

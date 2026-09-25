@@ -15,13 +15,13 @@ export const CopilotHistoryPage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <History className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">Multi-Agent Conversation Audit Trail</h1>
+            <History className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">Multi-Agent Conversation Audit Trail</h1>
           </div>
-          <p className="text-xs text-slate-400">Execution history logging agent pipeline dispatches and synthesis confidence scores.</p>
+          <p className="text-xs text-muted-foreground">Execution history logging agent pipeline dispatches and synthesis confidence scores.</p>
         </div>
 
         <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="w-4 h-4" />} onClick={() => navigate('/copilot')}>
@@ -32,7 +32,7 @@ export const CopilotHistoryPage: React.FC = () => {
       <GlassCard className="p-5 space-y-4">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-mono">
-            <thead className="border-b border-white/10 text-slate-400 uppercase font-sans">
+            <thead className="border-b border-border/50 text-muted-foreground uppercase font-sans">
               <tr>
                 <th className="pb-3 font-semibold">User Query</th>
                 <th className="pb-3 font-semibold">Timestamp</th>
@@ -42,9 +42,9 @@ export const CopilotHistoryPage: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-white/5">
               {history.map((h) => (
-                <tr key={h.id} className="hover:bg-white/5">
-                  <td className="py-3 font-bold text-white font-sans">{h.query}</td>
-                  <td className="py-3 text-slate-300">{h.date}</td>
+                <tr key={h.id} className="hover:bg-foreground/5">
+                  <td className="py-3 font-bold text-foreground font-sans">{h.query}</td>
+                  <td className="py-3 text-muted-foreground">{h.date}</td>
                   <td className="py-3 text-purple-300 font-bold">{h.agents} Specialized Agents</td>
                   <td className="py-3 text-right font-sans font-bold">
                     <Badge variant="emerald">{h.confidence}% CONFIDENCE</Badge>

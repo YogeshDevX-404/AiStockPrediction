@@ -25,20 +25,20 @@ export const DashboardPreview: React.FC = () => {
         <Badge variant="blue" className="px-4 py-1 text-xs">
           COMMAND CENTER
         </Badge>
-        <h2 className="text-3xl sm:text-5xl font-black font-display text-white tracking-tight">
+        <h2 className="text-3xl sm:text-5xl font-black font-display text-foreground tracking-tight">
           Next-Generation <br />
           <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400 bg-clip-text text-transparent">
             Trader Operating System
           </span>
         </h2>
-        <p className="text-slate-400 text-base leading-relaxed">
+        <p className="text-muted-foreground text-base leading-relaxed">
           Everything you need to analyze, monitor, and execute positions in one unified interface.
         </p>
       </div>
 
       {/* Control Tabs */}
       <div className="flex justify-center">
-        <div className="glass-panel p-1.5 rounded-2xl flex space-x-2 border border-white/10">
+        <div className="glass-panel p-1.5 rounded-2xl flex space-x-2 border border-border/50">
           {[
             { id: 'overview', label: 'Portfolio & AI Signals' },
             { id: 'heatmap', label: 'Market Heatmap' },
@@ -49,8 +49,8 @@ export const DashboardPreview: React.FC = () => {
               onClick={() => setActiveTab(tab.id as any)}
               className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 activeTab === tab.id
-                  ? 'bg-gradient-to-r from-emerald-500 to-blue-600 text-white shadow-lg'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-gradient-to-r from-emerald-500 to-blue-600 text-foreground shadow-lg'
+                  : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {tab.label}
@@ -76,7 +76,7 @@ export const DashboardPreview: React.FC = () => {
                 value={formatCurrency(148920.45)}
                 change={2.35}
                 changePeriod="today"
-                icon={<PieChart className="w-5 h-5 text-emerald-400" />}
+                icon={<PieChart className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />}
               />
               <StatCard
                 title="Total Profit"
@@ -89,13 +89,13 @@ export const DashboardPreview: React.FC = () => {
                 title="AI Recommendation"
                 value="NVDA STRONG BUY"
                 badgeText="Target $155.00"
-                icon={<Zap className="w-5 h-5 text-purple-400" />}
+                icon={<Zap className="w-5 h-5 text-purple-600 dark:text-purple-400" />}
               />
               <StatCard
                 title="Risk Index"
                 value="2.1 / 10"
                 badgeText="Low Hazard"
-                icon={<ShieldCheck className="w-5 h-5 text-amber-400" />}
+                icon={<ShieldCheck className="w-5 h-5 text-amber-500 dark:text-amber-400" />}
               />
             </div>
 
@@ -105,13 +105,13 @@ export const DashboardPreview: React.FC = () => {
               <GlassCard className="lg:col-span-8 space-y-4 flex flex-col justify-between">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-base font-bold text-white font-display">Portfolio Equity Curve</h3>
-                    <p className="text-xs text-slate-400">Real-time performance benchmarked against S&P 500</p>
+                    <h3 className="text-base font-bold text-foreground font-display">Portfolio Equity Curve</h3>
+                    <p className="text-xs text-muted-foreground">Real-time performance benchmarked against S&P 500</p>
                   </div>
                   <Badge variant="emerald">+23.6% Alpha</Badge>
                 </div>
 
-                <div className="h-56 w-full relative flex items-end justify-between px-2 pt-6 pb-2 border-b border-white/10 overflow-hidden">
+                <div className="h-56 w-full relative flex items-end justify-between px-2 pt-6 pb-2 border-b border-border/50 overflow-hidden">
                   <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 500 150">
                     <path
                       d="M0,120 Q100,80 200,95 T350,30 T500,10 L500,150 L0,150 Z"
@@ -126,7 +126,7 @@ export const DashboardPreview: React.FC = () => {
                   </svg>
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-slate-400 pt-2">
+                <div className="flex items-center justify-between text-xs text-muted-foreground pt-2">
                   <span>Jan 2026</span>
                   <span>Mar 2026</span>
                   <span>May 2026</span>
@@ -138,8 +138,8 @@ export const DashboardPreview: React.FC = () => {
               <GlassCard className="lg:col-span-4 space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <Star className="w-4 h-4 text-amber-400" />
-                    <h3 className="text-base font-bold text-white font-display">Priority Watchlist</h3>
+                    <Star className="w-4 h-4 text-amber-500 dark:text-amber-400" />
+                    <h3 className="text-base font-bold text-foreground font-display">Priority Watchlist</h3>
                   </div>
                   <Badge variant="outline">4 ASSETS</Badge>
                 </div>
@@ -151,10 +151,10 @@ export const DashboardPreview: React.FC = () => {
                     { sym: 'TSLA', price: '$248.60', chg: '+4.25%', pos: true },
                     { sym: 'GOOGL', price: '$172.80', chg: '-0.45%', pos: false },
                   ].map((w) => (
-                    <div key={w.sym} className="p-3 rounded-xl glass-panel flex items-center justify-between hover:bg-white/5 transition-colors">
-                      <div className="font-extrabold text-sm text-white font-mono">{w.sym}</div>
-                      <div className="text-xs font-semibold text-slate-300">{w.price}</div>
-                      <span className={`text-xs font-bold ${w.pos ? 'text-emerald-400' : 'text-red-400'}`}>
+                    <div key={w.sym} className="p-3 rounded-xl glass-panel flex items-center justify-between hover:bg-foreground/5 transition-colors">
+                      <div className="font-extrabold text-sm text-foreground font-mono">{w.sym}</div>
+                      <div className="text-xs font-semibold text-muted-foreground">{w.price}</div>
+                      <span className={`text-xs font-bold ${w.pos ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`}>
                         {w.chg}
                       </span>
                     </div>
@@ -168,8 +168,8 @@ export const DashboardPreview: React.FC = () => {
         {activeTab === 'heatmap' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-bold text-white font-display flex items-center space-x-2">
-                <Flame className="w-5 h-5 text-amber-400" />
+              <h3 className="text-lg font-bold text-foreground font-display flex items-center space-x-2">
+                <Flame className="w-5 h-5 text-amber-500 dark:text-amber-400" />
                 <span>Sector Sentiment Market Heatmap</span>
               </h3>
               <Badge variant="purple">LIVE DEPTH</Badge>
@@ -178,23 +178,23 @@ export const DashboardPreview: React.FC = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="p-6 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-center space-y-1">
                 <div className="text-xs font-bold text-emerald-300">SEMICONDUCTORS</div>
-                <div className="text-2xl font-black text-emerald-400 font-display">+4.85%</div>
-                <div className="text-[10px] text-slate-300">NVDA, AMD, TSM</div>
+                <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-display">+4.85%</div>
+                <div className="text-[10px] text-muted-foreground">NVDA, AMD, TSM</div>
               </div>
               <div className="p-6 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-center space-y-1">
                 <div className="text-xs font-bold text-emerald-300">CLOUD & SAAS</div>
-                <div className="text-2xl font-black text-emerald-400 font-display">+2.40%</div>
-                <div className="text-[10px] text-slate-300">MSFT, AMZN, ORCL</div>
+                <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-display">+2.40%</div>
+                <div className="text-[10px] text-muted-foreground">MSFT, AMZN, ORCL</div>
               </div>
               <div className="p-6 rounded-2xl bg-red-500/20 border border-red-500/40 text-center space-y-1">
                 <div className="text-xs font-bold text-red-300">ENERGY & OIL</div>
-                <div className="text-2xl font-black text-red-400 font-display">-1.85%</div>
-                <div className="text-[10px] text-slate-300">XOM, CVX</div>
+                <div className="text-2xl font-black text-red-600 dark:text-red-400 font-display">-1.85%</div>
+                <div className="text-[10px] text-muted-foreground">XOM, CVX</div>
               </div>
               <div className="p-6 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-center space-y-1">
                 <div className="text-xs font-bold text-emerald-300">EV & AUTOMOTIVE</div>
-                <div className="text-2xl font-black text-emerald-400 font-display">+3.90%</div>
-                <div className="text-[10px] text-slate-300">TSLA, RIVN</div>
+                <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-display">+3.90%</div>
+                <div className="text-[10px] text-muted-foreground">TSLA, RIVN</div>
               </div>
             </div>
           </div>
@@ -203,33 +203,33 @@ export const DashboardPreview: React.FC = () => {
         {activeTab === 'analytics' && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <GlassCard className="space-y-4">
-              <h3 className="text-base font-bold text-white font-display">Value at Risk (VaR) Breakdown</h3>
+              <h3 className="text-base font-bold text-foreground font-display">Value at Risk (VaR) Breakdown</h3>
               <div className="space-y-3 text-xs">
                 <div className="flex justify-between">
-                  <span className="text-slate-400">99% Confidence 1-Day VaR</span>
-                  <span className="text-white font-bold">$1,240.00 (0.83%)</span>
+                  <span className="text-muted-foreground">99% Confidence 1-Day VaR</span>
+                  <span className="text-foreground font-bold">$1,240.00 (0.83%)</span>
                 </div>
-                <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
-                  <div className="bg-emerald-400 h-full w-[15%]" />
+                <div className="w-full bg-foreground/10 h-2 rounded-full overflow-hidden">
+                  <div className="bg-emerald-500 dark:bg-emerald-400 h-full w-[15%]" />
                 </div>
 
                 <div className="flex justify-between pt-2">
-                  <span className="text-slate-400">Sharpe Ratio</span>
-                  <span className="text-emerald-400 font-bold">2.84 (Exceptional)</span>
+                  <span className="text-muted-foreground">Sharpe Ratio</span>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-bold">2.84 (Exceptional)</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Sortino Ratio</span>
-                  <span className="text-emerald-400 font-bold">3.45</span>
+                  <span className="text-muted-foreground">Sortino Ratio</span>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-bold">3.45</span>
                 </div>
               </div>
             </GlassCard>
 
             <GlassCard className="space-y-4">
-              <h3 className="text-base font-bold text-white font-display">Neural Model Health Meter</h3>
+              <h3 className="text-base font-bold text-foreground font-display">Neural Model Health Meter</h3>
               <div className="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-center space-y-2">
-                <div className="text-3xl font-black text-purple-400 font-display">94.8%</div>
-                <div className="text-xs font-bold text-white">Prediction Signal Reliability</div>
-                <p className="text-[11px] text-slate-400">Trained on over 1.2 Billion market depth ticks.</p>
+                <div className="text-3xl font-black text-purple-600 dark:text-purple-400 font-display">94.8%</div>
+                <div className="text-xs font-bold text-foreground">Prediction Signal Reliability</div>
+                <p className="text-[11px] text-muted-foreground">Trained on over 1.2 Billion market depth ticks.</p>
               </div>
             </GlassCard>
           </div>

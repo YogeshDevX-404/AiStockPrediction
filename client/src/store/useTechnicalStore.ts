@@ -1,44 +1,88 @@
 import { create } from 'zustand';
+import { MarketApi } from '@/services/api/marketApi';
+import {
+  calculateRSI,
+  calculateMACD,
+  calculateEMA,
+  calculateSMA,
+  calculateVWAP,
+  calculateBollingerBands,
+  calculateSupportResistance,
+  determineOverallTrend,
+} from '@/utils/technicalAnalysis';
 
 export interface TechnicalIndicators {
-  rsi: { value: number; signal: 'OVERBOUGHT' | 'OVERSOLD' | 'NEUTRAL' };
-  macd: { value: number; signalLine: number; histogram: number; signal: 'BULLISH_CROSS' | 'BEARISH_CROSS' };
-  ema20: number;
-  ema50: number;
-  ema200: number;
-  sma50: number;
-  atr: number;
-  adx: { value: number; trendStrength: string };
-  vwap: number;
-  bollingerBands: { upper: number; middle: number; lower: number };
+  rsi: { value: number | null; signal: 'OVERBOUGHT' | 'OVERSOLD' | 'NEUTRAL' } | null;
+  macd: { value: number | null; signalLine: number | null; histogram: number | null; signal: 'BULLISH_CROSS' | 'BEARISH_CROSS' | 'NEUTRAL' } | null;
+  ema20: number | null;
+  ema50: number | null;
+  ema200: number | null;
+  sma50: number | null;
+  atr: number | null;
+  adx: { value: number | null; trendStrength: string } | null;
+  vwap: number | null;
+  bollingerBands: { upper: number; middle: number; lower: number } | null;
   supportLevels: number[];
   resistanceLevels: number[];
   overallTrend: 'STRONG_BULLISH' | 'BULLISH' | 'NEUTRAL' | 'BEARISH' | 'STRONG_BEARISH';
 }
 
 interface TechnicalState {
-  indicators: TechnicalIndicators;
-  fetchTechnicals: (symbol: string) => void;
+  indicators: TechnicalIndicators | null;
+  isLoading: boolean;
+  fetchTechnicals: (symbol: string) => Promise<void>;
 }
 
 export const useTechnicalStore = create<TechnicalState>((set) => ({
-  indicators: {
-    rsi: { value: 64.2, signal: 'NEUTRAL' },
-    macd: { value: 3.42, signalLine: 2.85, histogram: 0.57, signal: 'BULLISH_CROSS' },
-    ema20: 130.20,
-    ema50: 124.50,
-    ema200: 112.80,
-    sma50: 125.10,
-    atr: 4.82,
-    adx: { value: 34.5, trendStrength: 'STRONG_TREND' },
-    vwap: 131.80,
-    bollingerBands: { upper: 138.40, middle: 130.50, lower: 122.60 },
-    supportLevels: [128.50, 124.00, 118.20],
-    resistanceLevels: [136.00, 140.76, 145.00],
-    overallTrend: 'STRONG_BULLISH',
-  },
+  indicators: null,
+  isLoading: false,
 
-  fetchTechnicals: (symbol: string) => {
-    // Dynamic calculation simulation
+  fetchTechnicals: async (symbol: string) => {
+    try {
+      set({ isLoading: true });
+      const history = await MarketApi.getHistoricalData(symbol, '1D');
+      
+      if (!history || history.length === 0) {
+        set({ indicators: null, isLoading: false });
+        return;
+      }
+
+      const closes = history.map(d => d.close);
+      const latestClose = closes[closes.length - 1];
+
+      const rsi = calculateRSI(closes, 14);
+      const macd = calculateMACD(closes);
+      const ema20 = calculateEMA(closes, 20);
+      const ema50 = calculateEMA(closes, 50);
+      const ema200 = calculateEMA(closes, 200);
+      const sma50 = calculateSMA(closes, 50);
+      const vwap = calculateVWAP(history);
+      const bb = calculateBollingerBands(closes, 20, 2);
+      const sr = calculateSupportResistance(history);
+      
+      const overallTrend = determineOverallTrend(latestClose, ema20, ema50, ema200);
+
+      set({
+        indicators: {
+          rsi: rsi ? { value: rsi.value, signal: rsi.signal } : null,
+          macd: macd ? { value: macd.value, signalLine: macd.signalLine, histogram: macd.histogram, signal: macd.signal } : null,
+          ema20,
+          ema50,
+          ema200,
+          sma50,
+          atr: null, // Left null for now as not required
+          adx: null, // Left null for now as not required
+          vwap,
+          bollingerBands: bb ? { upper: bb.upper, middle: bb.middle, lower: bb.lower } : null,
+          supportLevels: sr.supportLevels,
+          resistanceLevels: sr.resistanceLevels,
+          overallTrend,
+        },
+        isLoading: false
+      });
+    } catch (error) {
+      console.error("Error fetching technicals:", error);
+      set({ indicators: null, isLoading: false });
+    }
   },
 }));

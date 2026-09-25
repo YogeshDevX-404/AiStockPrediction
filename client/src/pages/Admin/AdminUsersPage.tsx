@@ -16,13 +16,13 @@ export const AdminUsersPage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <Users className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">Platform User Management</h1>
+            <Users className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">Platform User Management</h1>
           </div>
-          <p className="text-xs text-slate-400">View user credentials, RBAC roles, subscription plans, and manage account statuses.</p>
+          <p className="text-xs text-muted-foreground">View user credentials, RBAC roles, subscription plans, and manage account statuses.</p>
         </div>
 
         <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="w-4 h-4" />} onClick={() => navigate('/admin')}>
@@ -33,7 +33,7 @@ export const AdminUsersPage: React.FC = () => {
       <GlassCard className="p-5 space-y-4">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-mono">
-            <thead className="border-b border-white/10 text-slate-400 uppercase font-sans">
+            <thead className="border-b border-border/50 text-muted-foreground uppercase font-sans">
               <tr>
                 <th className="pb-3 font-semibold">User Details</th>
                 <th className="pb-3 font-semibold">Role</th>
@@ -44,10 +44,10 @@ export const AdminUsersPage: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-white/5">
               {users.map((u) => (
-                <tr key={u.id} className="hover:bg-white/5">
+                <tr key={u.id} className="hover:bg-foreground/5">
                   <td className="py-3 font-sans">
-                    <div className="font-bold text-white">{u.fullName}</div>
-                    <div className="text-[11px] text-slate-400 font-mono">{u.email} • {u.country}</div>
+                    <div className="font-bold text-foreground">{u.fullName}</div>
+                    <div className="text-[11px] text-muted-foreground font-mono">{u.email} • {u.country}</div>
                   </td>
                   <td className="py-3 font-sans">
                     <Badge variant={u.role.includes('ADMIN') ? 'purple' : 'emerald'}>{u.role}</Badge>

@@ -28,18 +28,18 @@ export const BillingDashboardView: React.FC = () => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 glass-panel p-6 border-purple-500/20 bg-gradient-to-r from-purple-950/30 via-card to-emerald-950/20">
         <div>
           <div className="flex items-center space-x-2">
-            <CreditCard className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">SaaS Subscription & Billing Platform</h1>
+            <CreditCard className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">SaaS Subscription & Billing Platform</h1>
             <Badge variant="purple">{subscription.planTier} TIER ACTIVE</Badge>
           </div>
-          <p className="text-xs text-slate-400">Provider-agnostic payment gateway management, resource consumption, and invoice statements.</p>
+          <p className="text-xs text-muted-foreground">Provider-agnostic payment gateway management, resource consumption, and invoice statements.</p>
         </div>
 
         <div className="flex items-center space-x-2 w-full sm:w-auto">
           <Button variant="accent" size="sm" leftIcon={<Sparkles className="w-4 h-4" />} onClick={() => navigate('/pricing')}>
             Upgrade Plan
           </Button>
-          <Button variant="glass" size="sm" leftIcon={<FileText className="w-4 h-4 text-emerald-400" />} onClick={() => navigate('/billing/invoices')}>
+          <Button variant="glass" size="sm" leftIcon={<FileText className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />} onClick={() => navigate('/billing/invoices')}>
             Invoices
           </Button>
         </div>
@@ -49,18 +49,18 @@ export const BillingDashboardView: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <GlassCard glow className="p-6 space-y-4 border-purple-500/30">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-black text-white font-display">Active Plan & Entitlements</h2>
+            <h2 className="text-lg font-black text-foreground font-display">Active Plan & Entitlements</h2>
             <Badge variant="emerald">{subscription.status}</Badge>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white/5 space-y-2 text-xs">
+          <div className="p-4 rounded-2xl bg-foreground/5 space-y-2 text-xs">
             <div className="flex justify-between font-mono">
-              <span className="text-slate-400">Current Billing Cycle End:</span>
-              <span className="text-white font-bold">{new Date(subscription.currentPeriodEnd).toLocaleDateString()}</span>
+              <span className="text-muted-foreground">Current Billing Cycle End:</span>
+              <span className="text-foreground font-bold">{new Date(subscription.currentPeriodEnd).toLocaleDateString()}</span>
             </div>
             <div className="flex justify-between font-mono">
-              <span className="text-slate-400">Payment Gateway Adapter:</span>
-              <span className="text-purple-400 font-bold">{subscription.providerName} Provider</span>
+              <span className="text-muted-foreground">Payment Gateway Adapter:</span>
+              <span className="text-purple-600 dark:text-purple-400 font-bold">{subscription.providerName} Provider</span>
             </div>
           </div>
 

@@ -14,7 +14,7 @@ export const MobileBottomNav: React.FC = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-[#050816]/95 border-t border-white/10 backdrop-blur-lg px-2 py-2 lg:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-[#050816]/95 border-t border-border/50 backdrop-blur-lg px-2 py-2 lg:hidden">
       <div className="flex items-center justify-around">
         {items.map((item) => (
           <NavLink
@@ -23,7 +23,7 @@ export const MobileBottomNav: React.FC = () => {
             className={({ isActive }) =>
               cn(
                 'flex flex-col items-center space-y-1 px-3 py-1 rounded-xl text-[10px] font-bold transition-all',
-                isActive ? 'text-primary' : 'text-slate-400 hover:text-white'
+                isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
               )
             }
           >

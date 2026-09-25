@@ -53,10 +53,10 @@ export const FAQSection: React.FC = () => {
         <Badge variant="emerald" className="px-4 py-1 text-xs">
           GOT QUESTIONS?
         </Badge>
-        <h2 className="text-3xl sm:text-5xl font-black font-display text-white tracking-tight">
+        <h2 className="text-3xl sm:text-5xl font-black font-display text-foreground tracking-tight">
           Frequently Asked Questions
         </h2>
-        <p className="text-slate-400 text-base leading-relaxed">
+        <p className="text-muted-foreground text-base leading-relaxed">
           Everything you need to know about TradeGenius AI technology, pricing, and execution.
         </p>
       </div>
@@ -67,18 +67,18 @@ export const FAQSection: React.FC = () => {
           return (
             <GlassCard
               key={idx}
-              className="p-5 border border-white/10 rounded-2xl bg-[#070b1a]/80 cursor-pointer transition-all duration-200 hover:border-emerald-500/30"
+              className="p-5 border border-border/50 rounded-2xl bg-[#070b1a]/80 cursor-pointer transition-all duration-200 hover:border-emerald-500/30"
               onClick={() => setOpenIdx(isOpen ? null : idx)}
             >
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3 text-sm sm:text-base font-bold text-white font-display">
-                  <HelpCircle className="w-5 h-5 text-emerald-400 shrink-0" />
+                <div className="flex items-center space-x-3 text-sm sm:text-base font-bold text-foreground font-display">
+                  <HelpCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <span>{faq.question}</span>
                 </div>
                 <motion.div
                   animate={{ rotate: isOpen ? 180 : 0 }}
                   transition={{ duration: 0.2 }}
-                  className="text-slate-400 p-1"
+                  className="text-muted-foreground p-1"
                 >
                   <ChevronDown className="w-5 h-5" />
                 </motion.div>
@@ -93,7 +93,7 @@ export const FAQSection: React.FC = () => {
                     transition={{ duration: 0.25 }}
                     className="overflow-hidden"
                   >
-                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed pt-4 border-t border-white/5 mt-3 font-sans">
+                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed pt-4 border-t border-border/40 mt-3 font-sans">
                       {faq.answer}
                     </p>
                   </motion.div>

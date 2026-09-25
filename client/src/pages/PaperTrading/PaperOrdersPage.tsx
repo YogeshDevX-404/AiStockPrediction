@@ -16,13 +16,13 @@ export const PaperOrdersPage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <ShoppingCart className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">Simulated Order Book</h1>
+            <ShoppingCart className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">Simulated Order Book</h1>
           </div>
-          <p className="text-xs text-slate-400">Order queue status displaying Pending, Executed, and Cancelled virtual orders.</p>
+          <p className="text-xs text-muted-foreground">Order queue status displaying Pending, Executed, and Cancelled virtual orders.</p>
         </div>
 
         <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="w-4 h-4" />} onClick={() => navigate('/paper-trading')}>
@@ -33,7 +33,7 @@ export const PaperOrdersPage: React.FC = () => {
       <GlassCard className="p-5 space-y-4">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-mono">
-            <thead className="border-b border-white/10 text-slate-400 uppercase font-sans">
+            <thead className="border-b border-border/50 text-muted-foreground uppercase font-sans">
               <tr>
                 <th className="pb-3 font-semibold">Symbol</th>
                 <th className="pb-3 font-semibold">Side</th>
@@ -46,14 +46,14 @@ export const PaperOrdersPage: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-white/5">
               {orders.map((ord) => (
-                <tr key={ord.id} className="hover:bg-white/5">
-                  <td className="py-3 font-bold text-white">${ord.symbol}</td>
+                <tr key={ord.id} className="hover:bg-foreground/5">
+                  <td className="py-3 font-bold text-foreground">${ord.symbol}</td>
                   <td className="py-3 font-sans">
                     <Badge variant={ord.side === 'BUY' ? 'emerald' : 'red'}>{ord.side}</Badge>
                   </td>
-                  <td className="py-3 text-slate-300 font-bold">{ord.orderType}</td>
-                  <td className="py-3 text-slate-300">{ord.quantity}</td>
-                  <td className="py-3 text-white font-bold">${ord.price}</td>
+                  <td className="py-3 text-muted-foreground font-bold">{ord.orderType}</td>
+                  <td className="py-3 text-muted-foreground">{ord.quantity}</td>
+                  <td className="py-3 text-foreground font-bold">${ord.price}</td>
                   <td className="py-3 font-sans">
                     <Badge variant={ord.status === 'EXECUTED' ? 'emerald' : ord.status === 'PENDING' ? 'purple' : 'red'}>
                       {ord.status}
@@ -63,7 +63,7 @@ export const PaperOrdersPage: React.FC = () => {
                     {ord.status === 'PENDING' && (
                       <button
                         onClick={() => cancelOrder(ord.id)}
-                        className="p-1 text-slate-400 hover:text-red-400 cursor-pointer"
+                        className="p-1 text-muted-foreground hover:text-red-600 dark:text-red-400 cursor-pointer"
                         title="Cancel Order"
                       >
                         <XCircle className="w-4 h-4" />

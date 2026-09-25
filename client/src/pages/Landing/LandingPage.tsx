@@ -15,7 +15,7 @@ import { LandingFooter } from './components/LandingFooter';
 
 export const LandingPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[#050816] text-white selection:bg-emerald-500/30 font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-[#050816] text-foreground selection:bg-emerald-500/30 font-sans overflow-x-hidden">
       {/* Global Sticky Navbar */}
       <LandingNavbar />
 

@@ -40,11 +40,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ghost:
         'bg-transparent hover:bg-muted text-foreground focus:ring-muted',
       glass:
-        'glass-pill text-foreground hover:bg-white/10 dark:hover:bg-white/15 border border-white/10 shadow-md',
+        'glass-pill text-foreground hover:bg-foreground/10 dark:hover:bg-foreground/15 border border-border/50 shadow-md',
       outline:
         'border border-border bg-transparent hover:bg-muted text-foreground focus:ring-border',
       danger:
-        'bg-danger text-white hover:bg-red-600 shadow-lg shadow-red-950/30 focus:ring-red-500',
+        'bg-danger text-foreground hover:bg-red-600 shadow-lg shadow-red-950/30 focus:ring-red-500',
     };
 
     const sizes = {

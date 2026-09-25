@@ -115,25 +115,23 @@ export interface PerformanceReturnItem {
 export const PortfolioApi = {
   getSummary: async (): Promise<{ summary: PortfolioSummary; holdings: HoldingItem[] }> => {
     const response: any = await apiClient.get('/portfolio');
-    const summaryData: PortfolioSummary = response.data?.[0] || {
-      id: 'p1',
+    const rawPortfolio = Array.isArray(response.data) ? response.data[0] : response.data?.summary || response.data;
+    const summaryData: PortfolioSummary = rawPortfolio || {
+      id: 'p_empty',
       name: 'Primary Portfolio',
       isDefault: true,
-      cashBalance: 10000.0,
-      totalValue: 17084.0,
-      totalInvestment: 14260.0,
-      todayProfit: 245.5,
-      todayProfitPercent: 1.45,
-      overallProfit: 2824.0,
-      overallProfitPercent: 19.8,
-      totalHoldings: 2,
-      riskScore: 2.1,
-      diversificationScore: 88,
+      cashBalance: 0.0,
+      totalValue: 0.0,
+      totalInvestment: 0.0,
+      todayProfit: 0.0,
+      todayProfitPercent: 0.0,
+      overallProfit: 0.0,
+      overallProfitPercent: 0.0,
+      totalHoldings: 0,
+      riskScore: 0,
+      diversificationScore: 0,
     };
-    const holdingsData: HoldingItem[] = [
-      { id: 'h1', symbol: 'NVDA', name: 'NVIDIA Corp', exchange: 'NASDAQ', quantity: 20, avgBuyPrice: 110.0, currentPrice: 135.5, totalValue: 2710.0, profit: 510.0, profitPercent: 23.18, changePercent: 4.25, broker: 'Manual', notes: '', purchaseDate: '2026-01-15', signal: 'STRONG_BUY' },
-      { id: 'h2', symbol: 'AAPL', name: 'Apple Inc', exchange: 'NASDAQ', quantity: 15, avgBuyPrice: 205.0, currentPrice: 224.3, totalValue: 3364.5, profit: 289.5, profitPercent: 9.41, changePercent: 0.95, broker: 'Manual', notes: '', purchaseDate: '2026-02-01', signal: 'BUY' },
-    ];
+    const holdingsData: HoldingItem[] = rawPortfolio?.holdings || response.data?.holdings || [];
     return { summary: summaryData, holdings: holdingsData };
   },
 
@@ -149,9 +147,7 @@ export const PortfolioApi = {
 
   getHistory: async (): Promise<TransactionItem[]> => {
     const response: any = await apiClient.get('/portfolio/history');
-    return response.data || [
-      { id: 'tx1', symbol: 'NVDA', type: 'BUY', quantity: 20, price: 110.0, totalAmount: 2200.0, broker: 'Manual', timestamp: '2026-01-15T10:00:00Z' },
-    ];
+    return response.data || [];
   },
 
   getRiskMetrics: async (): Promise<PortfolioRiskMetrics> => {

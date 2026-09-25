@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { authenticateJWT } from '../middlewares/auth.middleware';
 import {
   getAlertRulesController,
   createAlertRuleController,
@@ -7,6 +8,8 @@ import {
 } from '../controllers/alerts.controller';
 
 const router = Router();
+
+router.use(authenticateJWT);
 
 router.get('/', getAlertRulesController);
 router.post('/', createAlertRuleController);

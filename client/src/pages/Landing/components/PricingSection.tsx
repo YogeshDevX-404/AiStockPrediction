@@ -75,11 +75,11 @@ export const PricingSection: React.FC = () => {
         <Badge variant="emerald" className="px-4 py-1 text-xs">
           TRANSPARENT PRICING
         </Badge>
-        <h2 className="text-3xl sm:text-5xl font-black font-display text-white tracking-tight">
+        <h2 className="text-3xl sm:text-5xl font-black font-display text-foreground tracking-tight">
           Invest in Your <br />
           <span className="emerald-gradient-text">Unfair Advantage</span>
         </h2>
-        <p className="text-slate-400 text-base leading-relaxed">
+        <p className="text-muted-foreground text-base leading-relaxed">
           No hidden fees. Cancel anytime with a 100% 30-day money-back guarantee.
         </p>
       </div>
@@ -99,7 +99,7 @@ export const PricingSection: React.FC = () => {
               className={`w-full p-8 rounded-[32px] flex flex-col justify-between space-y-8 relative overflow-hidden transition-all duration-300 ${
                 tier.highlight
                   ? 'border-2 border-emerald-500/60 bg-gradient-to-b from-emerald-950/40 via-[#0a1226] to-[#060914] shadow-2xl shadow-emerald-950/50 -translate-y-2'
-                  : 'border border-white/10 bg-[#070b1a]/70 hover:border-white/20'
+                  : 'border border-border/50 bg-[#070b1a]/70 hover:border-border'
               }`}
             >
               {tier.highlight && (
@@ -110,21 +110,21 @@ export const PricingSection: React.FC = () => {
 
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-black font-display text-white">{tier.name}</h3>
-                  <p className="text-xs text-slate-400 min-h-[36px]">{tier.description}</p>
+                  <h3 className="text-2xl font-black font-display text-foreground">{tier.name}</h3>
+                  <p className="text-xs text-muted-foreground min-h-[36px]">{tier.description}</p>
                 </div>
 
                 <div className="flex items-baseline space-x-2">
-                  <span className="text-4xl sm:text-5xl font-black font-display text-white">{tier.price}</span>
-                  <span className="text-xs font-semibold text-slate-400">/{tier.period}</span>
+                  <span className="text-4xl sm:text-5xl font-black font-display text-foreground">{tier.price}</span>
+                  <span className="text-xs font-semibold text-muted-foreground">/{tier.period}</span>
                 </div>
 
-                <div className="border-t border-white/10 pt-6 space-y-3">
-                  <div className="text-xs font-bold text-slate-300 uppercase tracking-wider">Included Features:</div>
-                  <ul className="space-y-2.5 text-xs text-slate-300">
+                <div className="border-t border-border/50 pt-6 space-y-3">
+                  <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Included Features:</div>
+                  <ul className="space-y-2.5 text-xs text-muted-foreground">
                     {tier.features.map((feat, fIdx) => (
                       <li key={fIdx} className="flex items-start space-x-2.5">
-                        <div className={`p-0.5 rounded-full shrink-0 mt-0.5 ${tier.highlight ? 'bg-emerald-500 text-slate-950' : 'bg-white/10 text-emerald-400'}`}>
+                        <div className={`p-0.5 rounded-full shrink-0 mt-0.5 ${tier.highlight ? 'bg-emerald-500 text-slate-950' : 'bg-foreground/10 text-emerald-600 dark:text-emerald-400'}`}>
                           <Check className="w-3.5 h-3.5 stroke-[3]" />
                         </div>
                         <span>{feat}</span>

@@ -16,13 +16,13 @@ export const StrategyHistoryPage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <History className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">Backtest History Audit & Multi-Strategy Comparison</h1>
+            <History className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">Backtest History Audit & Multi-Strategy Comparison</h1>
           </div>
-          <p className="text-xs text-slate-400">Benchmark multiple strategies across Sharpe Ratio, Win Rate, and Max Drawdown metrics.</p>
+          <p className="text-xs text-muted-foreground">Benchmark multiple strategies across Sharpe Ratio, Win Rate, and Max Drawdown metrics.</p>
         </div>
 
         <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="w-4 h-4" />} onClick={() => navigate('/strategy')}>
@@ -31,10 +31,10 @@ export const StrategyHistoryPage: React.FC = () => {
       </div>
 
       <GlassCard className="p-5 space-y-4">
-        <h2 className="text-base font-bold text-white font-display border-b border-white/10 pb-3">Strategy Performance Matrix</h2>
+        <h2 className="text-base font-bold text-foreground font-display border-b border-border/50 pb-3">Strategy Performance Matrix</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-mono">
-            <thead className="border-b border-white/10 text-slate-400 uppercase font-sans">
+            <thead className="border-b border-border/50 text-muted-foreground uppercase font-sans">
               <tr>
                 <th className="pb-3 font-semibold">Strategy Name</th>
                 <th className="pb-3 font-semibold">Symbol</th>
@@ -45,10 +45,10 @@ export const StrategyHistoryPage: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-white/5">
               {strategies.map((s) => (
-                <tr key={s.id} className="hover:bg-white/5">
-                  <td className="py-3 font-bold text-white font-sans">{s.name}</td>
+                <tr key={s.id} className="hover:bg-foreground/5">
+                  <td className="py-3 font-bold text-foreground font-sans">{s.name}</td>
                   <td className="py-3 text-purple-300 font-bold">${s.symbol}</td>
-                  <td className="py-3 text-emerald-400 font-bold">{s.winRate}%</td>
+                  <td className="py-3 text-emerald-600 dark:text-emerald-400 font-bold">{s.winRate}%</td>
                   <td className="py-3 text-blue-400 font-bold">{s.sharpeRatio}</td>
                   <td className="py-3 text-right font-sans font-bold">
                     <Badge variant="emerald">+{s.netProfitPercent}%</Badge>

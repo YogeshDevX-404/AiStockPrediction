@@ -8,8 +8,17 @@ export const authenticateJWT = (req: AuthRequest, res: Response, next: NextFunct
   if (authHeader && authHeader.startsWith('Bearer ')) {
     const token = authHeader.split(' ')[1];
     try {
-      const decoded = verifyToken(token) as AuthenticatedUser;
-      req.user = decoded;
+      const decoded = verifyToken(token) as any;
+      const uid = decoded.userId || decoded.id;
+      if (!uid) {
+        return res.status(401).json({ success: false, message: 'Invalid token payload' });
+      }
+      req.user = {
+        id: uid,
+        userId: uid,
+        email: decoded.email || '',
+        role: decoded.role || 'USER',
+      };
       return next();
     } catch {
       return res.status(401).json({ success: false, message: 'Invalid or expired token' });

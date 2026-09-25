@@ -9,7 +9,7 @@ import {
 
 export const getPatternsForSymbolController = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   try {
-    const { symbol } = req.params;
+    const symbol = req.params.symbol as string;
     const patterns = await getPatternsForSymbolService(symbol);
     return res.status(200).json({ success: true, data: patterns });
   } catch (error) {

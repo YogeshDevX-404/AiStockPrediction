@@ -28,6 +28,9 @@ export const AuthService = {
   getGoogleAuthUrl: async () => {
     return apiClient.get('/auth/google');
   },
+  exchangeGoogleCode: async (code: string) => {
+    return apiClient.post('/auth/google/exchange', { code });
+  },
   getProfile: async () => {
     return apiClient.get('/auth/profile');
   },

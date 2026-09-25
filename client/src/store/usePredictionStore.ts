@@ -12,68 +12,7 @@ interface PredictionStoreState {
 }
 
 export const usePredictionStore = create<PredictionStoreState>((set, get) => ({
-  predictions: [
-    {
-      id: 'p1',
-      symbol: 'NVDA',
-      name: 'NVIDIA Corporation',
-      currentPrice: 132.40,
-      entryPrice: 130.50,
-      targetPrice: 155.00,
-      stopLoss: 124.00,
-      confidenceScore: 94.8,
-      signal: 'STRONG_BUY',
-      timeframe: '1D',
-      riskLevel: 'LOW',
-      riskRewardRatio: 2.5,
-      rationale: [
-        'RSI (14) at 64.2 confirms bullish momentum above neutral 50 centerline.',
-        'MACD histogram generated a bullish crossover above signal line on 4H timeframe.',
-        'Price trades comfortably above 20-day and 50-day EMA support levels.',
-        'Institutional volume spike measured at 2.4x historical 20-day average.',
-        'Order book depth reveals $128.50 key resistance converted into strong support zone.',
-      ],
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: 'p2',
-      symbol: 'AAPL',
-      name: 'Apple Inc.',
-      currentPrice: 224.50,
-      entryPrice: 222.00,
-      targetPrice: 245.00,
-      stopLoss: 215.00,
-      confidenceScore: 88.5,
-      signal: 'BUY',
-      timeframe: '1D',
-      riskLevel: 'LOW',
-      riskRewardRatio: 3.2,
-      rationale: [
-        'Quarterly services revenue growth trend acceleration.',
-        'Volume breakout above 50-day moving average.',
-      ],
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: 'p3',
-      symbol: 'TSLA',
-      name: 'Tesla, Inc.',
-      currentPrice: 248.60,
-      entryPrice: 245.00,
-      targetPrice: 280.00,
-      stopLoss: 232.00,
-      confidenceScore: 91.2,
-      signal: 'STRONG_BUY',
-      timeframe: '4H',
-      riskLevel: 'MEDIUM',
-      riskRewardRatio: 2.7,
-      rationale: [
-        'Robotaxi event catalyst accumulation.',
-        'Short interest squeeze threshold crossed.',
-      ],
-      updatedAt: new Date().toISOString(),
-    },
-  ],
+  predictions: [],
   activeTimeframeFilter: '1D',
   isLoading: false,
 
@@ -92,7 +31,23 @@ export const usePredictionStore = create<PredictionStoreState>((set, get) => ({
   },
 
   fetchFeaturedPredictions: async () => {
-    // Featured fetch
+    try {
+      set({ isLoading: true });
+      const symbols = ['NVDA', 'AAPL', 'TSLA'];
+      const results = await Promise.all(
+        symbols.map(async (s) => {
+          try {
+            return await PredictionApi.getPrediction(s);
+          } catch {
+            return null;
+          }
+        })
+      );
+      const valid = results.filter((p): p is DetailedPrediction => p !== null);
+      set({ predictions: valid, isLoading: false });
+    } catch {
+      set({ isLoading: false });
+    }
   },
 
   analyzeSymbolOnDemand: async (symbol) => {

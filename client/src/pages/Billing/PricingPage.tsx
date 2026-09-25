@@ -26,14 +26,14 @@ export const PricingPage: React.FC = () => {
       {/* Header */}
       <div className="text-center space-y-3">
         <Badge variant="purple">FLEXIBLE SAAS PRICING TIERS</Badge>
-        <h1 className="text-3xl font-black font-display text-white">Unlock Enterprise AI Quant Intelligence</h1>
-        <p className="text-xs text-slate-400 max-w-lg mx-auto">
+        <h1 className="text-3xl font-black font-display text-foreground">Unlock Enterprise AI Quant Intelligence</h1>
+        <p className="text-xs text-muted-foreground max-w-lg mx-auto">
           Select the optimal plan tier designed for individual retail traders, algorithmic quants, and institutional funds.
         </p>
 
         {/* Monthly vs Yearly Toggle */}
         <div className="flex items-center justify-center space-x-3 pt-2">
-          <span className={`text-xs font-bold ${billingCycle === 'MONTHLY' ? 'text-white' : 'text-slate-400'}`}>Monthly</span>
+          <span className={`text-xs font-bold ${billingCycle === 'MONTHLY' ? 'text-foreground' : 'text-muted-foreground'}`}>Monthly</span>
           <button
             onClick={() => setBillingCycle(billingCycle === 'MONTHLY' ? 'YEARLY' : 'MONTHLY')}
             className="w-12 h-6 rounded-full bg-purple-600/40 p-1 flex items-center transition-all cursor-pointer"
@@ -41,7 +41,7 @@ export const PricingPage: React.FC = () => {
             <div className={`w-4 h-4 rounded-full bg-purple-400 transition-all ${billingCycle === 'YEARLY' ? 'translate-x-6' : ''}`} />
           </button>
           <div className="flex items-center space-x-1">
-            <span className={`text-xs font-bold ${billingCycle === 'YEARLY' ? 'text-white' : 'text-slate-400'}`}>Yearly</span>
+            <span className={`text-xs font-bold ${billingCycle === 'YEARLY' ? 'text-foreground' : 'text-muted-foreground'}`}>Yearly</span>
             <Badge variant="emerald">SAVE 20%</Badge>
           </div>
         </div>

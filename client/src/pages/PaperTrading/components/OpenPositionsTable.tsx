@@ -11,10 +11,10 @@ export const OpenPositionsTable: React.FC = () => {
 
   return (
     <GlassCard className="p-5 space-y-4">
-      <h2 className="text-base font-bold text-white font-display border-b border-white/10 pb-3">Open Virtual Positions</h2>
+      <h2 className="text-base font-bold text-foreground font-display border-b border-border/50 pb-3">Open Virtual Positions</h2>
       <div className="overflow-x-auto">
         <table className="w-full text-left text-xs font-mono">
-          <thead className="border-b border-white/10 text-slate-400 uppercase font-sans">
+          <thead className="border-b border-border/50 text-muted-foreground uppercase font-sans">
             <tr>
               <th className="pb-3 font-semibold">Symbol</th>
               <th className="pb-3 font-semibold">Qty</th>
@@ -25,11 +25,11 @@ export const OpenPositionsTable: React.FC = () => {
           </thead>
           <tbody className="divide-y divide-white/5">
             {positions.map((pos) => (
-              <tr key={pos.id} className="hover:bg-white/5">
-                <td className="py-3 font-bold text-white">${pos.symbol}</td>
-                <td className="py-3 text-slate-300">{pos.quantity}</td>
-                <td className="py-3 text-slate-300">{formatCurrency(pos.avgBuyPrice)}</td>
-                <td className="py-3 text-white font-bold">{formatCurrency(pos.currentPrice)}</td>
+              <tr key={pos.id} className="hover:bg-foreground/5">
+                <td className="py-3 font-bold text-foreground">${pos.symbol}</td>
+                <td className="py-3 text-muted-foreground">{pos.quantity}</td>
+                <td className="py-3 text-muted-foreground">{formatCurrency(pos.avgBuyPrice)}</td>
+                <td className="py-3 text-foreground font-bold">{formatCurrency(pos.currentPrice)}</td>
                 <td className="py-3 text-right font-sans font-bold">
                   <Badge variant="emerald">+{formatCurrency(pos.pnl)} (+{pos.pnlPercent}%)</Badge>
                 </td>

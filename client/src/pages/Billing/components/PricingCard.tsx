@@ -26,23 +26,23 @@ export const PricingCard: React.FC<PricingCardProps> = ({ plan, isYearly, curren
     >
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-black text-white font-display">{plan.title}</h2>
+          <h2 className="text-xl font-black text-foreground font-display">{plan.title}</h2>
           {isPopular && <Badge variant="purple">MOST POPULAR</Badge>}
           {isCurrent && <Badge variant="emerald">CURRENT PLAN</Badge>}
         </div>
 
-        <p className="text-xs text-slate-400">{plan.description}</p>
+        <p className="text-xs text-muted-foreground">{plan.description}</p>
 
         <div className="flex items-baseline space-x-1 font-mono">
-          <span className="text-4xl font-black text-white">${price}</span>
-          <span className="text-xs text-slate-400 font-sans">/ month</span>
+          <span className="text-4xl font-black text-foreground">${price}</span>
+          <span className="text-xs text-muted-foreground font-sans">/ month</span>
         </div>
 
-        <div className="space-y-2 border-t border-white/10 pt-4 text-xs">
+        <div className="space-y-2 border-t border-border/50 pt-4 text-xs">
           {plan.features.map((feat, idx) => (
             <div key={idx} className="flex items-start space-x-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-              <span className="text-slate-300">{feat}</span>
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+              <span className="text-muted-foreground">{feat}</span>
             </div>
           ))}
         </div>

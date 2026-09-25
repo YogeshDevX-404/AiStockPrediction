@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { authenticateJWT } from '../middlewares/auth.middleware';
 import {
   getNotificationsController,
   markNotificationsReadController,
@@ -8,6 +9,8 @@ import {
 } from '../controllers/notifications.controller';
 
 const router = Router();
+
+router.use(authenticateJWT);
 
 router.get('/feed', getNotificationsController);
 router.put('/read', markNotificationsReadController);

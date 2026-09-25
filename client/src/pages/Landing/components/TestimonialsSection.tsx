@@ -72,13 +72,13 @@ export const TestimonialsSection: React.FC = () => {
         <Badge variant="purple" className="px-4 py-1 text-xs">
           COMMUNITY PROOF
         </Badge>
-        <h2 className="text-3xl sm:text-5xl font-black font-display text-white tracking-tight">
+        <h2 className="text-3xl sm:text-5xl font-black font-display text-foreground tracking-tight">
           Trusted by Quantitative Funds & <br />
           <span className="bg-gradient-to-r from-purple-400 to-emerald-400 bg-clip-text text-transparent">
             Over 50,000 Traders WorldWide
           </span>
         </h2>
-        <p className="text-slate-400 text-base leading-relaxed">
+        <p className="text-muted-foreground text-base leading-relaxed">
           Here is what institutional money managers and retail traders say about TradeGenius AI.
         </p>
       </div>
@@ -92,23 +92,23 @@ export const TestimonialsSection: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: idx * 0.08 }}
           >
-            <GlassCard className="p-6 h-full border border-white/10 hover:border-purple-500/30 rounded-[24px] bg-[#070b1a]/80 space-y-4 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1">
+            <GlassCard className="p-6 h-full border border-border/50 hover:border-purple-500/30 rounded-[24px] bg-[#070b1a]/80 space-y-4 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1">
               <div className="space-y-3">
-                <div className="flex items-center space-x-1 text-amber-400">
+                <div className="flex items-center space-x-1 text-amber-500 dark:text-amber-400">
                   {Array.from({ length: t.rating }).map((_, i) => (
                     <Star key={i} className="w-4 h-4 fill-amber-400" />
                   ))}
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed italic font-sans">
+                <p className="text-xs text-muted-foreground leading-relaxed italic font-sans">
                   "{t.review}"
                 </p>
               </div>
 
-              <div className="flex items-center space-x-3 pt-4 border-t border-white/5">
+              <div className="flex items-center space-x-3 pt-4 border-t border-border/40">
                 <Avatar src={t.avatar} name={t.name} size="md" />
                 <div>
-                  <div className="text-sm font-bold text-white font-display">{t.name}</div>
-                  <div className="text-[11px] text-slate-400">{t.role} • {t.company}</div>
+                  <div className="text-sm font-bold text-foreground font-display">{t.name}</div>
+                  <div className="text-[11px] text-muted-foreground">{t.role} • {t.company}</div>
                 </div>
               </div>
             </GlassCard>

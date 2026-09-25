@@ -8,71 +8,61 @@ import { Checkbox } from '@/components/inputs/Checkbox';
 import { TrendingUp, Mail, Lock, ArrowRight, Sparkles } from 'lucide-react';
 import { ROUTES } from '@/constants';
 import { useAuthStore } from '@/store/useAuthStore';
+import { apiClient } from '@/api';
 import { toast } from 'react-hot-toast';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuthStore();
-  const [email, setEmail] = useState('alex.investor@tradegenius.ai');
-  const [password, setPassword] = useState('Password123!');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email || !password) {
+      toast.error('Please enter both email and password');
+      return;
+    }
     setIsLoading(true);
 
-    setTimeout(() => {
-      login(
-        {
-          id: 'usr_demo_123',
-          fullName: 'Alex Mercer',
-          username: 'alexmercer',
-          email,
-          phone: '+1 555 019 2834',
-          country: 'United States',
-          profileImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-          role: 'PREMIUM',
-          status: 'ACTIVE',
-          isVerified: true,
-          googleId: null,
-          provider: 'EMAIL',
-          createdAt: new Date().toISOString(),
-        },
-        'token_jwt_demo_access_tradegenius'
-      );
-      toast.success('Welcome back, Alex!');
+    try {
+      const response: any = await apiClient.post('/auth/login', { email, password });
+      if (response && response.success && response.data) {
+        const { user, accessToken } = response.data;
+        login(user, accessToken);
+        toast.success(`Welcome back, ${user.fullName || 'Trader'}!`);
+        navigate(ROUTES.DASHBOARD);
+      } else {
+        toast.error(response?.message || 'Login failed. Please check credentials.');
+      }
+    } catch (err: any) {
+      console.error('Login error:', err);
+      toast.error(err?.response?.data?.message || err?.message || 'Authentication error');
+    } finally {
       setIsLoading(false);
-      navigate(ROUTES.DASHBOARD);
-    }, 800);
+    }
   };
 
-  const handleGoogleLogin = () => {
-    toast.loading('Redirecting to Google OAuth...');
-    setTimeout(() => {
-      toast.dismiss();
-      login(
-        {
-          id: 'usr_google_123',
-          fullName: 'Google Trader',
-          username: 'googletrader',
-          email: 'google.trader@tradegenius.ai',
-          profileImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-          role: 'USER',
-          status: 'ACTIVE',
-          isVerified: true,
-          googleId: 'google_id_123',
-          provider: 'GOOGLE',
-          createdAt: new Date().toISOString(),
-        },
-        'token_google_oauth_tradegenius'
-      );
-      navigate(ROUTES.DASHBOARD);
-    }, 1000);
+  const handleGoogleLogin = async () => {
+    try {
+      setIsLoading(true);
+      const res: any = await apiClient.get('/auth/google');
+      if (res && res.success && res.data?.url) {
+        window.location.href = res.data.url;
+      } else {
+        toast.error(res?.message || 'Google OAuth is not configured on the server.');
+      }
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || err?.message || 'Google authentication is unavailable.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#050816] text-white flex items-center justify-center p-4 sm:px-6 lg:px-8 relative overflow-hidden selection:bg-emerald-500/30">
+    <div className="min-h-screen bg-[#050816] text-foreground flex items-center justify-center p-4 sm:px-6 lg:px-8 relative overflow-hidden selection:bg-emerald-500/30">
       {/* Animated Aurora Background Blobs */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-tr from-emerald-600/20 via-blue-600/20 to-purple-600/20 blur-[150px] pointer-events-none rounded-full animate-pulse" />
 
@@ -85,27 +75,27 @@ export const LoginPage: React.FC = () => {
           className="hidden lg:block lg:col-span-6 space-y-6 text-left"
         >
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 via-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-            <TrendingUp className="w-7 h-7 text-white" />
+            <TrendingUp className="w-7 h-7 text-foreground" />
           </div>
 
-          <h2 className="text-3xl font-black font-display tracking-tight text-white leading-tight">
+          <h2 className="text-3xl font-black font-display tracking-tight text-foreground leading-tight">
             Autonomous AI Market <br />
             <span className="emerald-gradient-text">Intelligence Portal</span>
           </h2>
 
-          <p className="text-sm text-slate-300 leading-relaxed font-sans">
+          <p className="text-sm text-muted-foreground leading-relaxed font-sans">
             Access sub-millisecond stock predictions, level-2 order depth metrics, and real-time sentiment alerts engineered for quantitative traders.
           </p>
 
           <div className="space-y-3 pt-2">
-            <div className="flex items-center space-x-3 text-xs text-slate-300">
-              <div className="p-1 rounded-full bg-emerald-500/20 text-emerald-400">
+            <div className="flex items-center space-x-3 text-xs text-muted-foreground">
+              <div className="p-1 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
                 <Sparkles className="w-3.5 h-3.5" />
               </div>
               <span>94.8% Model Signal Target Accuracy</span>
             </div>
-            <div className="flex items-center space-x-3 text-xs text-slate-300">
-              <div className="p-1 rounded-full bg-purple-500/20 text-purple-400">
+            <div className="flex items-center space-x-3 text-xs text-muted-foreground">
+              <div className="p-1 rounded-full bg-purple-500/20 text-purple-600 dark:text-purple-400">
                 <Sparkles className="w-3.5 h-3.5" />
               </div>
               <span>ChatGPT-5 Powered Financial Co-Pilot</span>
@@ -122,8 +112,8 @@ export const LoginPage: React.FC = () => {
         >
           <GlassCard className="p-8 space-y-6 border border-white/15 rounded-[32px] bg-[#070c1d]/90 shadow-2xl backdrop-blur-2xl">
             <div className="space-y-1 text-center sm:text-left">
-              <h1 className="text-2xl font-black font-display text-white">Sign In</h1>
-              <p className="text-xs text-slate-400">Enter your credentials to access your TradeGenius AI account.</p>
+              <h1 className="text-2xl font-black font-display text-foreground">Sign In</h1>
+              <p className="text-xs text-muted-foreground">Enter your credentials to access your TradeGenius AI account.</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -153,7 +143,7 @@ export const LoginPage: React.FC = () => {
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
                 />
-                <Link to="/auth/forgot-password" className="text-emerald-400 hover:underline font-bold">
+                <Link to="/auth/forgot-password" className="text-emerald-600 dark:text-emerald-400 hover:underline font-bold">
                   Forgot Password?
                 </Link>
               </div>
@@ -171,8 +161,8 @@ export const LoginPage: React.FC = () => {
             </form>
 
             <div className="relative flex items-center justify-center my-4">
-              <div className="border-t border-white/10 w-full" />
-              <span className="bg-[#070c1d] px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider absolute">
+              <div className="border-t border-border/50 w-full" />
+              <span className="bg-[#070c1d] px-3 text-[11px] font-bold text-muted-foreground uppercase tracking-wider absolute">
                 Or Continue With
               </span>
             </div>
@@ -205,9 +195,9 @@ export const LoginPage: React.FC = () => {
               <span>Sign In with Google</span>
             </Button>
 
-            <div className="text-center text-xs text-slate-400 pt-2">
+            <div className="text-center text-xs text-muted-foreground pt-2">
               Don't have an account yet?{' '}
-              <Link to={ROUTES.REGISTER} className="text-emerald-400 font-bold hover:underline">
+              <Link to={ROUTES.REGISTER} className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline">
                 Create Free Account
               </Link>
             </div>

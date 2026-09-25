@@ -8,13 +8,14 @@ import { logger } from './utils/logger';
 import { errorHandler } from './middlewares/error.middleware';
 import { apiRateLimiter } from './middlewares/rateLimiter.middleware';
 import { connectDatabase } from './database';
+import { MarketProviderFactory } from './providers/MarketProviderFactory';
 import apiRouter from './routes';
 
 const app = express();
 
 // Security & Optimization Middlewares
 app.use(helmet());
-app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }));
+app.use(cors({ origin: env.CORS_ORIGIN === '*' ? true : env.CORS_ORIGIN, credentials: true }));
 app.use(compression());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
@@ -62,6 +63,13 @@ app.use(errorHandler);
 const PORT = parseInt(env.PORT, 10);
 app.listen(PORT, async () => {
   await connectDatabase();
+  MarketProviderFactory.getProvider();
+  
+  // Safe validation logging for Google OAuth variables (Task 3)
+  logger.info(`GOOGLE_CLIENT_ID configured: ${!!env.GOOGLE_CLIENT_ID}`);
+  logger.info(`GOOGLE_CLIENT_SECRET configured: ${!!env.GOOGLE_CLIENT_SECRET}`);
+  logger.info(`GOOGLE_CALLBACK_URL configured: ${!!env.GOOGLE_REDIRECT_URI}`);
+
   logger.info(`🚀 TradeGenius AI Server running on port ${PORT} [${env.NODE_ENV}]`);
 });
 

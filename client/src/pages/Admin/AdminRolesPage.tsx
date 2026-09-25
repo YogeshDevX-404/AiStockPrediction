@@ -9,13 +9,13 @@ export const AdminRolesPage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <ShieldCheck className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">Role-Based Access Control (RBAC)</h1>
+            <ShieldCheck className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">Role-Based Access Control (RBAC)</h1>
           </div>
-          <p className="text-xs text-slate-400">Configure permission capability matrices across Super Admin, Admin, Moderator, Support, and Viewer tiers.</p>
+          <p className="text-xs text-muted-foreground">Configure permission capability matrices across Super Admin, Admin, Moderator, Support, and Viewer tiers.</p>
         </div>
 
         <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="w-4 h-4" />} onClick={() => navigate('/admin')}>

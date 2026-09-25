@@ -15,14 +15,14 @@ export const SettingsPage: React.FC = () => {
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       <div>
-        <h1 className="text-2xl font-extrabold font-display text-white">Account & System Settings</h1>
+        <h1 className="text-2xl font-extrabold font-display text-foreground">Account & System Settings</h1>
         <p className="text-xs text-muted-foreground">Manage profile preferences, security settings, and notifications.</p>
       </div>
 
       <GlassCard className="space-y-6">
-        <div className="flex items-center space-x-3 text-primary border-b border-white/10 pb-3">
+        <div className="flex items-center space-x-3 text-primary border-b border-border/50 pb-3">
           <UserIcon className="w-5 h-5" />
-          <h2 className="text-base font-bold text-white">Profile Information</h2>
+          <h2 className="text-base font-bold text-foreground">Profile Information</h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -32,9 +32,9 @@ export const SettingsPage: React.FC = () => {
       </GlassCard>
 
       <GlassCard className="space-y-6">
-        <div className="flex items-center space-x-3 text-secondary border-b border-white/10 pb-3">
+        <div className="flex items-center space-x-3 text-secondary border-b border-border/50 pb-3">
           <Sliders className="w-5 h-5" />
-          <h2 className="text-base font-bold text-white">Trading & Platform Preferences</h2>
+          <h2 className="text-base font-bold text-foreground">Trading & Platform Preferences</h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

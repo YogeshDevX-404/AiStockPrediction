@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { ApiResponse } from '../types';
+import { ApiResponse, AuthRequest } from '../types';
 import { SubscriptionEngine } from '../services/billing/SubscriptionEngine';
 import { UsageTrackingEngine } from '../services/billing/UsageTrackingEngine';
 import { InvoiceEngine } from '../services/billing/InvoiceEngine';
@@ -14,9 +14,10 @@ export const getPlansController = async (_req: Request, res: Response<ApiRespons
   }
 };
 
-export const getSubscriptionController = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
+export const getSubscriptionController = async (req: AuthRequest, res: Response<ApiResponse>, next: NextFunction) => {
   try {
-    const sub = await SubscriptionEngine.getUserSubscription(req.user?.id || 'usr-1');
+    const userId = req.user?.userId || (req.user as any)?.id || 'usr-1';
+    const sub = await SubscriptionEngine.getUserSubscription(userId);
     const usage = UsageTrackingEngine.getUsageMeters();
     return res.status(200).json({ success: true, data: { subscription: sub, usage } });
   } catch (error) {
@@ -24,10 +25,11 @@ export const getSubscriptionController = async (req: Request, res: Response<ApiR
   }
 };
 
-export const upgradeSubscriptionController = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
+export const upgradeSubscriptionController = async (req: AuthRequest, res: Response<ApiResponse>, next: NextFunction) => {
   try {
     const { planTier } = req.body;
-    const updated = await SubscriptionEngine.upgradePlan(req.user?.id || 'usr-1', planTier || 'PRO');
+    const userId = req.user?.userId || (req.user as any)?.id || 'usr-1';
+    const updated = await SubscriptionEngine.upgradePlan(userId, planTier || 'PRO');
     return res.status(200).json({ success: true, data: updated });
   } catch (error) {
     next(error);

@@ -20,13 +20,13 @@ export const CandlestickPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 glass-panel p-6 border-purple-500/20 bg-gradient-to-r from-purple-950/30 via-card to-emerald-950/20">
         <div>
           <div className="flex items-center space-x-2">
-            <Sparkles className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">Candlestick Intelligence & Recognition</h1>
-            <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+            <Sparkles className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">Candlestick Intelligence & Recognition</h1>
+            <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
               PATTERN ENGINE v3.2
             </span>
           </div>
-          <p className="text-xs text-slate-400">Probability-based single & multi-candle formation scanner with natural language explanation timelines.</p>
+          <p className="text-xs text-muted-foreground">Probability-based single & multi-candle formation scanner with natural language explanation timelines.</p>
         </div>
 
         <div className="flex items-center space-x-3 w-full sm:w-auto">
@@ -35,7 +35,7 @@ export const CandlestickPage: React.FC = () => {
             value={tickerSymbol}
             onChange={(e) => setTickerSymbol(e.target.value.toUpperCase())}
             placeholder="Symbol (e.g. NVDA)"
-            className="w-32 glass-panel border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-white placeholder:text-slate-500 focus:outline-none"
+            className="w-32 glass-panel border border-border/50 rounded-xl px-3 py-2 text-xs font-mono text-foreground placeholder:text-muted-foreground focus:outline-none"
           />
           <Button
             variant="accent"

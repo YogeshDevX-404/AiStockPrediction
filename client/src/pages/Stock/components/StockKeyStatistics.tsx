@@ -25,15 +25,15 @@ export const StockKeyStatistics: React.FC<StockKeyStatisticsProps> = ({ stats })
 
   return (
     <GlassCard className="space-y-4">
-      <h2 className="text-base font-bold font-display text-white border-b border-white/10 pb-3">
+      <h2 className="text-base font-bold font-display text-foreground border-b border-border/50 pb-3">
         Key Financial Statistics
       </h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 text-xs">
         {items.map((stat) => (
-          <div key={stat.label} className="p-3.5 rounded-2xl bg-white/5 border border-white/5 space-y-1">
-            <span className="text-[10px] text-slate-400 font-bold uppercase">{stat.label}</span>
-            <div className="text-base font-extrabold text-white font-mono">{stat.value}</div>
+          <div key={stat.label} className="p-3.5 rounded-2xl bg-foreground/5 border border-border/40 space-y-1">
+            <span className="text-[10px] text-muted-foreground font-bold uppercase">{stat.label}</span>
+            <div className="text-base font-extrabold text-foreground font-mono">{stat.value}</div>
           </div>
         ))}
       </div>

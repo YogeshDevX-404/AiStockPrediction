@@ -10,12 +10,12 @@ export const FilterSidebar: React.FC = () => {
 
   return (
     <GlassCard className="space-y-5 p-5">
-      <div className="flex items-center justify-between border-b border-white/10 pb-3">
+      <div className="flex items-center justify-between border-b border-border/50 pb-3">
         <div className="flex items-center space-x-2">
-          <Filter className="w-4 h-4 text-purple-400" />
-          <h2 className="text-sm font-bold text-white font-display">Multi-Criteria Filters</h2>
+          <Filter className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+          <h2 className="text-sm font-bold text-foreground font-display">Multi-Criteria Filters</h2>
         </div>
-        <button onClick={resetCriteria} className="text-[11px] text-slate-400 hover:text-white transition-colors cursor-pointer">
+        <button onClick={resetCriteria} className="text-[11px] text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
           Reset All
         </button>
       </div>
@@ -23,9 +23,9 @@ export const FilterSidebar: React.FC = () => {
       <div className="space-y-4 text-xs">
         {/* RSI Range Filter */}
         <div className="space-y-1">
-          <label className="text-slate-400 font-bold text-[11px] flex justify-between">
+          <label className="text-muted-foreground font-bold text-[11px] flex justify-between">
             <span>RSI Range</span>
-            <span className="text-purple-400 font-mono">{criteria.minRsi} - {criteria.maxRsi}</span>
+            <span className="text-purple-600 dark:text-purple-400 font-mono">{criteria.minRsi} - {criteria.maxRsi}</span>
           </label>
           <div className="flex items-center space-x-2">
             <input
@@ -49,9 +49,9 @@ export const FilterSidebar: React.FC = () => {
 
         {/* Max P/E Ratio Filter */}
         <div className="space-y-1">
-          <label className="text-slate-400 font-bold text-[11px] flex justify-between">
+          <label className="text-muted-foreground font-bold text-[11px] flex justify-between">
             <span>Max P/E Ratio</span>
-            <span className="text-emerald-400 font-mono">&lt; {criteria.maxPe}</span>
+            <span className="text-emerald-600 dark:text-emerald-400 font-mono">&lt; {criteria.maxPe}</span>
           </label>
           <input
             type="range"
@@ -78,7 +78,7 @@ export const FilterSidebar: React.FC = () => {
         />
 
         {/* Golden Cross Checkbox */}
-        <label className="flex items-center space-x-2 text-slate-300 cursor-pointer pt-1">
+        <label className="flex items-center space-x-2 text-muted-foreground cursor-pointer pt-1">
           <input
             type="checkbox"
             checked={criteria.goldenCrossOnly}

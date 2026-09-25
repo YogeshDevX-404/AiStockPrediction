@@ -21,13 +21,13 @@ export const CopilotWorkspacePage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <Layout className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">Multi-Tab AI Trading Workspace</h1>
+            <Layout className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">Multi-Tab AI Trading Workspace</h1>
           </div>
-          <p className="text-xs text-slate-400">Unified workspace integrating multi-agent conversations, real-time charts, watchlists, and research notes.</p>
+          <p className="text-xs text-muted-foreground">Unified workspace integrating multi-agent conversations, real-time charts, watchlists, and research notes.</p>
         </div>
 
         <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="w-4 h-4" />} onClick={() => navigate('/copilot')}>
@@ -36,13 +36,13 @@ export const CopilotWorkspacePage: React.FC = () => {
       </div>
 
       {/* Tabs Row */}
-      <div className="flex items-center space-x-2 overflow-x-auto pb-2 border-b border-white/10">
+      <div className="flex items-center space-x-2 overflow-x-auto pb-2 border-b border-border/50">
         {tabs.map((t) => (
           <button
             key={t.key}
             onClick={() => setActiveTab(t.key)}
             className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold font-display cursor-pointer transition-all ${
-              activeTab === t.key ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/20' : 'bg-white/5 text-slate-400 hover:text-white'
+              activeTab === t.key ? 'bg-purple-600 text-foreground shadow-lg shadow-purple-500/20' : 'bg-foreground/5 text-muted-foreground hover:text-foreground'
             }`}
           >
             {t.icon}
@@ -55,9 +55,9 @@ export const CopilotWorkspacePage: React.FC = () => {
       <GlassCard className="p-6">
         {activeTab === 'NOTES' ? (
           <div className="space-y-3">
-            <h3 className="text-sm font-bold text-white font-display border-b border-white/10 pb-2">Pinned Research Notes</h3>
+            <h3 className="text-sm font-bold text-foreground font-display border-b border-border/50 pb-2">Pinned Research Notes</h3>
             {pinnedNotes.map((note, idx) => (
-              <div key={idx} className="p-3 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-200 font-mono">
+              <div key={idx} className="p-3 rounded-2xl bg-foreground/5 border border-border/50 text-xs text-slate-200 font-mono">
                 📌 {note}
               </div>
             ))}
@@ -65,7 +65,7 @@ export const CopilotWorkspacePage: React.FC = () => {
         ) : (
           <div className="text-center py-12 space-y-2">
             <span className="text-sm font-bold text-purple-300 font-display">Active Workspace View: {activeTab}</span>
-            <p className="text-xs text-slate-400">Integrated workspace context synchronized across all 15 specialized AI agents.</p>
+            <p className="text-xs text-muted-foreground">Integrated workspace context synchronized across all 15 specialized AI agents.</p>
           </div>
         )}
       </GlassCard>

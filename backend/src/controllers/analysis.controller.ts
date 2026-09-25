@@ -28,7 +28,7 @@ export const getAnalysisHistoryController = async (_req: Request, res: Response<
 
 export const getAnalysisByIdController = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const result = await getAnalysisByIdService(id);
     return res.status(200).json({ success: true, data: result });
   } catch (error) {
@@ -38,7 +38,7 @@ export const getAnalysisByIdController = async (req: Request, res: Response<ApiR
 
 export const deleteAnalysisRecordController = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const deleted = await deleteAnalysisRecordService(id);
     return res.status(200).json({ success: true, data: { deleted } });
   } catch (error) {

@@ -16,13 +16,13 @@ export const AlertHistoryPage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <History className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">Alert Execution Audit Log</h1>
+            <History className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">Alert Execution Audit Log</h1>
           </div>
-          <p className="text-xs text-slate-400">Audit trail recording past alert triggers and delivery dispatch statuses.</p>
+          <p className="text-xs text-muted-foreground">Audit trail recording past alert triggers and delivery dispatch statuses.</p>
         </div>
 
         <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="w-4 h-4" />} onClick={() => navigate('/alerts')}>
@@ -33,7 +33,7 @@ export const AlertHistoryPage: React.FC = () => {
       <GlassCard className="space-y-4">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-mono">
-            <thead className="border-b border-white/10 text-slate-400 uppercase font-sans">
+            <thead className="border-b border-border/50 text-muted-foreground uppercase font-sans">
               <tr>
                 <th className="pb-3 font-semibold">Symbol</th>
                 <th className="pb-3 font-semibold">Alert Rule Type</th>
@@ -44,16 +44,16 @@ export const AlertHistoryPage: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-white/5">
               {history.map((item) => (
-                <tr key={item.id} className="hover:bg-white/5">
-                  <td className="py-3 font-bold text-white">${item.symbol}</td>
+                <tr key={item.id} className="hover:bg-foreground/5">
+                  <td className="py-3 font-bold text-foreground">${item.symbol}</td>
                   <td className="py-3 font-sans text-purple-300 font-bold">{item.alertType}</td>
-                  <td className="py-3 text-emerald-400 font-bold">{item.triggerValue}</td>
+                  <td className="py-3 text-emerald-600 dark:text-emerald-400 font-bold">{item.triggerValue}</td>
                   <td className="py-3 font-sans font-bold">
-                    <span className="flex items-center text-emerald-400">
+                    <span className="flex items-center text-emerald-600 dark:text-emerald-400">
                       <CheckCircle2 className="w-3.5 h-3.5 mr-1" /> {item.deliveryStatus}
                     </span>
                   </td>
-                  <td className="py-3 text-right text-slate-400 font-sans">{new Date(item.timestamp).toLocaleString()}</td>
+                  <td className="py-3 text-right text-muted-foreground font-sans">{new Date(item.timestamp).toLocaleString()}</td>
                 </tr>
               ))}
             </tbody>

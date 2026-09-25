@@ -18,13 +18,13 @@ export const AnalysisHistoryPage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <History className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">AI Vision Screenshot Analysis Audit Log</h1>
+            <History className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">AI Vision Screenshot Analysis Audit Log</h1>
           </div>
-          <p className="text-xs text-slate-400">Historical archive of scanned chart screenshots, OCR detections, and AI signal predictions.</p>
+          <p className="text-xs text-muted-foreground">Historical archive of scanned chart screenshots, OCR detections, and AI signal predictions.</p>
         </div>
 
         <Button variant="primary" size="md" onClick={() => navigate('/analysis/upload')}>
@@ -35,7 +35,7 @@ export const AnalysisHistoryPage: React.FC = () => {
       <GlassCard className="space-y-4">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="border-b border-white/10 text-slate-400 uppercase font-mono">
+            <thead className="border-b border-border/50 text-muted-foreground uppercase font-mono">
               <tr>
                 <th className="pb-3 font-semibold">Screenshot File</th>
                 <th className="pb-3 font-semibold">Ticker</th>
@@ -49,33 +49,33 @@ export const AnalysisHistoryPage: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-white/5 font-mono">
               {history.map((item) => (
-                <tr key={item.id} className="hover:bg-white/5">
-                  <td className="py-3 font-bold text-white flex items-center space-x-2">
-                    <ImageIcon className="w-4 h-4 text-purple-400 shrink-0" />
+                <tr key={item.id} className="hover:bg-foreground/5">
+                  <td className="py-3 font-bold text-foreground flex items-center space-x-2">
+                    <ImageIcon className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
                     <span className="truncate max-w-[160px] font-sans">{item.imageName}</span>
                   </td>
-                  <td className="py-3 font-extrabold text-emerald-400">{item.ticker}</td>
-                  <td className="py-3 text-slate-300">{item.timeframe}</td>
+                  <td className="py-3 font-extrabold text-emerald-600 dark:text-emerald-400">{item.ticker}</td>
+                  <td className="py-3 text-muted-foreground">{item.timeframe}</td>
                   <td className="py-3 font-sans">
                     <Badge variant={item.signal === 'BUY' ? 'emerald' : 'purple'}>{item.signal}</Badge>
                   </td>
-                  <td className="py-3 font-bold text-purple-400">{item.confidenceScore}%</td>
-                  <td className="py-3 text-slate-300 font-sans">{item.riskLevel}</td>
-                  <td className="py-3 text-right text-slate-400 font-sans">
+                  <td className="py-3 font-bold text-purple-600 dark:text-purple-400">{item.confidenceScore}%</td>
+                  <td className="py-3 text-muted-foreground font-sans">{item.riskLevel}</td>
+                  <td className="py-3 text-right text-muted-foreground font-sans">
                     {new Date(item.createdAt).toLocaleString()}
                   </td>
                   <td className="py-3 text-right font-sans">
                     <div className="flex items-center justify-end space-x-2">
                       <button
                         onClick={() => navigate('/analysis')}
-                        className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white cursor-pointer"
+                        className="p-1.5 rounded-lg bg-foreground/5 hover:bg-foreground/10 text-muted-foreground hover:text-foreground cursor-pointer"
                         title="View Analysis"
                       >
                         <Eye className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={() => deleteHistoryRecord(item.id)}
-                        className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-red-400 hover:text-red-300 cursor-pointer"
+                        className="p-1.5 rounded-lg bg-foreground/5 hover:bg-foreground/10 text-red-600 dark:text-red-400 hover:text-red-300 cursor-pointer"
                         title="Delete Record"
                       >
                         <Trash2 className="w-3.5 h-3.5" />

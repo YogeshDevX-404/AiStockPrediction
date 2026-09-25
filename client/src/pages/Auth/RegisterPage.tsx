@@ -8,6 +8,7 @@ import { Checkbox } from '@/components/inputs/Checkbox';
 import { TrendingUp, Mail, Lock, User, Phone, ArrowRight, ShieldCheck } from 'lucide-react';
 import { ROUTES } from '@/constants';
 import { useAuthStore } from '@/store/useAuthStore';
+import { apiClient } from '@/api';
 import { toast } from 'react-hot-toast';
 
 export const RegisterPage: React.FC = () => {
@@ -22,7 +23,7 @@ export const RegisterPage: React.FC = () => {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       toast.error('Passwords do not match');
@@ -34,41 +35,44 @@ export const RegisterPage: React.FC = () => {
     }
 
     setIsLoading(true);
-    setTimeout(() => {
-      login(
-        {
-          id: `usr_${Date.now()}`,
-          fullName: fullName || 'New Trader',
-          username: username || 'trader',
-          email,
-          phone,
-          country: 'United States',
-          role: 'USER',
-          status: 'UNVERIFIED',
-          isVerified: false,
-          googleId: null,
-          provider: 'EMAIL',
-          createdAt: new Date().toISOString(),
-        },
-        'token_new_user_reg'
-      );
-      toast.success('Registration successful! Please check your email to verify your account.');
+    try {
+      const response: any = await apiClient.post('/auth/register', {
+        fullName,
+        username: username.trim() || email.split('@')[0],
+        email: email.trim(),
+        phone,
+        password,
+        confirmPassword,
+        acceptTerms,
+      });
+
+      if (response && response.success && response.data) {
+        const { user, accessToken } = response.data;
+        login(user, accessToken);
+        toast.success('Registration successful! Welcome to TradeGenius AI.');
+        navigate(ROUTES.DASHBOARD);
+      } else {
+        toast.error(response?.message || 'Registration failed.');
+      }
+    } catch (err: any) {
+      console.error('Registration error:', err);
+      toast.error(err?.response?.data?.message || err?.message || 'Registration failed');
+    } finally {
       setIsLoading(false);
-      navigate(ROUTES.DASHBOARD);
-    }, 1000);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#050816] text-white flex items-center justify-center p-4 sm:px-6 lg:px-8 relative overflow-hidden selection:bg-emerald-500/30">
+    <div className="min-h-screen bg-[#050816] text-foreground flex items-center justify-center p-4 sm:px-6 lg:px-8 relative overflow-hidden selection:bg-emerald-500/30">
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-tr from-purple-600/20 via-emerald-600/20 to-blue-600/20 blur-[150px] pointer-events-none rounded-full animate-pulse" />
 
       <GlassCard className="w-full max-w-xl p-8 space-y-6 relative z-10 border border-white/15 rounded-[32px] bg-[#070c1d]/90 shadow-2xl backdrop-blur-2xl">
         <div className="text-center space-y-2">
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-purple-600 mx-auto flex items-center justify-center shadow-lg shadow-emerald-500/30">
-            <TrendingUp className="w-6 h-6 text-white" />
+            <TrendingUp className="w-6 h-6 text-foreground" />
           </div>
-          <h1 className="text-2xl font-black font-display text-white">Create Pro Account</h1>
-          <p className="text-xs text-slate-400">Join over 50,000 quantitative traders leveraging autonomous AI signals.</p>
+          <h1 className="text-2xl font-black font-display text-foreground">Create Pro Account</h1>
+          <p className="text-xs text-muted-foreground">Join over 50,000 quantitative traders leveraging autonomous AI signals.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -153,9 +157,9 @@ export const RegisterPage: React.FC = () => {
           </Button>
         </form>
 
-        <div className="text-center text-xs text-slate-400">
+        <div className="text-center text-xs text-muted-foreground">
           Already have an account?{' '}
-          <Link to={ROUTES.LOGIN} className="text-emerald-400 font-bold hover:underline">
+          <Link to={ROUTES.LOGIN} className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline">
             Sign In
           </Link>
         </div>

@@ -80,12 +80,12 @@ export const UploadWorkspace: React.FC = () => {
 
   return (
     <GlassCard className="space-y-4">
-      <div className="flex items-center justify-between border-b border-white/10 pb-3">
+      <div className="flex items-center justify-between border-b border-border/50 pb-3">
         <div className="flex items-center space-x-2">
-          <ImageIcon className="w-5 h-5 text-purple-400" />
-          <h2 className="text-base font-bold font-display text-white">AI Vision Upload & Workspace</h2>
+          <ImageIcon className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+          <h2 className="text-base font-bold font-display text-foreground">AI Vision Upload & Workspace</h2>
         </div>
-        <span className="text-xs text-slate-400 font-mono">Supports TradingView, Zerodha, Groww & Upstox Screenshots</span>
+        <span className="text-xs text-muted-foreground font-mono">Supports TradingView, Zerodha, Groww & Upstox Screenshots</span>
       </div>
 
       {!uploadedImagePreview ? (
@@ -99,32 +99,32 @@ export const UploadWorkspace: React.FC = () => {
           className={`border-2 border-dashed rounded-3xl p-10 text-center transition-all cursor-pointer flex flex-col items-center justify-center space-y-4 ${
             dragActive
               ? 'border-purple-500 bg-purple-500/10'
-              : 'border-white/15 hover:border-purple-500/50 bg-white/5'
+              : 'border-white/15 hover:border-purple-500/50 bg-foreground/5'
           }`}
         >
           <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
 
-          <div className="w-16 h-16 rounded-3xl bg-purple-500/20 text-purple-400 flex items-center justify-center shadow-lg shadow-purple-500/10">
+          <div className="w-16 h-16 rounded-3xl bg-purple-500/20 text-purple-600 dark:text-purple-400 flex items-center justify-center shadow-lg shadow-purple-500/10">
             <Upload className="w-8 h-8" />
           </div>
 
           <div className="space-y-1">
-            <h3 className="text-lg font-bold text-white font-display">Drag & Drop Chart Screenshot Here</h3>
-            <p className="text-xs text-slate-400">or click to browse from device • Press <kbd className="px-1.5 py-0.5 rounded bg-white/10 text-white font-mono text-[10px]">Ctrl+V</kbd> to paste clipboard image</p>
+            <h3 className="text-lg font-bold text-foreground font-display">Drag & Drop Chart Screenshot Here</h3>
+            <p className="text-xs text-muted-foreground">or click to browse from device • Press <kbd className="px-1.5 py-0.5 rounded bg-foreground/10 text-foreground font-mono text-[10px]">Ctrl+V</kbd> to paste clipboard image</p>
           </div>
 
-          <div className="flex items-center space-x-3 text-[11px] text-slate-400">
+          <div className="flex items-center space-x-3 text-[11px] text-muted-foreground">
             <span>Supported Layouts:</span>
-            <span className="px-2 py-0.5 rounded bg-white/5 text-slate-300">TradingView</span>
-            <span className="px-2 py-0.5 rounded bg-white/5 text-slate-300">Zerodha Kite</span>
-            <span className="px-2 py-0.5 rounded bg-white/5 text-slate-300">Groww</span>
-            <span className="px-2 py-0.5 rounded bg-white/5 text-slate-300">Upstox</span>
+            <span className="px-2 py-0.5 rounded bg-foreground/5 text-muted-foreground">TradingView</span>
+            <span className="px-2 py-0.5 rounded bg-foreground/5 text-muted-foreground">Zerodha Kite</span>
+            <span className="px-2 py-0.5 rounded bg-foreground/5 text-muted-foreground">Groww</span>
+            <span className="px-2 py-0.5 rounded bg-foreground/5 text-muted-foreground">Upstox</span>
           </div>
         </div>
       ) : (
         /* Interactive Image Preview with Controls */
         <div className="space-y-4">
-          <div className="relative rounded-2xl bg-black/60 overflow-hidden border border-white/10 max-h-[420px] flex items-center justify-center p-4">
+          <div className="relative rounded-2xl bg-black/60 overflow-hidden border border-border/50 max-h-[420px] flex items-center justify-center p-4">
             <img
               src={uploadedImagePreview}
               alt="Uploaded Chart Screenshot"
@@ -133,18 +133,18 @@ export const UploadWorkspace: React.FC = () => {
             />
 
             {/* Toolbar overlay */}
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 glass-panel px-3 py-1.5 rounded-2xl border border-white/10 flex items-center space-x-2 text-xs">
-              <button onClick={() => setZoomLevel(zoomLevel + 0.2)} className="p-1 text-slate-300 hover:text-white cursor-pointer" title="Zoom In">
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 glass-panel px-3 py-1.5 rounded-2xl border border-border/50 flex items-center space-x-2 text-xs">
+              <button onClick={() => setZoomLevel(zoomLevel + 0.2)} className="p-1 text-muted-foreground hover:text-foreground cursor-pointer" title="Zoom In">
                 <ZoomIn className="w-4 h-4" />
               </button>
-              <button onClick={() => setZoomLevel(zoomLevel - 0.2)} className="p-1 text-slate-300 hover:text-white cursor-pointer" title="Zoom Out">
+              <button onClick={() => setZoomLevel(zoomLevel - 0.2)} className="p-1 text-muted-foreground hover:text-foreground cursor-pointer" title="Zoom Out">
                 <ZoomOut className="w-4 h-4" />
               </button>
-              <button onClick={() => setRotation((rotation + 90) % 360)} className="p-1 text-slate-300 hover:text-white cursor-pointer" title="Rotate">
+              <button onClick={() => setRotation((rotation + 90) % 360)} className="p-1 text-muted-foreground hover:text-foreground cursor-pointer" title="Rotate">
                 <RotateCw className="w-4 h-4" />
               </button>
-              <div className="w-px h-4 bg-white/20" />
-              <button onClick={() => setUploadedImagePreview(null)} className="p-1 text-red-400 hover:text-red-300 cursor-pointer" title="Remove Screenshot">
+              <div className="w-px h-4 bg-foreground/20" />
+              <button onClick={() => setUploadedImagePreview(null)} className="p-1 text-red-600 dark:text-red-400 hover:text-red-300 cursor-pointer" title="Remove Screenshot">
                 <Trash2 className="w-4 h-4" />
               </button>
             </div>

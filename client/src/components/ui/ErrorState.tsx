@@ -16,7 +16,7 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
 }) => {
   return (
     <GlassCard className="flex flex-col items-center justify-center text-center p-10 space-y-4 border-red-500/20 bg-red-500/5">
-      <div className="p-3 rounded-2xl bg-red-500/10 text-red-400 border border-red-500/20">
+      <div className="p-3 rounded-2xl bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20">
         <AlertCircle className="w-8 h-8" />
       </div>
       <div className="space-y-1">

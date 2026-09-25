@@ -12,10 +12,10 @@ export interface ScenarioStressTestWidgetProps {
 export const ScenarioStressTestWidget: React.FC<ScenarioStressTestWidgetProps> = ({ scenarios }) => {
   return (
     <GlassCard className="p-5 space-y-4">
-      <div className="flex items-center justify-between border-b border-white/10 pb-3">
+      <div className="flex items-center justify-between border-b border-border/50 pb-3">
         <div className="flex items-center space-x-2">
-          <Activity className="w-5 h-5 text-purple-400" />
-          <h2 className="text-base font-bold text-white font-display">Macro Stress Test Scenarios</h2>
+          <Activity className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+          <h2 className="text-base font-bold text-foreground font-display">Macro Stress Test Scenarios</h2>
         </div>
         <Badge variant="purple">MONTE CARLO SIMULATION</Badge>
       </div>
@@ -24,14 +24,14 @@ export const ScenarioStressTestWidget: React.FC<ScenarioStressTestWidgetProps> =
         {scenarios.map((sc) => {
           const isNegative = sc.impactPercent < 0;
           return (
-            <div key={sc.name} className="p-3.5 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+            <div key={sc.name} className="p-3.5 rounded-2xl bg-foreground/5 border border-border/50 space-y-2">
               <div className="flex items-center justify-between">
-                <span className="font-bold text-white font-sans">{sc.name}</span>
+                <span className="font-bold text-foreground font-sans">{sc.name}</span>
                 <Badge variant={sc.severity === 'HIGH' ? 'red' : 'purple'}>{sc.severity}</Badge>
               </div>
               <div className="flex justify-between items-center text-xs font-mono pt-1">
-                <span className="text-slate-400">Impact Shift:</span>
-                <span className={`font-extrabold ${isNegative ? 'text-red-400' : 'text-emerald-400'}`}>
+                <span className="text-muted-foreground">Impact Shift:</span>
+                <span className={`font-extrabold ${isNegative ? 'text-red-600 dark:text-red-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
                   {isNegative ? '' : '+'}{sc.impactPercent}% ({formatCurrency(sc.estimatedPnl)})
                 </span>
               </div>

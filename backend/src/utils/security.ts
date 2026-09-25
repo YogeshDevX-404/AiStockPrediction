@@ -12,7 +12,7 @@ export const comparePassword = async (password: string, hash: string): Promise<b
 };
 
 export const generateToken = (payload: object): string => {
-  return jwt.sign(payload, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN });
+  return jwt.sign(payload, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN as any });
 };
 
 export const verifyToken = (token: string): unknown => {

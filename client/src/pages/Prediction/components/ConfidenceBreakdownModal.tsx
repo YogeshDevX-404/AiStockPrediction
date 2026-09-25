@@ -35,17 +35,17 @@ export const ConfidenceBreakdownModal: React.FC<ConfidenceBreakdownModalProps> =
       <div className="space-y-4 text-xs">
         <div className="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-center space-y-1">
           <span className="text-[10px] text-purple-300 font-bold uppercase">Aggregate Model Probability Score</span>
-          <div className="text-4xl font-black text-purple-400 font-display">{data.totalConfidence}%</div>
+          <div className="text-4xl font-black text-purple-600 dark:text-purple-400 font-display">{data.totalConfidence}%</div>
         </div>
 
         <div className="space-y-3 pt-2">
           {weights.map((w) => (
             <div key={w.label} className="space-y-1">
-              <div className="flex justify-between text-slate-300">
+              <div className="flex justify-between text-muted-foreground">
                 <span>{w.label}</span>
                 <span className="font-bold font-mono">{w.score} / {w.max} pts</span>
               </div>
-              <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
+              <div className="w-full bg-foreground/10 h-1.5 rounded-full overflow-hidden">
                 <div className="h-full rounded-full" style={{ width: `${(w.score / w.max) * 100}%`, backgroundColor: w.color }} />
               </div>
             </div>

@@ -36,10 +36,10 @@ export const ChartTopToolbar: React.FC = () => {
   const timeframes: TimeframePeriod[] = ['1m', '5m', '15m', '30m', '1h', '4h', '1d', '1w', '1M'];
 
   const chartTypeItems = [
-    { label: 'Candlestick', icon: <CandlestickChart className="w-4 h-4 text-emerald-400" />, onClick: () => setChartType('CANDLESTICK') },
+    { label: 'Candlestick', icon: <CandlestickChart className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />, onClick: () => setChartType('CANDLESTICK') },
     { label: 'Line Chart', icon: <LineChart className="w-4 h-4 text-blue-400" />, onClick: () => setChartType('LINE') },
-    { label: 'Area Chart', icon: <BarChart2 className="w-4 h-4 text-purple-400" />, onClick: () => setChartType('AREA') },
-    { label: 'Bar Chart', icon: <BarChart2 className="w-4 h-4 text-amber-400" />, onClick: () => setChartType('BAR') },
+    { label: 'Area Chart', icon: <BarChart2 className="w-4 h-4 text-purple-600 dark:text-purple-400" />, onClick: () => setChartType('AREA') },
+    { label: 'Bar Chart', icon: <BarChart2 className="w-4 h-4 text-amber-500 dark:text-amber-400" />, onClick: () => setChartType('BAR') },
     { label: 'Baseline', icon: <LineChart className="w-4 h-4 text-cyan-400" />, onClick: () => setChartType('BASELINE') },
   ];
 
@@ -49,17 +49,17 @@ export const ChartTopToolbar: React.FC = () => {
 
   return (
     <>
-      <div className="glass-panel px-3 py-2 border-b border-white/10 flex flex-wrap items-center justify-between gap-2 select-none">
+      <div className="glass-panel px-3 py-2 border-b border-border/50 flex flex-wrap items-center justify-between gap-2 select-none">
         {/* Left Side: Symbol & Timeframe & Type */}
         <div className="flex flex-wrap items-center gap-2">
           {/* Symbol Search Button */}
           <button
             onClick={() => setSearchModalOpen(true)}
-            className="flex items-center space-x-2 px-3 py-1.5 rounded-xl glass-panel hover:bg-white/10 border border-white/10 font-mono font-extrabold text-xs text-white cursor-pointer"
+            className="flex items-center space-x-2 px-3 py-1.5 rounded-xl glass-panel hover:bg-foreground/10 border border-border/50 font-mono font-extrabold text-xs text-foreground cursor-pointer"
           >
-            <Search className="w-3.5 h-3.5 text-emerald-400" />
+            <Search className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>{symbol}</span>
-            {compareSymbol && <span className="text-purple-400 text-[10px]">vs {compareSymbol}</span>}
+            {compareSymbol && <span className="text-purple-600 dark:text-purple-400 text-[10px]">vs {compareSymbol}</span>}
           </button>
 
           {/* Timeframe Pills */}
@@ -69,7 +69,7 @@ export const ChartTopToolbar: React.FC = () => {
                 key={tf}
                 onClick={() => setTimeframe(tf)}
                 className={`px-2 py-0.5 rounded-md font-bold transition-all cursor-pointer ${
-                  activeTimeframe === tf ? 'bg-primary text-white shadow' : 'text-slate-400 hover:text-white'
+                  activeTimeframe === tf ? 'bg-primary text-foreground shadow' : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {tf}
@@ -80,8 +80,8 @@ export const ChartTopToolbar: React.FC = () => {
           {/* Chart Type Dropdown */}
           <Dropdown
             trigger={
-              <button className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl glass-panel hover:bg-white/10 text-xs text-slate-300 cursor-pointer">
-                <CandlestickChart className="w-4 h-4 text-emerald-400" />
+              <button className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl glass-panel hover:bg-foreground/10 text-xs text-muted-foreground cursor-pointer">
+                <CandlestickChart className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span className="hidden md:inline font-semibold">{chartType}</span>
               </button>
             }
@@ -93,15 +93,15 @@ export const ChartTopToolbar: React.FC = () => {
         <div className="flex items-center space-x-1.5">
           <button
             onClick={() => setIndicatorsModalOpen(true)}
-            className="flex items-center space-x-1 px-2.5 py-1.5 rounded-xl glass-panel hover:bg-white/10 text-xs text-slate-300 cursor-pointer"
+            className="flex items-center space-x-1 px-2.5 py-1.5 rounded-xl glass-panel hover:bg-foreground/10 text-xs text-muted-foreground cursor-pointer"
           >
-            <Sliders className="w-4 h-4 text-purple-400" />
+            <Sliders className="w-4 h-4 text-purple-600 dark:text-purple-400" />
             <span className="hidden md:inline font-bold">Indicators</span>
           </button>
 
           <button
             onClick={() => setCompareModalOpen(true)}
-            className="p-2 rounded-xl glass-panel hover:bg-white/10 text-slate-300 cursor-pointer"
+            className="p-2 rounded-xl glass-panel hover:bg-foreground/10 text-muted-foreground cursor-pointer"
             title="Compare Overlay Symbol"
           >
             <GitCompare className="w-4 h-4 text-blue-400" />
@@ -109,7 +109,7 @@ export const ChartTopToolbar: React.FC = () => {
 
           <button
             onClick={handleExportScreenshot}
-            className="p-2 rounded-xl glass-panel hover:bg-white/10 text-slate-300 cursor-pointer"
+            className="p-2 rounded-xl glass-panel hover:bg-foreground/10 text-muted-foreground cursor-pointer"
             title="Export Chart Image PNG"
           >
             <Camera className="w-4 h-4 text-cyan-400" />
@@ -117,7 +117,7 @@ export const ChartTopToolbar: React.FC = () => {
 
           <button
             onClick={toggleFullscreen}
-            className="p-2 rounded-xl glass-panel hover:bg-white/10 text-slate-300 cursor-pointer"
+            className="p-2 rounded-xl glass-panel hover:bg-foreground/10 text-muted-foreground cursor-pointer"
             title="Toggle Fullscreen Mode"
           >
             {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
@@ -125,7 +125,7 @@ export const ChartTopToolbar: React.FC = () => {
 
           <button
             onClick={() => setSettingsModalOpen(true)}
-            className="p-2 rounded-xl glass-panel hover:bg-white/10 text-slate-300 cursor-pointer"
+            className="p-2 rounded-xl glass-panel hover:bg-foreground/10 text-muted-foreground cursor-pointer"
             title="Chart Display Settings"
           >
             <Settings className="w-4 h-4" />

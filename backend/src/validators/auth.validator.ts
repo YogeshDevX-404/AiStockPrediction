@@ -13,19 +13,25 @@ export const registerSchema = z.object({
   body: z
     .object({
       fullName: z.string().min(2, 'Full name is required'),
-      username: z.string().min(3, 'Username must be at least 3 characters'),
+      username: z.string().optional(),
       email: z.string().email('Invalid email address'),
       phone: z.string().optional(),
       password: passwordSchema,
-      confirmPassword: z.string(),
-      acceptTerms: z.boolean().refine((val) => val === true, {
-        message: 'You must accept the Terms of Service',
-      }),
+      confirmPassword: z.string().optional(),
+      acceptTerms: z.boolean().optional(),
     })
-    .refine((data) => data.password === data.confirmPassword, {
-      message: 'Passwords do not match',
-      path: ['confirmPassword'],
-    }),
+    .refine(
+      (data) => {
+        if (data.confirmPassword) {
+          return data.password === data.confirmPassword;
+        }
+        return true;
+      },
+      {
+        message: 'Passwords do not match',
+        path: ['confirmPassword'],
+      }
+    ),
 });
 
 export const loginSchema = z.object({
@@ -33,6 +39,14 @@ export const loginSchema = z.object({
     email: z.string().email('Invalid email address'),
     password: z.string().min(1, 'Password is required'),
     rememberMe: z.boolean().optional(),
+  }),
+});
+
+export const googleLoginSchema = z.object({
+  body: z.object({
+    credential: z.string().optional(),
+    code: z.string().optional(),
+    idToken: z.string().optional(),
   }),
 });
 

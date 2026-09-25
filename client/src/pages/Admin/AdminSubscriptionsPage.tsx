@@ -16,13 +16,13 @@ export const AdminSubscriptionsPage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <CreditCard className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">Subscription Plans & Billing Overview</h1>
+            <CreditCard className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">Subscription Plans & Billing Overview</h1>
           </div>
-          <p className="text-xs text-slate-400">Monitor active SaaS subscriptions, tier distribution, and feature entitlments.</p>
+          <p className="text-xs text-muted-foreground">Monitor active SaaS subscriptions, tier distribution, and feature entitlments.</p>
         </div>
 
         <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="w-4 h-4" />} onClick={() => navigate('/admin')}>
@@ -34,14 +34,14 @@ export const AdminSubscriptionsPage: React.FC = () => {
         {plans.map((p) => (
           <GlassCard key={p.name} className="p-6 space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-black text-white font-display">{p.name}</h2>
+              <h2 className="text-lg font-black text-foreground font-display">{p.name}</h2>
               <Badge variant="purple">{p.users} Active Users</Badge>
             </div>
-            <div className="text-3xl font-black text-emerald-400 font-mono">{p.price}</div>
-            <ul className="space-y-2 text-xs text-slate-300 border-t border-white/10 pt-3">
+            <div className="text-3xl font-black text-emerald-600 dark:text-emerald-400 font-mono">{p.price}</div>
+            <ul className="space-y-2 text-xs text-muted-foreground border-t border-border/50 pt-3">
               {p.features.map((f) => (
                 <li key={f} className="flex items-center space-x-2">
-                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <span>{f}</span>
                 </li>
               ))}

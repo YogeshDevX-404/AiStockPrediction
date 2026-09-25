@@ -45,11 +45,11 @@ export const WhyChooseUs: React.FC = () => {
         <Badge variant="emerald" className="px-4 py-1 text-xs">
           THE UNFAIR ADVANTAGE
         </Badge>
-        <h2 className="text-3xl sm:text-5xl font-black font-display text-white tracking-tight">
+        <h2 className="text-3xl sm:text-5xl font-black font-display text-foreground tracking-tight">
           TradeGenius AI vs <br />
-          <span className="text-slate-400">Traditional Trading</span>
+          <span className="text-muted-foreground">Traditional Trading</span>
         </h2>
-        <p className="text-slate-400 text-base leading-relaxed">
+        <p className="text-muted-foreground text-base leading-relaxed">
           See why modern quantitative funds and retail investors are switching to TradeGenius AI.
         </p>
       </div>
@@ -69,12 +69,12 @@ export const WhyChooseUs: React.FC = () => {
           >
             <div className="flex items-center justify-between border-b border-emerald-500/20 pb-4">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shadow-lg">
+                <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-lg">
                   <TrendingUp className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-black font-display text-white">TradeGenius AI</h3>
-                  <p className="text-xs text-emerald-400 font-semibold">Autonomous Intelligence</p>
+                  <h3 className="text-2xl font-black font-display text-foreground">TradeGenius AI</h3>
+                  <p className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">Autonomous Intelligence</p>
                 </div>
               </div>
               <Badge variant="emerald">RECOMMENDED</Badge>
@@ -83,12 +83,12 @@ export const WhyChooseUs: React.FC = () => {
             <div className="space-y-4">
               {comparisons.map((row, idx) => (
                 <div key={idx} className="p-4 rounded-2xl bg-emerald-500/[0.05] border border-emerald-500/15 flex items-start space-x-3">
-                  <div className="p-1.5 rounded-full bg-emerald-500/20 text-emerald-400 shrink-0 mt-0.5">
+                  <div className="p-1.5 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5">
                     <Check className="w-4 h-4 stroke-[3]" />
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-slate-300 uppercase tracking-wide">{row.feature}</div>
-                    <div className="text-sm font-semibold text-white mt-0.5">{row.tradegenius}</div>
+                    <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide">{row.feature}</div>
+                    <div className="text-sm font-semibold text-foreground mt-0.5">{row.tradegenius}</div>
                   </div>
                 </div>
               ))}
@@ -104,11 +104,11 @@ export const WhyChooseUs: React.FC = () => {
           transition={{ duration: 0.5 }}
           className="lg:col-span-5"
         >
-          <GlassCard className="p-8 border border-white/10 rounded-[28px] bg-[#070b19]/60 space-y-6">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+          <GlassCard className="p-8 border border-border/50 rounded-[28px] bg-[#070b19]/60 space-y-6">
+            <div className="flex items-center justify-between border-b border-border/50 pb-4">
               <div>
-                <h3 className="text-2xl font-black font-display text-slate-400">Traditional Brokers</h3>
-                <p className="text-xs text-slate-500 font-semibold">Legacy Platforms</p>
+                <h3 className="text-2xl font-black font-display text-muted-foreground">Traditional Brokers</h3>
+                <p className="text-xs text-muted-foreground font-semibold">Legacy Platforms</p>
               </div>
               <Badge variant="outline">LEGACY</Badge>
             </div>
@@ -116,12 +116,12 @@ export const WhyChooseUs: React.FC = () => {
             <div className="space-y-4">
               {comparisons.map((row, idx) => (
                 <div key={idx} className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05] flex items-start space-x-3">
-                  <div className="p-1.5 rounded-full bg-red-500/10 text-red-400 shrink-0 mt-0.5">
+                  <div className="p-1.5 rounded-full bg-red-500/10 text-red-600 dark:text-red-400 shrink-0 mt-0.5">
                     <X className="w-4 h-4 stroke-[3]" />
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-slate-500 uppercase tracking-wide">{row.feature}</div>
-                    <div className="text-xs font-medium text-slate-400 mt-0.5">{row.traditional}</div>
+                    <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide">{row.feature}</div>
+                    <div className="text-xs font-medium text-muted-foreground mt-0.5">{row.traditional}</div>
                   </div>
                 </div>
               ))}

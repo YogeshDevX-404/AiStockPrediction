@@ -21,29 +21,29 @@ export const CandlestickCard: React.FC<CandlestickCardProps> = ({ candlestick, i
       className={`p-6 space-y-5 transition-all ${
         isPrimary
           ? 'border-purple-500/40 bg-gradient-to-br from-purple-950/30 via-[#090f24] to-[#050814]'
-          : 'border-white/10 bg-white/5'
+          : 'border-border/50 bg-foreground/5'
       }`}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-2xl bg-purple-500/20 text-purple-400 border border-purple-500/30 flex items-center justify-center font-bold">
+          <div className="w-10 h-10 rounded-2xl bg-purple-500/20 text-purple-600 dark:text-purple-400 border border-purple-500/30 flex items-center justify-center font-bold">
             <Sparkles className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <h2 className="text-lg font-black text-white font-display">{candlestick.patternName}</h2>
+              <h2 className="text-lg font-black text-foreground font-display">{candlestick.patternName}</h2>
               {isPrimary && <Badge variant="purple">PRIMARY CANDLE</Badge>}
               <Badge variant="emerald">{candlestick.type} CANDLE</Badge>
             </div>
-            <p className="text-xs text-slate-400">Target Symbol: {candlestick.symbol} • Neural Conviction Engine</p>
+            <p className="text-xs text-muted-foreground">Target Symbol: {candlestick.symbol} • Neural Conviction Engine</p>
           </div>
         </div>
 
         <div className="text-right">
-          <span className="text-xl font-black text-emerald-400 font-display flex items-center justify-end">
+          <span className="text-xl font-black text-emerald-600 dark:text-emerald-400 font-display flex items-center justify-end">
             <Zap className="w-4 h-4 mr-1" /> {candlestick.bias}
           </span>
-          <span className="text-[10px] text-slate-400 font-bold uppercase">Directional Bias</span>
+          <span className="text-[10px] text-muted-foreground font-bold uppercase">Directional Bias</span>
         </div>
       </div>
 
@@ -51,38 +51,38 @@ export const CandlestickCard: React.FC<CandlestickCardProps> = ({ candlestick, i
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
         <div className="p-3 rounded-2xl bg-purple-500/10 border border-purple-500/30 space-y-0.5">
           <span className="text-[10px] text-purple-300 font-bold uppercase">Neural Confidence</span>
-          <div className="text-2xl font-black text-purple-400 font-display">{candlestick.confidenceScore}%</div>
-          <div className="w-full bg-white/10 h-1 rounded-full overflow-hidden mt-1">
+          <div className="text-2xl font-black text-purple-600 dark:text-purple-400 font-display">{candlestick.confidenceScore}%</div>
+          <div className="w-full bg-foreground/10 h-1 rounded-full overflow-hidden mt-1">
             <div className="bg-purple-400 h-full" style={{ width: `${candlestick.confidenceScore}%` }} />
           </div>
         </div>
 
         <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 space-y-0.5">
           <span className="text-[10px] text-emerald-300 font-bold uppercase">Target Price</span>
-          <div className="text-xl font-black text-emerald-400 font-display">{formatCurrency(candlestick.targetPrice)}</div>
-          <p className="text-[10px] text-emerald-400">Resistance Zone</p>
+          <div className="text-xl font-black text-emerald-600 dark:text-emerald-400 font-display">{formatCurrency(candlestick.targetPrice)}</div>
+          <p className="text-[10px] text-emerald-600 dark:text-emerald-400">Resistance Zone</p>
         </div>
 
         <div className="p-3 rounded-2xl bg-red-500/10 border border-red-500/30 space-y-0.5">
           <span className="text-[10px] text-red-300 font-bold uppercase">Stop Loss</span>
-          <div className="text-xl font-black text-red-400 font-display">{formatCurrency(candlestick.stopLoss)}</div>
-          <p className="text-[10px] text-red-400">Support Level</p>
+          <div className="text-xl font-black text-red-600 dark:text-red-400 font-display">{formatCurrency(candlestick.stopLoss)}</div>
+          <p className="text-[10px] text-red-600 dark:text-red-400">Support Level</p>
         </div>
 
-        <div className="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-0.5">
-          <span className="text-[10px] text-slate-400 font-bold uppercase">Entry Zone</span>
-          <div className="text-sm font-extrabold text-white font-mono">{candlestick.entryZone}</div>
-          <p className="text-[10px] text-slate-400">Optimal Range</p>
+        <div className="p-3 rounded-2xl bg-foreground/5 border border-border/50 space-y-0.5">
+          <span className="text-[10px] text-muted-foreground font-bold uppercase">Entry Zone</span>
+          <div className="text-sm font-extrabold text-foreground font-mono">{candlestick.entryZone}</div>
+          <p className="text-[10px] text-muted-foreground">Optimal Range</p>
         </div>
       </div>
 
       {/* Rationale Drivers */}
-      <div className="space-y-1.5 text-xs border-t border-white/10 pt-3">
-        <span className="font-bold text-white uppercase tracking-wider text-[11px]">Pattern Rationale Drivers:</span>
-        <div className="space-y-1 text-slate-300">
+      <div className="space-y-1.5 text-xs border-t border-border/50 pt-3">
+        <span className="font-bold text-foreground uppercase tracking-wider text-[11px]">Pattern Rationale Drivers:</span>
+        <div className="space-y-1 text-muted-foreground">
           {candlestick.rationale.map((reason, idx) => (
             <div key={idx} className="flex items-center space-x-2">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
               <span>{reason}</span>
             </div>
           ))}

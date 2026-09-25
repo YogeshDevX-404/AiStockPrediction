@@ -16,13 +16,13 @@ export const PaperHistoryPage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between glass-panel p-6 border-white/10">
+      <div className="flex items-center justify-between glass-panel p-6 border-border/50">
         <div>
           <div className="flex items-center space-x-2">
-            <History className="w-6 h-6 text-emerald-400" />
-            <h1 className="text-2xl font-black font-display text-white">Paper Trade Audit Log & Performance</h1>
+            <History className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">Paper Trade Audit Log & Performance</h1>
           </div>
-          <p className="text-xs text-slate-400">Audit log recording realized P&L, entry/exit prices, and AI conviction agreement scores.</p>
+          <p className="text-xs text-muted-foreground">Audit log recording realized P&L, entry/exit prices, and AI conviction agreement scores.</p>
         </div>
 
         <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="w-4 h-4" />} onClick={() => navigate('/paper-trading')}>
@@ -33,7 +33,7 @@ export const PaperHistoryPage: React.FC = () => {
       <GlassCard className="p-5 space-y-4">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-mono">
-            <thead className="border-b border-white/10 text-slate-400 uppercase font-sans">
+            <thead className="border-b border-border/50 text-muted-foreground uppercase font-sans">
               <tr>
                 <th className="pb-3 font-semibold">Symbol</th>
                 <th className="pb-3 font-semibold">Side</th>
@@ -46,14 +46,14 @@ export const PaperHistoryPage: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-white/5">
               {trades.map((t) => (
-                <tr key={t.id} className="hover:bg-white/5">
-                  <td className="py-3 font-bold text-white">${t.symbol}</td>
+                <tr key={t.id} className="hover:bg-foreground/5">
+                  <td className="py-3 font-bold text-foreground">${t.symbol}</td>
                   <td className="py-3 font-sans">
                     <Badge variant={t.side === 'BUY' ? 'emerald' : 'red'}>{t.side}</Badge>
                   </td>
-                  <td className="py-3 text-slate-300">{t.quantity}</td>
-                  <td className="py-3 text-slate-300">${t.entryPrice}</td>
-                  <td className="py-3 text-white font-bold">${t.exitPrice}</td>
+                  <td className="py-3 text-muted-foreground">{t.quantity}</td>
+                  <td className="py-3 text-muted-foreground">${t.entryPrice}</td>
+                  <td className="py-3 text-foreground font-bold">${t.exitPrice}</td>
                   <td className="py-3 font-sans">
                     <Badge variant="purple">{t.aiAgreementScore}% AI ALIGNED</Badge>
                   </td>

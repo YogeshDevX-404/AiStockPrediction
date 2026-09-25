@@ -21,13 +21,13 @@ export const ScannerPage: React.FC = () => {
       <div className="flex items-center justify-between glass-panel p-6 border-purple-500/20 bg-gradient-to-r from-purple-950/30 via-card to-emerald-950/20">
         <div>
           <div className="flex items-center space-x-2">
-            <Radar className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">Real-Time Market Scanner Radar</h1>
-            <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <Radar className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">Real-Time Market Scanner Radar</h1>
+            <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
               RADAR ACTIVE
             </span>
           </div>
-          <p className="text-xs text-slate-400">Automated radar tracking Top Gainers, Volume Surges, Breakout Formations, and Oversold Reversals.</p>
+          <p className="text-xs text-muted-foreground">Automated radar tracking Top Gainers, Volume Surges, Breakout Formations, and Oversold Reversals.</p>
         </div>
 
         <Button variant="glass" size="md" onClick={() => navigate('/screener')}>
@@ -39,10 +39,10 @@ export const ScannerPage: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {radars.map((radar) => (
           <GlassCard key={radar.title} className="p-5 space-y-4">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div className="flex items-center justify-between border-b border-border/50 pb-3">
               <div className="flex items-center space-x-2">
-                <Sparkles className="w-5 h-5 text-purple-400" />
-                <h2 className="text-sm font-bold text-white font-display">{radar.title}</h2>
+                <Sparkles className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                <h2 className="text-sm font-bold text-foreground font-display">{radar.title}</h2>
               </div>
               <Badge variant="purple">{radar.tickers.length} TICKERS</Badge>
             </div>
@@ -52,19 +52,19 @@ export const ScannerPage: React.FC = () => {
                 <div
                   key={t.symbol}
                   onClick={() => navigate(`/stocks/${t.symbol}`)}
-                  className="p-3 rounded-2xl bg-white/5 border border-white/5 hover:border-purple-500/30 hover:bg-white/10 transition-all flex items-center justify-between cursor-pointer"
+                  className="p-3 rounded-2xl bg-foreground/5 border border-border/40 hover:border-purple-500/30 hover:bg-foreground/10 transition-all flex items-center justify-between cursor-pointer"
                 >
                   <div>
                     <div className="flex items-center space-x-2">
-                      <span className="font-extrabold text-white font-mono">{t.symbol}</span>
+                      <span className="font-extrabold text-foreground font-mono">{t.symbol}</span>
                       <Badge variant="emerald">{t.signal}</Badge>
                     </div>
                     <span className="text-[11px] text-purple-300 font-bold">AI Score: {t.aiScore}</span>
                   </div>
 
                   <div className="text-right">
-                    <div className="font-bold text-white font-mono">${t.price}</div>
-                    <span className={`text-xs font-bold ${t.changePercent >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                    <div className="font-bold text-foreground font-mono">${t.price}</div>
+                    <span className={`text-xs font-bold ${t.changePercent >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`}>
                       {t.changePercent >= 0 ? '+' : ''}{t.changePercent}%
                     </span>
                   </div>

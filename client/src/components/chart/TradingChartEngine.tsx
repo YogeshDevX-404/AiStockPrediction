@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ChartTopToolbar } from './ChartTopToolbar';
 import { ChartDrawingToolbar } from './ChartDrawingToolbar';
 import { ChartAIOverlayPanel } from './ChartAIOverlayPanel';
@@ -7,7 +7,8 @@ import { useIndicatorStore } from '@/store/useIndicatorStore';
 import { useChartTimeframeStore } from '@/store/useChartTimeframeStore';
 import { ChartAdapterFactory } from './providers/ChartAdapterFactory';
 import { formatCurrency } from '@/utils/cn';
-
+import { apiClient } from '@/api';
+import { MarketApi } from '@/services/api/marketApi';
 export interface TradingChartEngineProps {
   symbol?: string;
   heightClassName?: string;
@@ -22,6 +23,7 @@ export const TradingChartEngine: React.FC<TradingChartEngineProps> = ({
   const { activeTimeframe } = useChartTimeframeStore();
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const [chartError, setChartError] = useState<string | null>(null);
 
   useEffect(() => {
     if (propSymbol) {
@@ -32,17 +34,89 @@ export const TradingChartEngine: React.FC<TradingChartEngineProps> = ({
   const symbol = propSymbol || storeSymbol;
 
   useEffect(() => {
+    let adapter: any = null;
+
     if (containerRef.current) {
-      const adapter = ChartAdapterFactory.getAdapter('lightweight');
-      adapter.renderChart(containerRef.current, {
-        symbol,
-        chartType,
-        theme: 'dark',
-        gridLines: true,
-        crosshair: true,
-        compareSymbol,
-      });
+      setChartError(null);
+
+      try {
+        adapter = ChartAdapterFactory.getAdapter('lightweight');
+        adapter.renderChart(containerRef.current, {
+          symbol,
+          chartType,
+          theme: 'dark',
+          gridLines: true,
+          crosshair: true,
+          compareSymbol,
+        });
+
+        MarketApi.getHistoricalData(symbol, activeTimeframe)
+          .then((data) => {
+            if (!adapter) return;
+            if (!data) {
+              setChartError(`API returned falsy data: ${typeof data}`);
+              return;
+            }
+            let points = Array.isArray(data) ? data : (data as any)?.data;
+            if (!points || !Array.isArray(points)) {
+              if (data && (data as any).t && Array.isArray((data as any).t)) {
+                points = (data as any).t.map((t: number, i: number) => ({
+                  timestamp: new Date(t * 1000).toISOString(),
+                  open: (data as any).o[i],
+                  high: (data as any).h[i],
+                  low: (data as any).l[i],
+                  close: (data as any).c[i],
+                  volume: (data as any).v ? (data as any).v[i] : 0,
+                }));
+              } else {
+                setChartError(`API shape mismatch: Expected array, got ${typeof data}`);
+                return;
+              }
+            }
+
+            if (!points || points.length === 0) {
+              adapter.updateData([]);
+              setChartError('Historical market data is currently unavailable for this timeframe.');
+              return;
+            }
+            
+            try {
+              const chartData = points.map((d: any) => ({
+                timestamp: d.timestamp,
+                time: Math.floor(new Date(d.timestamp).getTime() / 1000),
+                open: Number(d.open),
+                high: Number(d.high),
+                low: Number(d.low),
+                close: Number(d.close),
+                volume: Number(d.volume || 0),
+              }));
+              adapter.updateData(chartData);
+            } catch (err: any) {
+              setChartError(`Data mapping error: ${err.message}`);
+            }
+          })
+          .catch((err) => {
+            console.error('[TradingChartEngine] failed to load historical data', err);
+            if (adapter) adapter.updateData([]);
+            setChartError(`API Error: ${err.message || 'Historical market data is currently unavailable.'}`);
+          });
+      } catch (err: any) {
+        console.error('[TradingChartEngine] Error initializing chart:', err);
+        setChartError(`Init Error: ${err.message || 'Unable to load the chart.'}`);
+      }
     }
+
+    return () => {
+      try {
+        if (adapter) {
+          adapter.destroy();
+        } else {
+          ChartAdapterFactory.getAdapter('lightweight').destroy();
+        }
+      } catch (e) {
+        console.error('[TradingChartEngine] Cleanup error:', e);
+      }
+    };
   }, [symbol, chartType, compareSymbol, activeTimeframe]);
 
   const activeIndicatorNames = indicators.filter((i) => i.enabled).map((i) => i.id);
@@ -62,71 +136,15 @@ export const TradingChartEngine: React.FC<TradingChartEngineProps> = ({
         <ChartDrawingToolbar />
 
         {/* Main Canvas Viewport */}
-        <div ref={containerRef} className="flex-1 relative bg-white/[0.01] overflow-hidden select-none">
-          <svg className="w-full h-full absolute inset-0" preserveAspectRatio="none" viewBox="0 0 800 350">
-            <defs>
-              <linearGradient id="chartBg" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#10b981" stopOpacity="0.25" />
-                <stop offset="100%" stopColor="#10b981" stopOpacity="0.0" />
-              </linearGradient>
-            </defs>
-
-            {/* Grid Lines */}
-            <line x1="0" y1="70" x2="800" y2="70" stroke="rgba(255,255,255,0.05)" strokeDasharray="2 2" />
-            <line x1="0" y1="140" x2="800" y2="140" stroke="rgba(255,255,255,0.05)" strokeDasharray="2 2" />
-            <line x1="0" y1="210" x2="800" y2="210" stroke="rgba(255,255,255,0.05)" strokeDasharray="2 2" />
-
-            {/* Main Area / Candlestick Path */}
-            {chartType === 'AREA' || chartType === 'LINE' ? (
-              <>
-                <path d="M0,280 Q200,140 400,200 T600,80 T800,40 L800,350 L0,350 Z" fill="url(#chartBg)" />
-                <path d="M0,280 Q200,140 400,200 T600,80 T800,40" fill="none" stroke="#10b981" strokeWidth="2.5" />
-              </>
-            ) : (
-              // Candlesticks Representation
-              <g>
-                <line x1="100" y1="220" x2="100" y2="280" stroke="#10b981" strokeWidth="2" />
-                <rect x="92" y="235" width="16" height="35" fill="#10b981" rx="2" />
-
-                <line x1="220" y1="180" x2="220" y2="250" stroke="#ef4444" strokeWidth="2" />
-                <rect x="212" y="195" width="16" height="40" fill="#ef4444" rx="2" />
-
-                <line x1="340" y1="140" x2="340" y2="210" stroke="#10b981" strokeWidth="2" />
-                <rect x="332" y="150" width="16" height="45" fill="#10b981" rx="2" />
-
-                <line x1="460" y1="110" x2="460" y2="180" stroke="#10b981" strokeWidth="2" />
-                <rect x="452" y="120" width="16" height="45" fill="#10b981" rx="2" />
-
-                <line x1="580" y1="70" x2="580" y2="140" stroke="#10b981" strokeWidth="2" />
-                <rect x="572" y="80" width="16" height="45" fill="#10b981" rx="2" />
-
-                <line x1="700" y1="30" x2="700" y2="100" stroke="#10b981" strokeWidth="2" />
-                <rect x="692" y="40" width="16" height="45" fill="#10b981" rx="2" />
-              </g>
-            )}
-
-            {/* EMA Overlay if enabled */}
-            {activeIndicatorNames.includes('EMA') && (
-              <path d="M0,290 Q200,160 400,210 T600,90 T800,50" fill="none" stroke="#8b5cf6" strokeWidth="1.5" strokeDasharray="4 4" />
-            )}
-
-            {/* Compare Overlay Symbol if selected */}
-            {compareSymbol && (
-              <path d="M0,250 Q200,200 400,160 T600,120 T800,90" fill="none" stroke="#3b82f6" strokeWidth="2" />
-            )}
-
-            {/* Volume Panel Bars */}
-            {activeIndicatorNames.includes('VOLUME') && (
-              <g opacity="0.4">
-                <rect x="92" y="300" width="16" height="40" fill="#10b981" />
-                <rect x="212" y="315" width="16" height="25" fill="#ef4444" />
-                <rect x="332" y="290" width="16" height="50" fill="#10b981" />
-                <rect x="452" y="285" width="16" height="55" fill="#10b981" />
-                <rect x="572" y="275" width="16" height="65" fill="#10b981" />
-                <rect x="692" y="260" width="16" height="80" fill="#10b981" />
-              </g>
-            )}
-          </svg>
+        <div className="flex-1 relative bg-white/[0.01] overflow-hidden select-none">
+          {chartError && (
+            <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+              <div className="bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 px-4 py-2 rounded-xl text-sm font-medium backdrop-blur-sm shadow-xl">
+                {chartError}
+              </div>
+            </div>
+          )}
+          <div ref={containerRef} className="absolute inset-0 w-full h-full" />
         </div>
 
         {/* Floating Right AI Panel */}
@@ -134,19 +152,51 @@ export const TradingChartEngine: React.FC<TradingChartEngineProps> = ({
       </div>
 
       {/* 3. Bottom Status Bar */}
-      <div className="glass-panel px-4 py-1.5 border-t border-white/10 flex items-center justify-between text-[11px] text-slate-400 font-mono select-none">
-        <div className="flex items-center space-x-3">
-          <span className="text-white font-bold">{symbol}</span>
-          <span>O: $128.50</span>
-          <span>H: $133.10</span>
-          <span>L: $127.80</span>
-          <span className="text-emerald-400 font-bold">C: $132.40 (+3.45%)</span>
-        </div>
+      <ChartStatusBar symbol={symbol} activeIndicatorNames={activeIndicatorNames} activeTimeframe={activeTimeframe} />
+    </div>
+  );
+};
 
-        <div className="hidden sm:flex items-center space-x-2 text-[10px]">
-          <span>Indicators: {activeIndicatorNames.join(', ') || 'None'}</span>
-          <span>Timeframe: {activeTimeframe}</span>
-        </div>
+const ChartStatusBar: React.FC<{ symbol: string; activeIndicatorNames: string[]; activeTimeframe: string }> = ({
+  symbol,
+  activeIndicatorNames,
+  activeTimeframe,
+}) => {
+  const [quote, setQuote] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    if (symbol) {
+      apiClient
+        .get(`/market/quote/${symbol}`)
+        .then((res: any) => {
+          if (res?.data) setQuote(res.data);
+        })
+        .catch(() => setQuote(null));
+    }
+  }, [symbol]);
+
+  return (
+    <div className="glass-panel px-4 py-1.5 border-t border-border/50 flex items-center justify-between text-[11px] text-muted-foreground font-mono select-none">
+      <div className="flex items-center space-x-3">
+        <span className="text-foreground font-bold">{symbol}</span>
+        {quote ? (
+          <>
+            <span>O: ${quote.open?.toFixed(2) || 'N/A'}</span>
+            <span>H: ${quote.high?.toFixed(2) || 'N/A'}</span>
+            <span>L: ${quote.low?.toFixed(2) || 'N/A'}</span>
+            <span className={quote.changePercent >= 0 ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-red-600 dark:text-red-400 font-bold'}>
+              C: ${quote.price?.toFixed(2)} ({quote.changePercent >= 0 ? '+' : ''}
+              {quote.changePercent?.toFixed(2)}%)
+            </span>
+          </>
+        ) : (
+          <span className="text-muted-foreground">Market Quote Loading / Key Unconfigured</span>
+        )}
+      </div>
+
+      <div className="hidden sm:flex items-center space-x-2 text-[10px]">
+        <span>Indicators: {activeIndicatorNames.join(', ') || 'None'}</span>
+        <span>Timeframe: {activeTimeframe}</span>
       </div>
     </div>
   );

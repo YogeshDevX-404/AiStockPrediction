@@ -16,23 +16,23 @@ export const ScreenerPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 glass-panel p-6 border-purple-500/20 bg-gradient-to-r from-purple-950/30 via-card to-emerald-950/20">
         <div>
           <div className="flex items-center space-x-2">
-            <Filter className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-black font-display text-white">AI Stock Screener & Filter Engine</h1>
-            <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+            <Filter className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-2xl font-black font-display text-foreground">AI Stock Screener & Filter Engine</h1>
+            <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
               MULTI-PARAM SCANNER
             </span>
           </div>
-          <p className="text-xs text-slate-400">Discover high-probability opportunities across technical indicators, valuation ratios, and AI conviction scores.</p>
+          <p className="text-xs text-muted-foreground">Discover high-probability opportunities across technical indicators, valuation ratios, and AI conviction scores.</p>
         </div>
 
         <div className="flex items-center space-x-2 w-full sm:w-auto">
           <Button variant="accent" size="md" leftIcon={<Radar className="w-4 h-4" />} onClick={() => navigate('/scanner')}>
             Radar Scanner
           </Button>
-          <Button variant="glass" size="md" leftIcon={<Bookmark className="w-4 h-4 text-purple-400" />} onClick={() => navigate('/scanner/saved')}>
+          <Button variant="glass" size="md" leftIcon={<Bookmark className="w-4 h-4 text-purple-600 dark:text-purple-400" />} onClick={() => navigate('/scanner/saved')}>
             Saved Presets
           </Button>
-          <Button variant="ghost" size="md" leftIcon={<History className="w-4 h-4 text-slate-400" />} onClick={() => navigate('/scanner/history')}>
+          <Button variant="ghost" size="md" leftIcon={<History className="w-4 h-4 text-muted-foreground" />} onClick={() => navigate('/scanner/history')}>
             History
           </Button>
         </div>

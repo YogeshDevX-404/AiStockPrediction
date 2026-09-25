@@ -8,7 +8,7 @@ import {
 
 export const getPredictionBySymbolController = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   try {
-    const { symbol } = req.params;
+    const symbol = req.params.symbol as string;
     const prediction = await getPredictionService(symbol);
     return res.status(200).json({ success: true, data: prediction });
   } catch (error) {
@@ -37,7 +37,7 @@ export const analyzePredictionController = async (req: Request, res: Response<Ap
 
 export const getConfidenceBreakdownController = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   try {
-    const { symbol } = req.params;
+    const symbol = req.params.symbol as string;
     const breakdown = await getConfidenceBreakdownService(symbol);
     return res.status(200).json({ success: true, data: breakdown });
   } catch (error) {

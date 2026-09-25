@@ -13,7 +13,7 @@ export const getUsersController = async (_req: Request, res: Response<ApiRespons
 
 export const updateUserStatusController = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const { status } = req.body;
     await AdminService.updateUserStatus(id, status);
     return res.status(200).json({ success: true, data: { updated: true } });
@@ -24,7 +24,7 @@ export const updateUserStatusController = async (req: Request, res: Response<Api
 
 export const deleteUserController = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     await AdminService.deleteUser(id);
     return res.status(200).json({ success: true, data: { deleted: true } });
   } catch (error) {
@@ -52,7 +52,7 @@ export const getProvidersController = async (_req: Request, res: Response<ApiRes
 
 export const toggleProviderController = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const { isEnabled } = req.body;
     await AdminService.toggleProvider(id, isEnabled);
     return res.status(200).json({ success: true, data: { updated: true } });
