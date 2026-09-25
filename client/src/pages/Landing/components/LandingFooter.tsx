@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { TrendingUp, Terminal, Shield, Lock, Twitter, Github, Linkedin, Disc as Discord } from 'lucide-react';
+import { TrendingUp, Terminal, Shield, Lock, Github, Linkedin, Instagram } from 'lucide-react';
 import { ROUTES } from '@/constants';
 
 export const LandingFooter: React.FC = () => {
@@ -21,10 +21,9 @@ export const LandingFooter: React.FC = () => {
             Enterprise-grade stock intelligence platform combining sub-millisecond market depth with autonomous neural models for alpha generation.
           </p>
           <div className="flex items-center space-x-3 pt-2">
-            <a href="#" className="p-2 rounded-xl glass-pill hover:text-foreground transition-colors"><Twitter className="w-4 h-4" /></a>
-            <a href="#" className="p-2 rounded-xl glass-pill hover:text-foreground transition-colors"><Github className="w-4 h-4" /></a>
-            <a href="#" className="p-2 rounded-xl glass-pill hover:text-foreground transition-colors"><Linkedin className="w-4 h-4" /></a>
-            <a href="#" className="p-2 rounded-xl glass-pill hover:text-foreground transition-colors"><Discord className="w-4 h-4" /></a>
+            <a href="https://github.com/YogeshDevX-404" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="p-2 rounded-xl glass-pill hover:text-foreground transition-colors"><Github className="w-4 h-4" /></a>
+            <a href="https://www.linkedin.com/in/yogesh-prajapati-6384b92ab/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2 rounded-xl glass-pill hover:text-foreground transition-colors"><Linkedin className="w-4 h-4" /></a>
+            <a href="https://www.instagram.com/yogesh_prajapati_96/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 rounded-xl glass-pill hover:text-foreground transition-colors"><Instagram className="w-4 h-4" /></a>
           </div>
         </div>
 
@@ -66,9 +65,13 @@ export const LandingFooter: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center space-x-2">
-          <Terminal className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-          <span>© {new Date().getFullYear()} TradeGenius AI Inc. Built for institutional intelligence.</span>
+        <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 text-center sm:text-left">
+          <div className="flex items-center justify-center space-x-2">
+            <Terminal className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            <span>© {new Date().getFullYear()} TradeGenius AI Inc. Built for institutional intelligence.</span>
+          </div>
+          <span className="hidden sm:inline text-border/50">|</span>
+          <span>Developed by YogeshDevX</span>
         </div>
 
         <div className="flex items-center space-x-6 text-[11px]">

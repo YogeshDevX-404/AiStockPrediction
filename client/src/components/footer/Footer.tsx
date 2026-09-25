@@ -6,9 +6,13 @@ export const Footer: React.FC = () => {
   return (
     <footer className="w-full glass-panel border-t border-border/50 px-6 py-4 mt-auto">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-        <div className="flex items-center space-x-2">
-          <Terminal className="w-4 h-4 text-primary" />
-          <span>© {new Date().getFullYear()} {APP_NAME} Architecture Inc. All rights reserved.</span>
+        <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2 text-center sm:text-left">
+          <div className="flex items-center justify-center space-x-2">
+            <Terminal className="w-4 h-4 text-primary" />
+            <span>© {new Date().getFullYear()} {APP_NAME} Architecture Inc. All rights reserved.</span>
+          </div>
+          <span className="hidden sm:inline text-border/50">|</span>
+          <span>Developed by YogeshDevX</span>
         </div>
 
         <div className="flex items-center space-x-6">
